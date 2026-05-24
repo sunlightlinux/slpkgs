@@ -1,0 +1,11 @@
+# xbps-src working directories
+/masterdir*/
+/hostdir/
+/distdir/
+
+# Built packages
+*.xbps
+*.xbps.sig*
+
+# Editor / local
+*.swp
