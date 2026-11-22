@@ -9,6 +9,12 @@
 # Lives on the default branch because scheduled workflows only run from
 # there. void-packages is small enough (~270 MB) to clone in full, so the
 # push can send whatever slpkgs lacks without fetching blobs on demand.
+#
+# One push of the whole history broke off after 12 minutes ("RPC failed;
+# curl 92 HTTP/2 stream ... CANCEL"). So a large update - the first run, or
+# one after a long gap - is pushed in steps of STEP_COMMITS first-parent
+# commits, each a fast-forward of the last, over HTTP/1.1. A day's update
+# is a single small push.
 
 name: Sync void-packages
 
@@ -31,6 +37,7 @@ env:
   UPSTREAM_URL: https://github.com/void-linux/void-packages.git
   UPSTREAM_BRANCH: master
   TARGET_BRANCH: mainline-check
+  STEP_COMMITS: 20000
 
 jobs:
   sync:
@@ -71,4 +78,16 @@ jobs:
             echo "Creating ${TARGET_BRANCH} at void-packages ${UPSTREAM_BRANCH} (${upstream:0:12})."
           fi
 
-          git push slpkgs "${upstream}:refs/heads/${TARGET_BRANCH}"
+          push() {
+            git -c http.version=HTTP/1.1 -c http.postBuffer=524288000 \
+              push slpkgs "$1:refs/heads/${TARGET_BRANCH}"
+          }
+
+          range="$upstream"
+          [ -n "$target" ] && range="${target}..${upstream}"
+          for step in $(git rev-list --reverse --first-parent "$range" |
+                          awk -v n="$STEP_COMMITS" 'NR % n == 0'); do
+            echo "Step: ${TARGET_BRANCH} -> ${step:0:12}"
+            push "$step"
+          done
+          push "$upstream"
