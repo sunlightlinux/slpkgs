@@ -15,6 +15,14 @@
 # one after a long gap - is pushed in steps of STEP_COMMITS first-parent
 # commits, each a fast-forward of the last, over HTTP/1.1. A day's update
 # is a single small push.
+#
+# The push needs the SLPKGS_SYNC_TOKEN secret, not GITHUB_TOKEN: Void's
+# history adds and edits files under .github/workflows/, and GitHub refuses
+# such commits from a token without the "workflows" permission, which
+# GITHUB_TOKEN cannot be given. Use a fine-grained token for this repository
+# only, with Contents and Workflows read/write. Void's own workflows do not
+# run here: build.yaml fires on ci-** branches, container.yaml on master,
+# and scheduled ones only from the default branch, where they do not exist.
 
 name: Sync void-packages
 
@@ -53,8 +61,12 @@ jobs:
       - name: Fast-forward and push
         working-directory: repo.git
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SLPKGS_SYNC_TOKEN }}
         run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::The SLPKGS_SYNC_TOKEN secret is not set; see the comment at the top of this workflow."
+            exit 1
+          fi
           git remote add slpkgs \
             "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
