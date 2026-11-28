@@ -1,0 +1,12 @@
+# dqcache -- recursive DNS/DNSCurve cache (dq). Not started by default;
+# enable with: slinitctl enable dqcache
+# Settings: files in /etc/dqcache/env (IP, ROOT, CACHESIZE), read as an
+# env directory as chpst -e did. It starts as root and drops to the user
+# named by UID and GID, which the helper sets from _dqcache as chpst -U
+# did.
+type = process
+command = /usr/libexec/slinit/dqcache
+env-dir = /etc/dqcache/env
+depends-on: network.target
+restart = true
+log-type = journal

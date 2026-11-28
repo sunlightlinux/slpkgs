@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -e is
+# the service's env-dir, and chpst -U _dqcache, which only sets UID and
+# GID, is done here with id(1).
+set -u
+[ -r /etc/conf.d/dqcache ] && . /etc/conf.d/dqcache
+exec /usr/bin/env UID="$(/usr/bin/id -u _dqcache)" GID="$(/usr/bin/id -g _dqcache)" \
+	/usr/bin/dqcache
