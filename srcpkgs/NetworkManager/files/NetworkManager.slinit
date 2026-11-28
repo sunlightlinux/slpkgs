@@ -1,0 +1,12 @@
+# NetworkManager -- network connection manager (NetworkManager), in the
+# foreground (-n). Not started by default; enable with:
+#     slinitctl enable NetworkManager
+# It sets up the network itself, so it does not wait for network.target.
+type = process
+command = /usr/bin/NetworkManager -n
+depends-on: local.target
+depends-on: dbus
+restart = true
+# Void's runit run script discards its output (>/dev/null 2>&1);
+# NetworkManager logs through syslog, which reaches the journal anyway.
+log-type = none
