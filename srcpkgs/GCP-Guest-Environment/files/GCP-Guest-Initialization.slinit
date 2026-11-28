@@ -1,0 +1,9 @@
+# GCP-Guest-Initialization -- one-time setup of a Google Compute Engine
+# instance (GCP-Guest-Environment). Not started by default; enable with:
+#     slinitctl enable GCP-Guest-Initialization
+# GCP-accounts and GCP-clock-skew depend on it.
+type = scripted
+command = /usr/libexec/slinit/GCP-Guest-Initialization
+depends-on: network.target
+# It waits for the metadata server for as long as it takes, as under runit.
+start-timeout = 0

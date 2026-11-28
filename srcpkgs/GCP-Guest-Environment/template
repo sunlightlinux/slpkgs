@@ -1,7 +1,7 @@
 # Template file for 'GCP-Guest-Environment'
 pkgname=GCP-Guest-Environment
 version=20191210
-revision=7
+revision=8
 build_wrksrc="packages/python-google-compute-engine"
 build_style=python3-module
 hostmakedepends="python3-setuptools python3-distro"
@@ -22,4 +22,9 @@ post_install() {
 	for _i in Guest-Initialization accounts clock-skew ip-forwarding ; do
 		vsv GCP-$_i;
 	done
+	# GCP-ip-forwarding runs google_ip_forwarding_daemon, which setup.py
+	# does not install; it gets no slinit service.
+	vslinit GCP-Guest-Initialization
+	vslinit GCP-accounts
+	vslinit GCP-clock-skew
 }

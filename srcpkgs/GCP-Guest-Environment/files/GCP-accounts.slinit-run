@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script: wait for the metadata server, then run the
+# daemon. Its sv check GCP-Guest-Initialization is a depends-on now.
+set -u
+
+while ! /usr/bin/ping -c1 metadata.google.internal >/dev/null ; do
+    /usr/bin/sleep 5
+done
+
+exec /usr/bin/google_accounts_daemon

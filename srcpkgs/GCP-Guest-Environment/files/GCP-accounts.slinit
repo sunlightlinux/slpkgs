@@ -1,0 +1,9 @@
+# GCP-accounts -- manages user accounts and SSH keys from the instance
+# metadata on Google Compute Engine (GCP-Guest-Environment). Not started
+# by default; enable with: slinitctl enable GCP-accounts
+type = process
+command = /usr/libexec/slinit/GCP-accounts
+depends-on: network.target
+depends-on: GCP-Guest-Initialization
+restart = true
+log-type = journal

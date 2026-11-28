@@ -1,0 +1,9 @@
+# GCP-clock-skew -- keeps the clock in sync with the host on Google
+# Compute Engine (GCP-Guest-Environment). Not started by default; enable
+# with: slinitctl enable GCP-clock-skew
+type = process
+command = /usr/libexec/slinit/GCP-clock-skew
+depends-on: network.target
+depends-on: GCP-Guest-Initialization
+restart = true
+log-type = journal

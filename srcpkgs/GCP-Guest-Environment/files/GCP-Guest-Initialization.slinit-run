@@ -1,0 +1,16 @@
+#!/bin/sh
+# Void's runit run script: wait for the metadata server, then run the
+# instance setup. Its google_network_setup step is left out: this
+# package does not install that program (the run script's own comment
+# says dhcpcd does the work anyway).
+set -u
+
+while ! /usr/bin/ping -c1 metadata.google.internal >/dev/null ; do
+    /usr/bin/sleep 5
+done
+
+/usr/bin/google_instance_setup
+
+# The run script went on to its pause whatever the setup returned, which
+# let the other services start; do the same.
+exit 0
