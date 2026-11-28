@@ -1,0 +1,7 @@
+# spacenavd -- driver for 6-dof input devices (spacenavd). Not started by
+# default; enable with: slinitctl enable spacenavd
+type = process
+command = /usr/bin/spacenavd -d
+depends-on: local.target
+restart = true
+log-type = journal
