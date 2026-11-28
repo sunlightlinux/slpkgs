@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+# By default use persistent storage (binary log)
+[ -r /etc/conf.d/beanstalkd ] && . /etc/conf.d/beanstalkd
+exec /usr/bin/beanstalkd ${OPTS:=-b /var/lib/beanstalkd}

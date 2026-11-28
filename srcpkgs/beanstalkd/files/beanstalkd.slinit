@@ -1,0 +1,10 @@
+# beanstalkd -- work queue server (beanstalkd). Not started by default;
+# enable with: slinitctl enable beanstalkd
+# Options: OPTS in /etc/conf.d/beanstalkd (default: binlog in
+# /var/lib/beanstalkd).
+type = process
+command = /usr/libexec/slinit/beanstalkd
+run-as = _beanstalkd:_beanstalkd
+depends-on: network.target
+restart = true
+log-type = journal
