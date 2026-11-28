@@ -1,0 +1,9 @@
+# Clightd -- D-Bus service to read webcam brightness and change screen
+# brightness and temperature (Clightd). Not started by default; enable
+# with: slinitctl enable Clightd
+type = process
+command = /usr/libexec/clightd
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
