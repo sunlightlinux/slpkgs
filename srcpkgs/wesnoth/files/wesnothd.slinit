@@ -1,0 +1,8 @@
+# wesnothd -- the Battle for Wesnoth multiplayer server (wesnoth). Not
+# started by default; enable with: slinitctl enable wesnothd
+type = process
+command = /usr/bin/wesnothd
+pre-start-command = /usr/bin/mkdir -m0700 -p /run/wesnoth
+depends-on: network.target
+restart = true
+log-type = journal
