@@ -1,7 +1,7 @@
 # Template file for 'dendrite'
 pkgname=dendrite
 version=0.13.3
-revision=3
+revision=4
 build_style=go
 go_import_path="github.com/matrix-org/dendrite"
 go_package="./cmd/create-account ./cmd/dendrite ./cmd/generate-config
@@ -31,6 +31,7 @@ pre_configure() {
 post_install() {
 	vsconf dendrite-sample.yaml
 	vsv dendrite-monolith-server
+	vslinit dendrite-monolith-server
 
 	cd "${DESTDIR}"/usr/bin
 	mv create-account dendrite-create-account

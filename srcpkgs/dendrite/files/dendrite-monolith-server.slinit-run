@@ -1,0 +1,9 @@
+#!/bin/sh
+set -u
+MAX_OPEN_FILES=
+CONFIG_FILE=
+OPTS=
+[ -r /etc/conf.d/dendrite-monolith-server ] && . /etc/conf.d/dendrite-monolith-server
+ulimit -n ${MAX_OPEN_FILES:-65535}
+exec /usr/bin/dendrite \
+	--config ${CONFIG_FILE:-/etc/dendrite/dendrite.yaml} ${OPTS}

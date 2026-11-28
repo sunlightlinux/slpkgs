@@ -1,0 +1,15 @@
+# dendrite-monolith-server -- Matrix homeserver (dendrite). Not started by
+# default; enable with: slinitctl enable dendrite-monolith-server
+# Options: MAX_OPEN_FILES (default 65535), CONFIG_FILE (default
+# /etc/dendrite/dendrite.yaml) and OPTS in
+# /etc/conf.d/dendrite-monolith-server.
+type = process
+command = /usr/libexec/slinit/dendrite-monolith-server
+run-as = _dendrite:_dendrite
+working-dir = /var/lib/dendrite
+# The helper raises the open files limit from the conf; as _dendrite it
+# cannot raise the hard limit, so the service leaves room under it.
+rlimit-nofile = 65535:1048576
+depends-on: network.target
+restart = true
+log-type = journal
