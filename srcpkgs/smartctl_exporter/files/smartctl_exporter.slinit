@@ -1,0 +1,9 @@
+# smartctl_exporter -- Prometheus exporter for smartctl
+# (smartctl_exporter). Not started by default; enable with:
+#     slinitctl enable smartctl_exporter
+# Options: OPTS in /etc/conf.d/smartctl_exporter.
+type = process
+command = /usr/libexec/slinit/smartctl_exporter
+depends-on: network.target
+restart = true
+log-type = journal

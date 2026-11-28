@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/smartctl_exporter ] && . /etc/conf.d/smartctl_exporter
+exec /usr/bin/smartctl_exporter ${OPTS}
