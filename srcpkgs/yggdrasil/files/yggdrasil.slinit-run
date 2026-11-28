@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script.
+set -u
+/usr/bin/modprobe tun
+caps='-all,+NET_ADMIN,+NET_RAW'
+drop_caps="/usr/bin/setpriv --inh-caps $caps --bounding-set $caps"
+if [ -f /etc/yggdrasil.conf ]; then
+	exec $drop_caps /usr/bin/yggdrasil -useconffile /etc/yggdrasil.conf
+else
+	exec $drop_caps /usr/bin/yggdrasil -autoconf
+fi

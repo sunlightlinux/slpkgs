@@ -1,0 +1,9 @@
+# yggdrasil -- Yggdrasil encrypted IPv6 overlay network node (yggdrasil),
+# limited to the NET_ADMIN and NET_RAW capabilities. Not started by
+# default; enable with: slinitctl enable yggdrasil
+# Uses /etc/yggdrasil.conf if it exists, otherwise -autoconf.
+type = process
+command = /usr/libexec/slinit/yggdrasil
+depends-on: network.target
+restart = true
+log-type = journal
