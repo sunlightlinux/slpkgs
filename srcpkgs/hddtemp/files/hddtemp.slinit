@@ -1,0 +1,9 @@
+# hddtemp -- hard drive temperature daemon (hddtemp). Not started by
+# default; enable with: slinitctl enable hddtemp
+# Drives: OPTS in /etc/conf.d/hddtemp (default /dev/sda).
+type = process
+command = /usr/libexec/slinit/hddtemp
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

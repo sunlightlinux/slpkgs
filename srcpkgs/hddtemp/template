@@ -1,7 +1,7 @@
 # Template file for 'hddtemp'
 pkgname=hddtemp
 version=0.3.beta15
-revision=3
+revision=4
 build_style=gnu-configure
 configure_args="--with-db-path=/usr/share/hddtemp/hddtemp.db"
 hostmakedepends="gettext"
@@ -28,4 +28,5 @@ pre_configure() {
 post_install() {
 	vinstall debian/hddtemp.db 644 usr/share/hddtemp
 	vsv hddtemp
+	vslinit hddtemp
 }
