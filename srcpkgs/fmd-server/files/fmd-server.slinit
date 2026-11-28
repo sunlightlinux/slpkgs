@@ -1,0 +1,10 @@
+# fmd-server -- server for the FMD Android app (fmd-server). Not started
+# by default; enable with: slinitctl enable fmd-server
+# Options: OPTS in /etc/conf.d/fmd-server
+# (default: --db-dir /var/lib/fmd-server/db).
+type = process
+command = /usr/libexec/slinit/fmd-server
+run-as = _fmd_server:_fmd_server
+depends-on: network.target
+restart = true
+log-type = journal

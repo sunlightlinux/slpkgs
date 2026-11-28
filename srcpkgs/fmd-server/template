@@ -1,7 +1,7 @@
 # Template file for 'fmd-server'
 pkgname=fmd-server
 version=0.17.1
-revision=1
+revision=2
 build_style=go
 go_import_path="fmd-server"
 hostmakedepends="unzip"
@@ -29,5 +29,6 @@ post_extract() {
 
 post_install() {
 	vsv fmd-server
+	vslinit fmd-server
 	vinstall config.example.yml 640 etc/fmd-server config.yml
 }

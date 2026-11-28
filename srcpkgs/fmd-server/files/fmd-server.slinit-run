@@ -1,0 +1,7 @@
+#!/bin/sh
+# fmd-server -- run the FMD server in the foreground.
+# Options: OPTS in /etc/conf.d/fmd-server.
+set -u
+OPTS=
+[ -r /etc/conf.d/fmd-server ] && . /etc/conf.d/fmd-server
+exec /usr/bin/fmd-server serve ${OPTS:=--db-dir "/var/lib/fmd-server/db"}
