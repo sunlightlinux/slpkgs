@@ -1,0 +1,11 @@
+# jenkins -- Jenkins automation server (jenkins). Not started by default;
+# enable with: slinitctl enable jenkins
+# Options: JAVAOPTS, OPTS and JENKINS_GROUPS (group[:extra:...]) in
+# /etc/conf.d/jenkins. The helper sources /etc/profile, runs as root, as
+# the groups are read from that file, and drops to jenkins through
+# setpriv.
+type = process
+command = /usr/libexec/slinit/jenkins
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'jenkins'
 pkgname=jenkins
 version=2.541.3
-revision=1
+revision=2
 make_dirs="/var/lib/jenkins 0755 jenkins jenkins"
 depends="virtual?java-runtime"
 short_desc="Open source automation server"
@@ -19,5 +19,6 @@ jenkins_descr="Jenkins server user"
 do_install() {
 	vinstall ${XBPS_SRCDISTDIR}/${pkgname}-${version}/jenkins.war 644 opt/jenkins
 	vsv jenkins
+	vslinit jenkins
 	vlicense ${FILESDIR}/LICENSE
 }

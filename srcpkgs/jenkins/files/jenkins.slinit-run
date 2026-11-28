@@ -1,0 +1,26 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d, absolute
+# paths, and chpst -u jenkins:group[:extra...] replaced by setpriv.
+. /etc/profile
+set -u
+JAVAOPTS=
+OPTS=
+JENKINS_GROUPS=
+[ -r /etc/conf.d/jenkins ] && . /etc/conf.d/jenkins
+
+export JENKINS_USER=jenkins
+export JENKINS_HOME=/var/lib/jenkins
+
+cd /
+unset OLDPWD
+
+: ${JENKINS_GROUPS:=jenkins}
+# chpst -u user:group:extra... sets the group and the extra groups.
+group=${JENKINS_GROUPS%%:*}
+case $JENKINS_GROUPS in
+*:*) groups="--groups $(echo "${JENKINS_GROUPS#*:}" | /usr/bin/tr : ,)" ;;
+*) groups=--clear-groups ;;
+esac
+
+exec /usr/bin/setpriv --reuid jenkins --regid "$group" $groups \
+	-- /usr/bin/java ${JAVAOPTS:=-Xmx512m} -jar /opt/jenkins/jenkins.war $OPTS
