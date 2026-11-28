@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/zed ] && . /etc/conf.d/zed
+exec /usr/bin/zed -F $OPTS
