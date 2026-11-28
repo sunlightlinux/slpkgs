@@ -1,7 +1,7 @@
 # Template file for 'brltty'
 pkgname=brltty
 version=6.9.1
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--enable-gpm --with-screen-driver=lx,sc
  --with-tables-directory=/usr/share/brltty PYTHON=/usr/bin/python3"
@@ -67,6 +67,7 @@ do_install() {
 	( cd Bindings/Python && python3 ./setup.py install "${_inst_args[@]}" )
 
 	vsv brltty
+	vslinit brltty
 	vsconf Documents/brltty.conf
 	vdoc Documents/ChangeLog
 	vcopy Documents/Manual-BRLTTY usr/share/doc/brltty
