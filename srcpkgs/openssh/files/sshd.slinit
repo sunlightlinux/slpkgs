@@ -5,3 +5,4 @@ type = process
 command = /usr/libexec/slinit/sshd
 depends-on: network.target
 restart = true
+log-type = journal

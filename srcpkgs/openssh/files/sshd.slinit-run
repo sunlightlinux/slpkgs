@@ -1,5 +1,9 @@
 #!/bin/sh
-# sshd — generate host keys on first start, then run sshd in the
+# sshd -- generate host keys on first start, then run sshd in the
 # foreground (-D), logging to stderr (-e), so slinit supervises it.
-[ -f /etc/ssh/ssh_host_ed25519_key ] || ssh-keygen -A
-exec /usr/bin/sshd -D -e
+# Options: OPTS in /etc/conf.d/sshd (Void's runit conf moved there).
+set -u
+OPTS=
+[ -r /etc/conf.d/sshd ] && . /etc/conf.d/sshd
+[ -f /etc/ssh/ssh_host_ed25519_key ] || /usr/bin/ssh-keygen -A
+exec /usr/bin/sshd -D -e ${OPTS}
