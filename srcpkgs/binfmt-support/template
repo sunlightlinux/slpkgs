@@ -1,7 +1,7 @@
 # Template file for 'binfmt-support'
 pkgname=binfmt-support
 version=2.2.2
-revision=2
+revision=3
 build_style=gnu-configure
 hostmakedepends="pkg-config"
 makedepends="libpipeline-devel"
@@ -17,4 +17,5 @@ make_dirs="/var/lib/binfmts 0755 root root"
 post_install() {
 	rm -r ${DESTDIR}/etc/init
 	vsv binfmt-support
+	vslinit binfmt-support
 }

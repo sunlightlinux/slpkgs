@@ -1,0 +1,7 @@
+# binfmt-support -- enables the registered binary formats at start and
+# disables them when the service stops (binfmt-support). Not started by
+# default; enable with: slinitctl enable binfmt-support
+type = scripted
+command = /usr/bin/update-binfmts --enable
+stop-command = /usr/bin/update-binfmts --disable
+depends-on: local.target
