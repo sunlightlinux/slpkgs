@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d, for the
+# user service: it runs in the user's session, so the wait for Xorg
+# (and SKIP_X11_TEST) is gone.
+set -u
+OPTS=
+[ -r /etc/conf.d/synergys ] && . /etc/conf.d/synergys
+exec /usr/bin/synergys --no-daemon ${OPTS:=--restart}

@@ -1,0 +1,13 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d, for the
+# user service: it runs in the user's session, so the wait for Xorg
+# (and SKIP_X11_TEST) is gone.
+set -u
+OPTS=
+SERVER_ADDR=
+[ -r /etc/conf.d/synergyc ] && . /etc/conf.d/synergyc
+if [ -z "$SERVER_ADDR" ]; then
+	echo "synergyc: set SERVER_ADDR in /etc/conf.d/synergyc" >&2
+	exit 1
+fi
+exec /usr/bin/synergyc --no-daemon ${OPTS:=--restart} $SERVER_ADDR

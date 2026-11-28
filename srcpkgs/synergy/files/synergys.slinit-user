@@ -1,0 +1,8 @@
+# synergys -- shares this machine's mouse and keyboard with other
+# computers (synergy). A user service, run in the user's X session; not
+# started by default; enable with: slinitctl --user enable synergys
+# Options: OPTS in /etc/conf.d/synergys (default --restart).
+type = process
+command = /usr/libexec/slinit/synergys
+restart = true
+log-type = journal

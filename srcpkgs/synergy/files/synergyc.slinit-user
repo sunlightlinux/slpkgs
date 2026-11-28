@@ -1,0 +1,8 @@
+# synergyc -- uses the mouse and keyboard of a synergys server (synergy).
+# A user service, run in the user's X session; not started by default.
+# Set SERVER_ADDR (and OPTS, default --restart) in /etc/conf.d/synergyc,
+# then enable with: slinitctl --user enable synergyc
+type = process
+command = /usr/libexec/slinit/synergyc
+restart = true
+log-type = journal
