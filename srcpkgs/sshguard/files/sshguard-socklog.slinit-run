@@ -1,0 +1,17 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+
+# Defaults that mabe be overridden (or erased entirely) by configuration
+LOGFILE="${LOGFILE:-/var/log/socklog/secure/current}"
+BLACKLIST_SPEC="${BLACKLIST_SPEC:-200:/var/db/sshguard/blacklist.db}"
+OPTS=
+
+# Allow the firewall and logger backends to be specified
+[ -f /etc/conf.d/sshguard-socklog ] && . /etc/conf.d/sshguard-socklog
+
+# If specified, add blacklist spec and log source to OPTS
+[ -n "$BLACKLIST_SPEC" ] && OPTS="-b $BLACKLIST_SPEC"
+[ -n "$LOGFILE" ] && OPTS="-l $LOGFILE $OPTS"
+
+exec /usr/bin/sshguard $OPTS

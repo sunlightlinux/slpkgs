@@ -1,7 +1,7 @@
 # Template file for 'sshguard'
 pkgname=sshguard
 version=2.5.1
-revision=1
+revision=2
 build_style=gnu-configure
 hostmakedepends="flex"
 short_desc="Protects networked hosts from brute force attacks"
@@ -16,6 +16,7 @@ conf_files="/etc/sshguard.conf"
 
 post_install() {
 	vsv sshguard-socklog
+	vslinit sshguard-socklog
 	vconf examples/sshguard.conf.sample sshguard.conf
 	vsed -i 's@/usr/local/@/usr/@g' ${DESTDIR}/etc/sshguard.conf
 	vlicense COPYING

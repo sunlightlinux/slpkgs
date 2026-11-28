@@ -1,0 +1,11 @@
+# sshguard-socklog -- blocks brute-force attackers, reading the log that
+# socklog writes (sshguard). Not started by default; enable with:
+# slinitctl enable sshguard-socklog
+# Settings: LOGFILE, BLACKLIST_SPEC and OPTS in /etc/conf.d/sshguard-socklog.
+# The default LOGFILE, /var/log/socklog/secure/current, is written only
+# when socklog runs.
+type = process
+command = /usr/libexec/slinit/sshguard-socklog
+depends-on: local.target
+restart = true
+log-type = journal
