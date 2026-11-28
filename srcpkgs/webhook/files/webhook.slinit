@@ -1,0 +1,10 @@
+# webhook -- incoming webhook server that runs shell commands (webhook),
+# as user _webhook. Not started by default; enable with:
+#     slinitctl enable webhook
+# Options: HOOKS_FILES and OPTS in /etc/conf.d/webhook, read as _webhook.
+type = process
+command = /usr/libexec/slinit/webhook
+run-as = _webhook:_webhook
+depends-on: network.target
+restart = true
+log-type = journal

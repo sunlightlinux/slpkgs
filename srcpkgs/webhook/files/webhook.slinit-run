@@ -1,0 +1,12 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -u
+# _webhook:_webhook is the service's run-as.
+set -u
+OPTS=
+HOOKS_FILES=
+[ -r /etc/conf.d/webhook ] && . /etc/conf.d/webhook
+OPTS=${OPTS:- -hotreload -verbose}
+for f in ${HOOKS_FILES:-/etc/webhook/hooks.json}; do
+    OPTS="$OPTS -hooks $f"
+done
+exec /usr/bin/webhook $OPTS
