@@ -1,7 +1,7 @@
 # Template file for 'dkimproxy'
 pkgname=dkimproxy
 version=1.4.1
-revision=2
+revision=3
 build_style=gnu-configure
 hostmakedepends="perl perl-Net-Server perl-Mail-DKIM"
 makedepends="${hostmakedepends}"
@@ -21,5 +21,7 @@ post_install() {
 	mv ${DESTDIR}/etc/dkimproxy_in.conf.example ${DESTDIR}/etc/dkimproxy_in.conf
 	mv ${DESTDIR}/etc/dkimproxy_out.conf.example ${DESTDIR}/etc/dkimproxy_out.conf
 	vsv dkimproxy_in mail
+	vslinit dkimproxy_in
 	vsv dkimproxy_out mail
+	vslinit dkimproxy_out
 }
