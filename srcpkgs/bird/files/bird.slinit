@@ -1,0 +1,8 @@
+# bird -- BIRD Internet routing daemon (bird), configured by
+# /etc/bird.conf. Not started by default; enable with:
+#     slinitctl enable bird
+type = process
+command = /usr/bin/bird -f -u _bird -g _bird -c /etc/bird.conf
+depends-on: network.target
+restart = true
+log-type = journal

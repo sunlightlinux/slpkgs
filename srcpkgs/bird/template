@@ -1,7 +1,7 @@
 # Template file for 'bird'
 pkgname=bird
 version=2.17.1
-revision=1
+revision=2
 build_style=gnu-configure
 hostmakedepends="flex"
 makedepends="ncurses-devel readline-devel libssh-devel"
@@ -18,4 +18,5 @@ system_accounts="_bird"
 
 post_install() {
 	vsv bird
+	vslinit bird
 }
