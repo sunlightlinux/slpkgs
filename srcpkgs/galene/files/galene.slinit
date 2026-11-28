@@ -1,0 +1,11 @@
+# galene -- videoconference server (galene). Not started by default;
+# enable with: slinitctl enable galene
+# Options: /etc/conf.d/galene may set the command line with set -- ...
+# (default -data /var/lib/galene -groups /etc/galene -static
+# /usr/share/galene/static).
+type = process
+command = /usr/libexec/slinit/galene
+run-as = _galene
+depends-on: network.target
+restart = true
+log-type = journal

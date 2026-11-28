@@ -1,0 +1,7 @@
+#!/bin/sh
+set -u
+[ -r /etc/conf.d/galene ] && . /etc/conf.d/galene
+if [ "$#" = 0 ] ; then
+    set -- -data /var/lib/galene -groups /etc/galene -static /usr/share/galene/static
+fi
+exec /usr/bin/galene "$@"
