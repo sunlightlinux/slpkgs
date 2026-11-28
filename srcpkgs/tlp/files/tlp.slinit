@@ -1,0 +1,10 @@
+# tlp -- applies the TLP power management settings at start and undoes
+# them when the service stops (tlp). Not started by default; enable with:
+# slinitctl enable tlp
+type = scripted
+command = /usr/bin/tlp init start
+stop-command = /usr/bin/tlp init stop
+depends-on: local.target
+# runit never timed applying or undoing the settings out.
+start-timeout = 60
+stop-timeout = 60

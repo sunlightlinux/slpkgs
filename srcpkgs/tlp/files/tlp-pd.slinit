@@ -1,0 +1,8 @@
+# tlp-pd -- the TLP power profiles daemon (tlp-pd). Not started by
+# default; enable with: slinitctl enable tlp-pd
+type = process
+command = /usr/bin/tlp-pd
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal

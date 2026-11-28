@@ -2,7 +2,7 @@
 pkgname=tlp
 # Remember to update 'tlpui' asap.
 version=1.10.2
-revision=1
+revision=2
 build_style=gnu-makefile
 make_build_args="TLP_WITH_SYSTEMD=0 TLP_SBIN=/usr/bin
  TLP_ELOD=/usr/libexec/elogind/system-sleep"
@@ -29,12 +29,13 @@ post_install() {
 	rm -r ${DESTDIR}/etc/init.d
 	rm -r ${DESTDIR}/usr/lib/systemd
 	vsv tlp
+	vslinit tlp
 }
 
 tlp-pd_package() {
 	short_desc="TLP Profiles Daemon"
 	conf_files="/etc/tlp-pd.dbus.conf"
-	depends="tlp python3-gobject polkit"
+	depends="tlp python3-gobject polkit dbus"
 
 	conflicts="power-profiles-daemon>=0"
 
@@ -48,6 +49,7 @@ tlp-pd_package() {
 		vmove "usr/share/dbus-1/system-services/*.service"
 		vmove usr/share/polkit-1/actions/tlp-pd.policy
 		vsv tlp-pd
+		vslinit tlp-pd
 	}
 }
 
