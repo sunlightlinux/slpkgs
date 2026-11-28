@@ -1,0 +1,21 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d and chpst -u
+# replaced by setpriv.
+set -u
+USER=
+CONF_FILE=
+CONF_FLAG=
+WRKDIR=
+ARGS=
+# Add $ARGS for more arguments
+[ -r /etc/conf.d/alertmanager ] && . /etc/conf.d/alertmanager
+
+: ${USER:=_alertmanager}
+: ${CONF_FILE:=/etc/alertmanager.yml}
+: ${CONF_FLAG:=--config.file=$CONF_FILE}
+: ${WRKDIR:=/var/lib/alertmanager}
+
+cd "$WRKDIR"
+
+exec /usr/bin/setpriv --reuid "$USER" --regid "$(/usr/bin/id -g "$USER")" \
+	--clear-groups -- /usr/bin/alertmanager ${CONF_FLAG} ${ARGS}
