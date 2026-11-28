@@ -1,0 +1,8 @@
+# mpDris2 -- MPRIS 2 support for mpd (mpDris2). Not started by default;
+# enable with: slinitctl enable mpDris2
+type = process
+command = /usr/bin/mpDris2
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
