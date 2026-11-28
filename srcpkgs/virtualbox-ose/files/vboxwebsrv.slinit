@@ -1,0 +1,12 @@
+# vboxwebsrv -- VirtualBox web service (virtualbox-ose). Not started by
+# default; enable with: slinitctl enable vboxwebsrv
+# Needs vboxservice (virtualbox-ose-guest) and dbus running, as the runit
+# run script checked: without virtualbox-ose-guest installed it does not
+# load.
+type = process
+command = /usr/bin/vboxwebsrv
+depends-on: network.target
+depends-on: vboxservice
+depends-on: dbus
+restart = true
+log-type = journal
