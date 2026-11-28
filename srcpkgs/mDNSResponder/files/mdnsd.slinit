@@ -1,0 +1,7 @@
+# mdnsd -- Bonjour/Zeroconf multicast DNS responder (mDNSResponder). Not
+# started by default; enable with: slinitctl enable mdnsd
+type = process
+command = /usr/bin/mdnsd -debug
+depends-on: network.target
+restart = true
+log-type = journal

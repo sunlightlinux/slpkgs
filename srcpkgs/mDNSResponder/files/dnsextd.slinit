@@ -1,0 +1,7 @@
+# dnsextd -- DNS extensions daemon for wide-area Bonjour (mDNSResponder).
+# Not started by default; enable with: slinitctl enable dnsextd
+type = process
+command = /usr/bin/dnsextd -d
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'mDNSResponder'
 pkgname=mDNSResponder
 version=1310.80.1
-revision=1
+revision=2
 hostmakedepends="flex byacc"
 short_desc="Implements the Bonjour/Zeroconf protocol"
 maintainer="Orphaned <orphan@voidlinux.org>"
@@ -38,6 +38,8 @@ do_install() {
 	vman ${wrksrc}/mDNSShared/dns-sd.1
 	# runit services
 	vsv mdnsd
+	vslinit mdnsd
 	vsv dnsextd
+	vslinit dnsextd
 	vlicense ${wrksrc}/LICENSE
 }
