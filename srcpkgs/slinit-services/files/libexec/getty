@@ -1,0 +1,18 @@
+#!/bin/sh
+# getty <tty> — agetty with the arguments for the kind of terminal: a
+# virtual console at 38400 with TERM=linux, anything else (serial,
+# hypervisor console) at 115200 with vt100, exactly as getty-tty1 and
+# getty-ttyS0 ran it before one template replaced both.
+tty=${1#/dev/}
+case "$tty" in
+"")
+	echo "getty: no terminal given" >&2
+	exit 1
+	;;
+tty[0-9]*)
+	exec /usr/bin/agetty --noclear "$tty" 38400 linux
+	;;
+*)
+	exec /usr/bin/agetty --noclear 115200 "$tty" vt100
+	;;
+esac

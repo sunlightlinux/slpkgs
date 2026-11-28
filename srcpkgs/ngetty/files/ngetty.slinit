@@ -1,8 +1,9 @@
 # ngetty -- one daemon for the virtual console logins (ngetty). Not started
 # by default; enable with: slinitctl enable ngetty
 # Consoles: OPTS in /etc/conf.d/ngetty, tty1 to tty6 by default; settings
-# in /etc/ngetty/Conf. slinit-services' getty-tty1 also runs on tty1:
-# give ngetty a list without tty1, or stop getty-tty1, before enabling it.
+# in /etc/ngetty/Conf. slinit-services' gettys starts a getty on tty1:
+# take tty1 out of ACTIVE_CONSOLES in /etc/conf.d/getty, or give ngetty a
+# list without it, before enabling it.
 type = process
 command = /usr/libexec/slinit/ngetty
 depends-on: local.target

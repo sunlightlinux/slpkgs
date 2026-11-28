@@ -1,0 +1,8 @@
+# pre-network.target — the point the network may start being configured
+# (slinit-services), as on Chimera and Artix. A daemon that configures
+# the network (dhcpcd, NetworkManager, iwd, connman, wpa_supplicant)
+# says `depends-on: pre-network.target` and `before: network.target`; a
+# firewall says `before: pre-network.target`, so its rules are loaded
+# before any interface is up.
+type = internal
+depends-on: local.target

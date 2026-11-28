@@ -1,0 +1,13 @@
+# gettys — a login prompt on each console that should have one
+# (slinit-services). The list is /etc/conf.d/getty's ACTIVE_CONSOLES
+# plus the serial consoles the kernel was given (console= on its command
+# line); each gets an instance of the getty service, getty@<tty>, which
+# this service waits for. As nyagetty's dinit-agetty does on Chimera.
+#
+# A display manager or another getty (ngetty) that wants a console takes
+# it out of ACTIVE_CONSOLES. One more prompt, for one boot:
+# slinitctl start getty@tty2.
+type = scripted
+command = /usr/libexec/slinit-services/gettys
+depends-on: misc
+restart = false

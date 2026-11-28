@@ -1,14 +1,14 @@
 # Template file for 'slinit-services'
 pkgname=slinit-services
 version=20261108
-revision=14
+revision=15
 short_desc="Core boot services for slinit as PID 1"
 maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
 license="Apache-2.0, CC0-1.0"
 homepage="https://github.com/sunlightlinux/slinit"
 depends="slinit>=4.1.1 eudev kmod util-linux coreutils kbd iproute2 dhcpcd virtual?awk dbus"
 conflicts="runit-void sunlight-slinit-services"
-conf_files="/etc/slinit/shutdown-hook"
+conf_files="/etc/slinit/shutdown-hook /etc/conf.d/getty"
 make_dirs="/etc/slinit.d/boot.d 0755 root root"
 
 # The equivalent of runit-void for slinit: the services that take a
@@ -21,8 +21,8 @@ make_dirs="/etc/slinit.d/boot.d 0755 root root"
 # A Sunlight base without runit is sunlight-base.
 #
 # It also conflicts with sunlight-slinit-services, for now. That package
-# ships boot, getty-tty1 and getty-ttyS0 in /etc/slinit.d, which shadow
-# these in /usr/lib/slinit.d; its boot does not depend on misc, so the
+# ships boot, getty-tty1 and getty-ttyS0 in /etc/slinit.d; its boot
+# shadows the one in /usr/lib/slinit.d, and does not depend on misc, so the
 # two together would boot without fsck, local mounts or root
 # read-write. Until it enables its services through boot.d instead,
 # xbps refuses the pair.
@@ -32,8 +32,8 @@ make_dirs="/etc/slinit.d/boot.d 0755 root root"
 # passphrase prompt.
 #
 # Daemons from other packages are not here: each package ships its own
-# service with vslinit (dbus, chrony, cronie, acpid, openssh, moby,
-# containerd, qemu-ga, ...), and the ones on by default enable themselves
+# service with vslinit (dhcpcd, dbus, chrony, cronie, acpid, openssh,
+# moby, containerd, qemu-ga, ...), and the ones on by default enable themselves
 # through /usr/lib/slinit.d/boot.d, which the "system" service reads.
 # dbus is a dependency because logind, which is here, needs the bus.
 #
@@ -52,12 +52,13 @@ do_install() {
 		vinstall ${f} 644 usr/lib/slinit.d
 	done
 	vinstall ${FILESDIR}/dbus/slinit-logind.conf 644 usr/share/dbus-1/system.d
-	for f in early-setup udev-trigger filesystems misc network \
-		modules-load; do
+	for f in early-setup udev-trigger filesystems misc modules-load \
+		gettys getty; do
 		vinstall ${FILESDIR}/libexec/${f} 755 usr/libexec/slinit-services
 	done
 	vinstall ${FILESDIR}/libexec/crypt.awk 644 usr/libexec/slinit-services
 	vinstall ${FILESDIR}/shutdown-hook 755 etc/slinit
+	vinstall ${FILESDIR}/getty.conf 644 etc/conf.d getty
 	vinstall ${FILESDIR}/dracut.conf 644 usr/lib/dracut/dracut.conf.d \
 		10-slinit-services.conf
 	vmkdir usr/bin

@@ -7,8 +7,7 @@
 type = internal
 depends-on: local.target
 waits-for: network.target
-waits-for: getty-tty1
-waits-for: getty-ttyS0
+waits-for: gettys
 waits-for: journald
 waits-for: logind
 waits-for.d: /usr/lib/slinit.d/boot.d

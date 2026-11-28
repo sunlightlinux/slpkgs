@@ -1,0 +1,75 @@
+#!/bin/sh
+# gettys — start getty@<tty> for each console that should have a login
+# prompt. Modelled on nyagetty's dinit-agetty (Chimera Linux), which
+# its author put in the public domain.
+#
+# The list is ACTIVE_CONSOLES from /etc/conf.d/getty, plus the serial
+# consoles the kernel writes to (console= on its command line, and
+# /sys/class/tty/console/active) unless SERIAL_DETECT=no. A virtual
+# console from the kernel's list is not added: which of those get a
+# prompt is the admin's choice, since a display manager may want one.
+# A serial port with no UART behind it (type 0) is skipped, as
+# getty-ttyS0's condition did.
+#
+# Each instance becomes a waits-for dependency of gettys, so stopping
+# gettys stops them, and a console that left the list since the last
+# run loses its link.
+
+ACTIVE_CONSOLES="tty1 ttyS0"
+SERIAL_DETECT=yes
+[ -r /etc/conf.d/getty ] && . /etc/conf.d/getty
+
+ctl=/usr/bin/slinitctl
+list=
+for t in $ACTIVE_CONSOLES; do
+	list="$list ${t#/dev/}"
+done
+
+if [ "$SERIAL_DETECT" != no ]; then
+	auto=
+	if [ -r /proc/cmdline ]; then
+		for a in $(/usr/bin/cat /proc/cmdline); do
+			case "$a" in
+			console=*)
+				a=${a#console=}
+				auto="$auto ${a%%,*}"
+				;;
+			esac
+		done
+	fi
+	if [ -r /sys/class/tty/console/active ]; then
+		auto="$auto $(/usr/bin/cat /sys/class/tty/console/active)"
+	fi
+	for t in $auto; do
+		case "$t" in
+		tty[0-9]*|console|"") ;;
+		*) list="$list $t" ;;
+		esac
+	done
+fi
+
+active=
+for t in $(printf '%s\n' $list | /usr/bin/sort -u); do
+	[ -c "/dev/$t" ] || continue
+	case "$t" in
+	ttyS*)
+		[ "$(/usr/bin/cat /sys/class/tty/$t/type 2>/dev/null)" = 0 ] && continue
+		;;
+	esac
+	active="$active $t"
+	$ctl add-dep gettys waits-for "getty@$t" >/dev/null 2>&1
+	$ctl --no-wait wake "getty@$t" >/dev/null 2>&1 ||
+		echo "gettys: could not start getty@$t" >&2
+done
+
+# Consoles that had a prompt on the last run but are no longer listed.
+if [ -r /run/slinit-gettys ]; then
+	for o in $(/usr/bin/cat /run/slinit-gettys); do
+		case " $active " in
+		*" $o "*) ;;
+		*) $ctl rm-dep gettys waits-for "getty@$o" >/dev/null 2>&1 ;;
+		esac
+	done
+fi
+echo $active > /run/slinit-gettys
+exit 0
