@@ -1,0 +1,8 @@
+# flannel -- etcd backed network fabric for containers (flannel). Not
+# started by default; enable with: slinitctl enable flannel
+type = process
+command = /usr/bin/flannel
+depends-on: network.target
+depends-on: etcd
+restart = true
+log-type = journal
