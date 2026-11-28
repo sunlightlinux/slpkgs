@@ -1,7 +1,7 @@
 # Template file for 'bumblebee'
 pkgname=bumblebee
 version=3.2.1
-revision=8
+revision=9
 archs="i686 x86_64"
 build_style=gnu-configure
 configure_args="
@@ -33,6 +33,7 @@ pre_configure() {
 
 post_install() {
 	vsv bumblebeed
+	vslinit bumblebeed
 
 	# Make bash_completion work
 	vmkdir usr/share/bash-completion/completions
