@@ -1,7 +1,7 @@
 # Template file for 'spice-vdagent'
 pkgname=spice-vdagent
 version=0.22.1
-revision=1
+revision=2
 build_style=gnu-configure
 # The test-session-info test fails for unknown reasons (see:
 # https://gitlab.freedesktop.org/spice/linux/vd_agent/-/issues/24).
@@ -25,4 +25,5 @@ do_install() {
 
 post_install() {
 	vsv spice-vdagentd
+	vslinit spice-vdagentd
 }

@@ -1,0 +1,11 @@
+# spice-vdagentd -- SPICE guest agent daemon (spice-vdagent). Not started
+# by default; enable with: slinitctl enable spice-vdagentd
+type = process
+command = /usr/bin/spice-vdagentd -x
+pre-start-command = /usr/bin/mkdir -p /var/run/spice-vdagentd
+depends-on: local.target
+# It asks the bus for session information and runs without it when the
+# bus is not there.
+waits-for: dbus
+restart = true
+log-type = journal
