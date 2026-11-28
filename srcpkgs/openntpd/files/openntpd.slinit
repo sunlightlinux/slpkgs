@@ -1,0 +1,10 @@
+# openntpd -- keeps the clock right (openntpd). Not started by default;
+# enable with: slinitctl enable openntpd
+# Options: OPTS in /etc/conf.d/openntpd. It keeps trying its servers until
+# the network is up, so it waits for the network rather than needing it.
+type = process
+command = /usr/libexec/slinit/openntpd
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
