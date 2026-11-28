@@ -1,0 +1,7 @@
+# swapspace -- dynamic swap file manager (Swapspace). Not started by
+# default; enable with: slinitctl enable swapspace
+type = process
+command = /usr/bin/swapspace
+depends-on: local.target
+restart = true
+log-type = journal
