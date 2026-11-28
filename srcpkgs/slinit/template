@@ -1,6 +1,6 @@
 # Template file for 'slinit'
 pkgname=slinit
-version=4.1.1
+version=4.2.0
 revision=1
 build_style=go
 go_import_path="github.com/sunlightlinux/slinit"
@@ -63,7 +63,7 @@ license="Apache-2.0"
 homepage="https://github.com/sunlightlinux/slinit"
 changelog="https://github.com/sunlightlinux/slinit/releases"
 distfiles="https://github.com/sunlightlinux/slinit/archive/refs/tags/v${version}.tar.gz"
-checksum=14bc6cb15a3b765b9066258aa3874e0771b01c43bbe8696025ad0ae7c70442ae
+checksum=eca323d1975426db3564a31363df5f269194bd2b14523b59db34992f9eb9d34f
 
 # Applets dispatched via basename(argv[0]) — installed as symlinks
 # that the openrc-shims subpackage owns. Kept as shell arrays so
