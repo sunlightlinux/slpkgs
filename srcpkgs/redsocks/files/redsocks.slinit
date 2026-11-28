@@ -1,0 +1,10 @@
+# redsocks -- redirects TCP connections to a SOCKS or HTTP proxy
+# (redsocks). Not started by default; enable with:
+#     slinitctl enable redsocks
+# Options: OPTS in /etc/conf.d/redsocks (default: -c /etc/redsocks.conf).
+type = process
+command = /usr/libexec/slinit/redsocks
+run-as = _redsocks:_redsocks
+depends-on: network.target
+restart = true
+log-type = journal
