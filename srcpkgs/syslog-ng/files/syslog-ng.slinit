@@ -1,0 +1,9 @@
+# syslog-ng -- the syslog-ng system logger (syslog-ng), in the foreground
+# (-F). Not started by default; enable with: slinitctl enable syslog-ng
+# It takes /dev/log over from slinit, which serves it until then.
+# Options: OPTS in /etc/conf.d/syslog-ng.
+type = process
+command = /usr/libexec/slinit/syslog-ng
+depends-on: local.target
+restart = true
+log-type = journal
