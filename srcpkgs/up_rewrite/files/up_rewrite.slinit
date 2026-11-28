@@ -1,0 +1,8 @@
+# up_rewrite -- rewrite proxy for UnifiedPush (up_rewrite). Not started
+# by default; enable with: slinitctl enable up_rewrite
+type = process
+command = /usr/bin/up_rewrite -c /etc/up_rewrite/config.toml
+run-as = _up_rewrite:_up_rewrite
+depends-on: network.target
+restart = true
+log-type = journal

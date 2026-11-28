@@ -1,7 +1,7 @@
 # Template file for 'up_rewrite'
 pkgname=up_rewrite
 version=1.4.0
-revision=5
+revision=6
 build_style=go
 go_import_path="github.com/karmanyaahm/up_rewrite"
 go_ldflags="-X $go_import_path/config.Version=$version"
@@ -19,4 +19,5 @@ post_install() {
 	vinstall example-config.toml 644 etc/up_rewrite config.toml
 	vlicense LICENSE
 	vsv up_rewrite
+	vslinit up_rewrite
 }
