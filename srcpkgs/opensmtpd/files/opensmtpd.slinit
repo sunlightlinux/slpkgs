@@ -1,0 +1,7 @@
+# opensmtpd -- SMTP server (opensmtpd). Not started by default; enable
+# with: slinitctl enable opensmtpd
+type = process
+command = /usr/bin/smtpd -F
+depends-on: network.target
+restart = true
+log-type = journal

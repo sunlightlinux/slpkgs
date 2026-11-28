@@ -1,7 +1,7 @@
 # Template file for 'opensmtpd'
 pkgname=opensmtpd
 version=7.9.0p0
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--sysconfdir=/etc/smtpd --sbindir=/usr/bin
  --with-path-socket=/run --with-path-pidfile=/run
@@ -55,6 +55,7 @@ post_install() {
 	done
 	vinstall ${FILESDIR}/smtpd.pam 644 etc/pam.d smtpd
 	vsv opensmtpd
+	vslinit opensmtpd
 	vlicense LICENSE
 	vinstall /dev/null 644 etc/smtpd aliases
 }
