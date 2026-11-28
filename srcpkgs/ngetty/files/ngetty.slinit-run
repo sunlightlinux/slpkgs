@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+export TERM=linux
+OPTS=
+[ -r /etc/conf.d/ngetty ] && . /etc/conf.d/ngetty
+exec /usr/bin/ngetty ${OPTS:=tty1 tty2 tty3 tty4 tty5 tty6}

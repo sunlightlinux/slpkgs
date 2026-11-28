@@ -1,7 +1,7 @@
 # Template file for 'ngetty'
 pkgname=ngetty
 version=1.1
-revision=7
+revision=8
 short_desc="Daemon for virtual console terminals"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="GPL-2.0-or-later"
@@ -37,4 +37,5 @@ do_install() {
 	vsconf sample.Conf
 	rm ${DESTDIR}/etc/ngetty/sample.Conf
 	vsv ngetty
+	vslinit ngetty
 }
