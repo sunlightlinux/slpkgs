@@ -1,7 +1,7 @@
 # Template file for 'rmilter'
 pkgname=rmilter
 version=1.10.0
-revision=4
+revision=5
 build_style=cmake
 configure_args="-DMILTER_USER=rmilter -DMILTER_GROUP=_rmilter -DSBINDIR=/usr/bin"
 hostmakedepends="pkg-config bison flex"
@@ -22,6 +22,7 @@ post_install() {
 	vdoc rmilter.conf.sample
 	vdoc rmilter-grey.conf
 	vsv rmilter
+	vslinit rmilter
 	head -26 src/rmilter.c >rmilter.LICENSE
 	head -38 contrib/lc-btrie/btrie.h >btrie.LICENSE
 	vlicense rmilter.LICENSE

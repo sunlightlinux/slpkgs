@@ -1,0 +1,12 @@
+# rmilter -- Postfix/sendmail milter for rspamd (rmilter). Not started by
+# default; enable with: slinitctl enable rmilter
+# Options: RMILTERUSER, RMILTERGROUP and OPTS in /etc/conf.d/rmilter. The
+# helper runs as root, prepares /run/rmilter and drops to that user and
+# group through setpriv. The default group is rmilter, as in the runit run
+# script, although the package creates the user rmilter with the group
+# _rmilter: set RMILTERGROUP=_rmilter there if no group rmilter exists.
+type = process
+command = /usr/libexec/slinit/rmilter
+depends-on: network.target
+restart = true
+log-type = journal

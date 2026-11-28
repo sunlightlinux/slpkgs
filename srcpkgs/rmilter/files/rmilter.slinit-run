@@ -1,0 +1,15 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d, absolute
+# paths, and chpst -u replaced by setpriv.
+set -u
+RMILTERUSER=
+RMILTERGROUP=
+OPTS=
+[ -r /etc/conf.d/rmilter ] && . /etc/conf.d/rmilter
+: ${RMILTERUSER:=rmilter}
+: ${RMILTERGROUP:=rmilter}
+if [ ! -d /run/rmilter ]; then
+	/usr/bin/install -d -m 0755 -o $RMILTERUSER -g $RMILTERGROUP /run/rmilter
+fi
+exec /usr/bin/setpriv --reuid "$RMILTERUSER" --regid "$RMILTERGROUP" --clear-groups \
+	-- /usr/bin/rmilter -n -c /etc/rmilter/rmilter.conf ${OPTS}
