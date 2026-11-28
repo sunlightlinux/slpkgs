@@ -1,0 +1,7 @@
+# fastd -- fast and secure tunnelling daemon (fastd). Not started by
+# default; enable with: slinitctl enable fastd
+type = process
+command = /usr/bin/fastd --config /etc/fastd/fastd.conf
+depends-on: network.target
+restart = true
+log-type = journal
