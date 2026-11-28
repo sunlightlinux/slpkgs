@@ -1,0 +1,8 @@
+# php-fpm8.4 -- PHP 8.4 FastCGI Process Manager (php8.4-fpm). Not started by
+# default; enable with: slinitctl enable php-fpm8.4
+# Options: OPTS in /etc/conf.d/php-fpm8.4.
+type = process
+command = /usr/libexec/slinit/php-fpm8.4
+depends-on: network.target
+restart = true
+log-type = journal
