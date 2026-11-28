@@ -1,7 +1,7 @@
 # Template file for 'mbpfan'
 pkgname=mbpfan
 version=2.5.0
-revision=1
+revision=2
 archs="x86_64* i686*" # Intel-based Macs only have these arches
 build_style=gnu-makefile
 conf_files="/etc/mbpfan.conf"
@@ -21,4 +21,5 @@ post_patch() {
 
 post_install() {
 	vsv mbpfan
+	vslinit mbpfan
 }
