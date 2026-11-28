@@ -1,0 +1,8 @@
+# mpd -- Music Player Daemon (mpd). Not started by default; enable with:
+#     slinitctl enable mpd
+# Options: OPTS in /etc/conf.d/mpd.
+type = process
+command = /usr/libexec/slinit/mpd
+depends-on: network.target
+restart = true
+log-type = journal
