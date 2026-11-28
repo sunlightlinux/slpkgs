@@ -1,0 +1,7 @@
+# salt-master -- salt master daemon (salt). Not started by default;
+# enable with: slinitctl enable salt-master
+type = process
+command = /usr/bin/salt-master
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,0 +1,7 @@
+# salt-minion -- salt minion daemon (salt). Not started by default;
+# enable with: slinitctl enable salt-minion
+type = process
+command = /usr/bin/salt-minion
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'salt'
 pkgname=salt
 version=3007.9
-revision=2
+revision=3
 build_style=python3-module
 hostmakedepends="python3-setuptools"
 depends="dmidecode pciutils python3-Jinja2 python3-M2Crypto python3-MarkupSafe
@@ -51,7 +51,11 @@ post_install() {
 	vmkdir etc/salt 0750
 	vcopy conf/* etc/salt
 	vsv salt-api
+	vslinit salt-api
 	vsv salt-master
+	vslinit salt-master
 	vsv salt-minion
+	vslinit salt-minion
 	vsv salt-syndic
+	vslinit salt-syndic
 }

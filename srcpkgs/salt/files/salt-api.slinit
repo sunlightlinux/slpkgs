@@ -1,0 +1,7 @@
+# salt-api -- REST API for salt (salt). Not started by default;
+# enable with: slinitctl enable salt-api
+type = process
+command = /usr/bin/salt-api
+depends-on: network.target
+restart = true
+log-type = journal
