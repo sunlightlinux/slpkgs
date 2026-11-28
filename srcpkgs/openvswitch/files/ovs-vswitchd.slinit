@@ -1,0 +1,11 @@
+# ovs-vswitchd -- Open vSwitch switch daemon (openvswitch). Not started by
+# default; enable with: slinitctl enable ovs-vswitchd
+# The helper loads the openvswitch module. The bridges it sets up are in
+# place before the network service configures interfaces.
+type = process
+command = /usr/libexec/slinit/ovs-vswitchd
+depends-on: ovsdb-server
+depends-on: local.target
+before: network
+restart = true
+log-type = journal

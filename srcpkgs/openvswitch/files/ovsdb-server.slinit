@@ -1,0 +1,9 @@
+# ovsdb-server -- Open vSwitch database server (openvswitch). Not started
+# by default; enable with: slinitctl enable ovsdb-server
+# The helper creates /etc/openvswitch/conf.db on first start. It serves
+# ovs-vswitchd and the ovs tools over a Unix socket only.
+type = process
+command = /usr/libexec/slinit/ovsdb-server
+depends-on: local.target
+restart = true
+log-type = journal

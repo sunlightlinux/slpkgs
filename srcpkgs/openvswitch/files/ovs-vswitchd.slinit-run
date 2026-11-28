@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script; its sv check ovsdb-server is a depends-on in
+# the service.
+set -u
+/usr/bin/modprobe -q openvswitch || exit 1
+/usr/bin/install -d /run/openvswitch
+exec /usr/bin/ovs-vswitchd

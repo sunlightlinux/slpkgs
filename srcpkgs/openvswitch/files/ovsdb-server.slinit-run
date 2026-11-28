@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script: creates the switch database on first start.
+set -u
+if [ ! -f /etc/openvswitch/conf.db ]; then
+    /usr/bin/install -d /etc/openvswitch
+    /usr/bin/ovsdb-tool create /etc/openvswitch/conf.db /usr/share/openvswitch/vswitch.ovsschema || exit 1
+fi
+/usr/bin/install -d /run/openvswitch
+exec /usr/bin/ovsdb-server --remote=punix:/run/openvswitch/db.sock
