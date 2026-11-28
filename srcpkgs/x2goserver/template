@@ -1,7 +1,7 @@
 # Template file for 'x2goserver'
 pkgname=x2goserver
 version=4.1.0.6
-revision=1
+revision=2
 build_style=gnu-makefile
 make_install_args="SBINDIR=/usr/bin"
 hostmakedepends="pkg-config perl which"
@@ -29,4 +29,5 @@ conf_files="
 post_install() {
 	rm -rf "${DESTDIR}/etc/logcheck"
 	vsv x2gocleansessions
+	vslinit x2gocleansessions
 }

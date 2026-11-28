@@ -1,0 +1,7 @@
+# x2gocleansessions -- cleans up stale X2Go sessions (x2goserver). Not
+# started by default; enable with: slinitctl enable x2gocleansessions
+type = process
+command = /usr/bin/x2gocleansessions --nofork
+depends-on: local.target
+restart = true
+log-type = journal
