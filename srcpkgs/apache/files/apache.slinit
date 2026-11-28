@@ -1,0 +1,9 @@
+# apache -- the Apache HTTP server (apache), in the foreground
+# (-DNO_DETACH). Not started by default; enable with:
+#     slinitctl enable apache
+type = process
+command = /usr/bin/httpd -DNO_DETACH
+pre-start-command = +/usr/bin/install -d -m0710 -o root -g _apache /run/httpd
+depends-on: network.target
+restart = true
+log-type = journal
