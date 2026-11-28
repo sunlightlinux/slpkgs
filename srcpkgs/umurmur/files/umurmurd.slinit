@@ -1,0 +1,11 @@
+# umurmurd -- minimalistic Mumble server (umurmur). Not started by
+# default; enable with: slinitctl enable umurmurd
+# Options: OPTS in /etc/conf.d/umurmurd. /etc/umurmur/umurmur.conf is
+# checked first, as root, as the runit run script did.
+type = process
+command = /usr/libexec/slinit/umurmurd
+pre-start-command = +/usr/bin/umurmurd -t -c /etc/umurmur/umurmur.conf
+run-as = umurmur:umurmur
+depends-on: network.target
+restart = true
+log-type = journal

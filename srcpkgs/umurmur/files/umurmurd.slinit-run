@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; the
+# configuration test is the service's pre-start-command and chpst -u is
+# run-as.
+set -u
+OPTS=
+[ -r /etc/conf.d/umurmurd ] && . /etc/conf.d/umurmurd
+exec /usr/bin/umurmurd -d -c /etc/umurmur/umurmur.conf ${OPTS}
