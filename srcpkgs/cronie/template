@@ -48,7 +48,6 @@ pre_configure() {
 post_install() {
 	vsv cronie cron
 	vslinit cronie enable
-	vinstall ${FILESDIR}/cronie.conf 644 etc/conf.d cronie
 	vinstall ${FILESDIR}/crond.pam 644 etc/pam.d crond
 
 	# Add /etc/cron.deny empty, to allow all users.
