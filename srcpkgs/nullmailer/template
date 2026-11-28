@@ -1,7 +1,7 @@
 # Template file for 'nullmailer'
 pkgname=nullmailer
 version=2.2
-revision=3
+revision=4
 build_style=gnu-configure
 configure_args="--enable-tls"
 conf_files="/etc/nullmailer/*"
@@ -34,6 +34,7 @@ post_install() {
 
 	vinstall /dev/null 600 etc/nullmailer remotes
 	vsv nullmailer
+	vslinit nullmailer
 
 	# fifos cause xbps-create (v0.53) to segfault
 	rm -vf ${DESTDIR}/var/spool/nullmailer/trigger

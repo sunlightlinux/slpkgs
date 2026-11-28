@@ -1,0 +1,9 @@
+# nullmailer -- relay-only mail transport agent (nullmailer). Not started
+# by default; enable with: slinitctl enable nullmailer
+type = process
+command = /usr/bin/nullmailer-send
+run-as = _nullmail
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
