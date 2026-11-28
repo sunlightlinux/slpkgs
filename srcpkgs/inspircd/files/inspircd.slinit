@@ -1,0 +1,8 @@
+# inspircd -- IRC server (inspircd). Not started by default;
+# enable with: slinitctl enable inspircd
+type = process
+command = /usr/bin/inspircd --nofork --config /etc/inspircd/inspircd.conf
+run-as = inspircd
+depends-on: network.target
+restart = true
+log-type = journal
