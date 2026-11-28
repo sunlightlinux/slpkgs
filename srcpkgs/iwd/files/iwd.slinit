@@ -3,7 +3,8 @@
 # Options: OPTS in /etc/conf.d/iwd.
 type = process
 command = /usr/libexec/slinit/iwd
-depends-on: local.target
+depends-on: pre-network.target
+before: network.target
 depends-on: dbus
 restart = true
 log-type = journal

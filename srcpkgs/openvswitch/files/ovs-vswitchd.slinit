@@ -6,6 +6,6 @@ type = process
 command = /usr/libexec/slinit/ovs-vswitchd
 depends-on: ovsdb-server
 depends-on: local.target
-before: network
+before: pre-network.target
 restart = true
 log-type = journal

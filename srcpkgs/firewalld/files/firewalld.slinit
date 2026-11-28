@@ -9,6 +9,6 @@ ready-check-command = /usr/bin/firewall-cmd --state
 depends-on: local.target
 depends-on: dbus
 # Ordered before the network setup when both start.
-before: network
+before: pre-network.target
 restart = true
 log-type = journal

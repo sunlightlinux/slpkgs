@@ -1,7 +1,7 @@
 # Template file for 'shorewall'
 pkgname=shorewall
 version=5.2.8
-revision=2
+revision=3
 create_wrksrc=yes
 depends="shorewall-core perl"
 short_desc="Iptables-based firewall for Linux systems"

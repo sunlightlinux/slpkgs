@@ -5,4 +5,4 @@ type = scripted
 command = /usr/bin/ifstatecli apply
 depends-on: local.target
 # It configures interfaces itself: ordered before the network setup.
-before: network
+before: pre-network.target

@@ -9,4 +9,4 @@ start-timeout = 60
 stop-timeout = 60
 depends-on: local.target
 # Ordered before the network setup when both start.
-before: network
+before: pre-network.target

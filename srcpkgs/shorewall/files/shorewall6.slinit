@@ -7,7 +7,7 @@ command = /usr/bin/shorewall6 start
 stop-command = /usr/bin/shorewall6 stop
 depends-on: local.target
 # Ordered before the network setup when both start.
-before: network
+before: pre-network.target
 # Compiling and loading a large rule set can take a while, so the defaults
 # of 60 and 10 seconds are too short; runit never timed either out.
 start-timeout = 300

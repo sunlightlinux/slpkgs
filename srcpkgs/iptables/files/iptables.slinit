@@ -7,4 +7,4 @@ command = /usr/libexec/slinit/iptables
 stop-command = /usr/libexec/iptables-flush
 depends-on: local.target
 # Ordered before the network setup when both start.
-before: network
+before: pre-network.target

@@ -8,7 +8,7 @@ command = /usr/lib/ufw/ufw-init start quiet
 stop-command = /usr/lib/ufw/ufw-init stop
 depends-on: local.target
 # Ordered before the network setup when both start.
-before: network
+before: pre-network.target
 # runit never timed loading or unloading the rules out.
 start-timeout = 60
 stop-timeout = 60

@@ -8,6 +8,7 @@
 # It sets up the network, so it does not depend on network.target.
 type = process
 command = /usr/libexec/slinit/wpa_supplicant
-depends-on: local.target
+depends-on: pre-network.target
+before: network.target
 restart = true
 log-type = journal
