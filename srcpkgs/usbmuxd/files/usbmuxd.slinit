@@ -1,0 +1,7 @@
+# usbmuxd -- USB multiplexing daemon for Apple devices (usbmuxd).
+# Not started by default; enable with: slinitctl enable usbmuxd
+type = process
+command = /usr/bin/usbmuxd -f -u
+depends-on: local.target
+restart = true
+log-type = journal
