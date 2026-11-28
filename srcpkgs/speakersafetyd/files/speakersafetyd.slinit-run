@@ -1,0 +1,15 @@
+#!/bin/sh
+# Void's runit run script, with absolute paths.
+set -u
+
+_user=_speakersafetyd
+_group=audio
+_caps=-all,+sys_nice
+
+! [ -d /run/speakersafetyd ] && /usr/bin/install -m 700 -g $_user -o $_user -d /run/speakersafetyd
+
+exec /usr/bin/setpriv --reuid $_user --regid $_user --groups $_group \
+  --ambient-caps $_caps \
+  --inh-caps $_caps \
+  --bounding-set $_caps \
+  --no-new-privs -- /usr/bin/speakersafetyd -c /usr/share/speakersafetyd/ -m 7

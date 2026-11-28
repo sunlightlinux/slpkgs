@@ -1,0 +1,11 @@
+# speakersafetyd -- speaker protection for Apple Silicon Macs
+# (speakersafetyd). Not started by default; enable with:
+# slinitctl enable speakersafetyd
+# The helper creates /run/speakersafetyd and drops to _speakersafetyd
+# (group audio) with setpriv, keeping only the sys_nice capability, as the
+# runit run script does.
+type = process
+command = /usr/libexec/slinit/speakersafetyd
+depends-on: local.target
+restart = true
+log-type = journal
