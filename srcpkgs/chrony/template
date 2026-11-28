@@ -2,7 +2,7 @@
 # When Updating: Please confirm the upstream config still refers to make_dirs
 pkgname=chrony
 version=4.9
-revision=2
+revision=3
 build_style=gnu-configure
 configure_args="--without-nss --enable-scfilter
  --with-sendmail=/usr/bin/sendmail"

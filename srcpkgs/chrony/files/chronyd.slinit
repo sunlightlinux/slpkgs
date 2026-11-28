@@ -1,11 +1,11 @@
 # chronyd -- keeps the clock right (chrony). Started by default (vslinit
 # enable): a server with a drifting clock has logs that disagree and TLS that
-# fails, the daily system update's included. Same invocation as Void's runit
-# service. dhcpcd returns before it has a lease; chronyd keeps trying its pool
-# until the network is up, so it waits for the network rather than needing it.
+# fails, the daily system update's included. dhcpcd returns before it has a
+# lease; chronyd keeps trying its pool until the network is up, so it waits
+# for the network rather than needing it. Options: OPTS in /etc/conf.d/chronyd.
 type = process
-command = /usr/bin/chronyd -n -u chrony
-pre-start-command = /usr/bin/install -d -m750 -o chrony -g chrony /var/run/chrony
+command = /usr/libexec/slinit/chronyd
 depends-on: local.target
 waits-for: network.target
 restart = true
+log-type = journal

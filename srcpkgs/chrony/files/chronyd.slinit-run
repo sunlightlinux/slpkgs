@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/chronyd ] && . /etc/conf.d/chronyd
+install -d -m750 -o chrony -g chrony /var/run/chrony
+exec /usr/bin/chronyd -n -u chrony ${OPTS}
