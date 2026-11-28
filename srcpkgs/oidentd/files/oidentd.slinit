@@ -1,0 +1,8 @@
+# oidentd -- ident daemon (oidentd). Not started by default; enable with:
+# slinitctl enable oidentd
+# Options: OPTS in /etc/conf.d/oidentd (default -u nobody -g nogroup).
+type = process
+command = /usr/libexec/slinit/oidentd
+depends-on: network.target
+restart = true
+log-type = journal

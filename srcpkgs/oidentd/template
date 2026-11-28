@@ -1,7 +1,7 @@
 # Template file for 'oidentd'
 pkgname=oidentd
 version=3.1.0
-revision=1
+revision=2
 build_style=gnu-configure
 conf_files="/etc/oidentd.conf /etc/oidentd_masq.conf"
 hostmakedepends="flex"
@@ -16,4 +16,5 @@ checksum=feaa1f5e23df9a0a6b351bffd75345d575a209d5908f60cb3aaf4349f38cb0b0
 
 post_install() {
 	vsv oidentd
+	vslinit oidentd
 }

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/oidentd ] && . /etc/conf.d/oidentd
+exec /usr/bin/oidentd -i ${OPTS:=-u nobody -g nogroup}
