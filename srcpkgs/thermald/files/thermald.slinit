@@ -1,0 +1,10 @@
+# thermald -- thermal daemon for Intel CPUs (thermald). Not started by
+# default; enable with: slinitctl enable thermald
+# Options: OPTS in /etc/conf.d/thermald (default
+# "--no-daemon --dbus-enable").
+type = process
+command = /usr/libexec/slinit/thermald
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal

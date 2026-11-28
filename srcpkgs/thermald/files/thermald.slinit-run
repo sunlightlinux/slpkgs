@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/thermald ] && . /etc/conf.d/thermald
+exec /usr/bin/thermald ${OPTS:=--no-daemon --dbus-enable}
