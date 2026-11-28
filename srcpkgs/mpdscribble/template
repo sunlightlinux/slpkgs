@@ -1,7 +1,7 @@
 # Template file for 'mpdscribble'
 pkgname=mpdscribble
 version=0.25
-revision=1
+revision=2
 build_style=meson
 hostmakedepends="pkg-config"
 makedepends="libmpdclient-devel libcurl-devel boost-headers libgcrypt-devel"
@@ -18,4 +18,5 @@ make_dirs="/var/cache/mpdscribble/ 0755 root root"
 
 post_install() {
 	vsv mpdscribble
+	vslinit mpdscribble
 }

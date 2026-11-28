@@ -1,0 +1,10 @@
+# mpdscribble -- MPD audio scrobbler (mpdscribble), in the foreground
+# (--no-daemon). Not started by default; enable with:
+#     slinitctl enable mpdscribble
+# It queues submissions while offline, so it only waits for the network.
+type = process
+command = /usr/bin/mpdscribble --no-daemon
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
