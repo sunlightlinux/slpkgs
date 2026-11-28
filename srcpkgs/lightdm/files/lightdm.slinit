@@ -2,7 +2,7 @@
 #     slinitctl enable lightdm
 type = process
 
-# Only start when the kernel exposes a DRM device — otherwise LightDM
+# Only start when the kernel exposes a DRM device -- otherwise LightDM
 # spends a few seconds trying to open an X server against a phantom
 # card and then flails in respawn loop.
 condition-path-exists = /dev/dri/card0
@@ -12,7 +12,7 @@ condition-path-exists = /dev/dri/card0
 # org.freedesktop.login1).
 depends-on: dbus
 depends-on: logind
-# Nice to have but not strictly required — udev-trigger seeds
+# Nice to have but not strictly required -- udev-trigger seeds
 # /dev/dri and input devices; skipping it would race the DRM open.
 waits-for: udev-trigger
 
@@ -26,7 +26,7 @@ pre-start-command = /usr/bin/install -d -m 0711 -o lightdm -g lightdm /run/light
 
 command = /usr/libexec/slinit/lightdm
 
-# Own vt7 by default — LightDM configures that in /etc/lightdm/lightdm.conf.
+# Own vt7 by default -- LightDM configures that in /etc/lightdm/lightdm.conf.
 # Keeping tty1..tty6 for text getty means Ctrl+Alt+F1..F6 still work.
 restart = yes
 restart-delay = 2
