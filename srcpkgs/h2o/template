@@ -1,7 +1,7 @@
 # Template file for 'h2o'
 pkgname=h2o
 version=2.2.6
-revision=5
+revision=6
 build_style=cmake
 conf_files="/etc/h2o.conf"
 configure_args="-DWITH_BUNDLED_SSL=OFF"
@@ -37,6 +37,7 @@ pre_check() {
 
 post_install() {
 	vsv h2o
+	vslinit h2o
 	vconf ${FILESDIR}/h2o.conf
 	vlicense LICENSE
 }

@@ -1,0 +1,7 @@
+# h2o -- HTTP/1.x and HTTP/2 server (h2o). Not started by default;
+# enable with: slinitctl enable h2o
+type = process
+command = /usr/bin/h2o -c /etc/h2o.conf
+depends-on: network.target
+restart = true
+log-type = journal
