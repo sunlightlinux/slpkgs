@@ -1,0 +1,36 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d and its auto
+# file (the runit service dir's interface finder) written in.
+set -u
+OPTS=
+CONF_FILE=
+WPA_INTERFACE=
+DRIVER=
+if [ -r /etc/conf.d/wpa_supplicant ]; then
+	. /etc/conf.d/wpa_supplicant
+	: ${OPTS:=-M -c ${CONF_FILE:-/etc/wpa_supplicant/wpa_supplicant.conf} ${WPA_INTERFACE:+-i ${WPA_INTERFACE}} ${DRIVER:+-D ${DRIVER}}}
+else
+	AUTO=
+	# find interface from wpa_supplicant-*.conf files
+	for f in /etc/wpa_supplicant/wpa_supplicant-*.conf \
+		/etc/wpa_supplicant-*.conf; do
+		case "$f" in *"/wpa_supplicant-*.conf") continue ;; esac
+		iface=${f#*/wpa_supplicant-}
+		if [ -z "$AUTO" ]; then
+			AUTO="${AUTO} -c ${f} -i ${iface%.conf}"
+		else
+			AUTO="${AUTO} -N -c ${f} -i ${iface%.conf}"
+		fi
+	done
+	# match all configuration
+	[ -r /etc/wpa_supplicant/wpa_supplicant.conf ] &&
+		AUTO="${AUTO} -M -c /etc/wpa_supplicant/wpa_supplicant.conf"
+	OPTS="${AUTO}"
+fi
+
+# revert automigrate
+/usr/bin/chown -R root:root /etc/wpa_supplicant
+! [ -d /run/wpa_supplicant ] && /usr/bin/install -m 700 -g root -o root -d /run/wpa_supplicant
+/usr/bin/chown -R root:root /run/wpa_supplicant
+
+exec /usr/bin/wpa_supplicant ${OPTS}

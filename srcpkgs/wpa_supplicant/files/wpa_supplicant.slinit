@@ -1,0 +1,13 @@
+# wpa_supplicant -- WPA/WPA2/IEEE 802.1X supplicant (wpa_supplicant). Not
+# started by default; enable with: slinitctl enable wpa_supplicant
+# Options: OPTS, or CONF_FILE, WPA_INTERFACE and DRIVER, in
+# /etc/conf.d/wpa_supplicant. Without that file it runs on every
+# /etc/wpa_supplicant/wpa_supplicant-<interface>.conf and
+# /etc/wpa_supplicant-<interface>.conf, and on wpa_supplicant.conf for
+# any matching interface (-M).
+# It sets up the network, so it does not depend on network.target.
+type = process
+command = /usr/libexec/slinit/wpa_supplicant
+depends-on: local.target
+restart = true
+log-type = journal
