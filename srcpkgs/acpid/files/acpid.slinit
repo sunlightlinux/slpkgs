@@ -1,8 +1,9 @@
 # acpid -- acts on the power button (acpid). Started by default (vslinit
 # enable): without it a power button, or a hypervisor's shutdown request
 # without a guest agent, does nothing; measured, a VM was still running 25 s
-# after system_powerdown. Same invocation as Void's runit service.
+# after system_powerdown. Options: OPTS in /etc/conf.d/acpid (default -l).
 type = process
-command = /usr/bin/acpid -f -l
+command = /usr/libexec/slinit/acpid
 depends-on: local.target
 restart = true
+log-type = journal
