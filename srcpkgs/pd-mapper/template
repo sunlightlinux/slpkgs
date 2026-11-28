@@ -1,7 +1,7 @@
 # Template file for 'pd-mapper'
 pkgname=pd-mapper
 version=1.0
-revision=1
+revision=2
 build_style=gnu-makefile
 makedepends="qrtr-ns-devel"
 short_desc="Qualcomm Protection Domain mapper"
@@ -16,4 +16,5 @@ LDFLAGS+=" -lqrtr"
 post_install() {
 	vlicense LICENSE
 	vsv pd-mapper
+	vslinit pd-mapper
 }

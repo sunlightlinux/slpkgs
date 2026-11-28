@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/pd-mapper ] && . /etc/conf.d/pd-mapper
+exec /usr/bin/pd-mapper $OPTS

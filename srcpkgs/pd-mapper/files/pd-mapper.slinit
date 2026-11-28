@@ -1,0 +1,8 @@
+# pd-mapper -- Qualcomm protection domain mapper (pd-mapper). Not started
+# by default; enable with: slinitctl enable pd-mapper
+# Options: OPTS in /etc/conf.d/pd-mapper.
+type = process
+command = /usr/libexec/slinit/pd-mapper
+depends-on: local.target
+restart = true
+log-type = journal
