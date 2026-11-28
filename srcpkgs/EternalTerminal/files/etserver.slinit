@@ -1,0 +1,9 @@
+# etserver -- Eternal Terminal server, a re-connectable remote shell
+# (EternalTerminal). Not started by default; enable with:
+#     slinitctl enable etserver
+type = process
+command = /usr/bin/etserver
+run-as = _eternal
+depends-on: network.target
+restart = true
+log-type = journal
