@@ -1,7 +1,7 @@
 # Template file for 'nsd'
 pkgname=nsd
 version=4.15.4
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--enable-ratelimit --enable-ratelimit-default-is-off
  --with-libevent=${XBPS_CROSS_BASE}/usr --with-ssl=${XBPS_CROSS_BASE}/usr"
@@ -24,6 +24,7 @@ pre_configure() {
 
 post_install() {
 	vsv nsd
+	vslinit nsd
 	vlicense LICENSE
 	rm -f ${DESTDIR}/etc/nsd/nsd.conf.sample
 	vsconf nsd.conf.sample

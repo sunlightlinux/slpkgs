@@ -1,0 +1,9 @@
+# nsd -- authoritative-only DNS server (nsd). Not started by default;
+# enable with: slinitctl enable nsd
+# The helper prepares /run/nsd and discards nsd's stderr, as the runit
+# run script did.
+type = process
+command = /usr/libexec/slinit/nsd
+depends-on: network.target
+restart = true
+log-type = journal

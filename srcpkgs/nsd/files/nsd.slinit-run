@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script: nsd's stderr is discarded, stdout kept.
+set -u
+/usr/bin/install -d -m 0755 -o nsd -g nsd /run/nsd
+exec /usr/bin/nsd -d 2>/dev/null
