@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/fancontrol ] && . /etc/conf.d/fancontrol
+[ ! -r ${CONF_FILE:-/etc/fancontrol} ] && exit 1
+exec /usr/bin/fancontrol ${CONF_FILE:-/etc/fancontrol}

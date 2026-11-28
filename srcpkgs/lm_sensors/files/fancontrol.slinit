@@ -1,0 +1,8 @@
+# fancontrol -- sets fan speeds from temperatures (lm_sensors). Not started
+# by default; enable with: slinitctl enable fancontrol
+# Options: CONF_FILE in /etc/conf.d/fancontrol (default /etc/fancontrol).
+type = process
+command = /usr/libexec/slinit/fancontrol
+depends-on: local.target
+restart = true
+log-type = journal
