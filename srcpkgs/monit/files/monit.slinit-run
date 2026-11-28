@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with absolute paths.
+set -u
+CONF=
+if [ -f /etc/monit/monitrc ]; then
+	CONF="-c /etc/monit/monitrc"
+fi
+exec /usr/bin/monit -I ${CONF}

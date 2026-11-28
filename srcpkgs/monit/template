@@ -1,7 +1,7 @@
 # Template file for 'monit'
 pkgname=monit
 version=5.35.2
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="
  --with-ssl-dir=${XBPS_CROSS_BASE}/usr
@@ -29,5 +29,6 @@ pre_configure() {
 post_install() {
 	vinstall monitrc 0600 etc
 	vsv monit
+	vslinit monit
 	vlicense COPYING
 }

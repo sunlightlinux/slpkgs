@@ -1,0 +1,9 @@
+# monit -- process and system monitor (monit). Not started by default;
+# enable with: slinitctl enable monit
+# Uses /etc/monit/monitrc when it exists, otherwise /etc/monitrc.
+type = process
+command = /usr/libexec/slinit/monit
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
