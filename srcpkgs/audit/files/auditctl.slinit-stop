@@ -1,0 +1,14 @@
+#!/bin/sh
+# Void's runit finish script, with its conf moved to /etc/conf.d.
+# Remove watches so shutdown works cleanly.
+set -eu
+test -f /etc/audit/audit-stop.rules || exit 0
+AUDITD_CLEAN_STOP=
+test ! -r /etc/conf.d/auditctl || . /etc/conf.d/auditctl
+
+case "$AUDITD_CLEAN_STOP" in
+	no|NO) exit 0 ;;
+	*) ;;
+esac
+
+exec /usr/bin/auditctl -R /etc/audit/audit-stop.rules >/dev/null

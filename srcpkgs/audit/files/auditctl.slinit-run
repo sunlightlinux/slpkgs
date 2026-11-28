@@ -1,0 +1,13 @@
+#!/bin/sh
+# Void's runit run script without its chpst -b pause, with its conf
+# moved to /etc/conf.d.
+set -eu
+USE_AUGENRULES=
+test ! -r /etc/conf.d/auditctl || . /etc/conf.d/auditctl
+
+case "$USE_AUGENRULES" in
+	no|NO) ;;
+	*) test ! -d /etc/audit/rules.d || /usr/bin/augenrules >/dev/null ;;
+esac
+
+test ! -f /etc/audit/audit.rules || /usr/bin/auditctl -R /etc/audit/audit.rules >/dev/null

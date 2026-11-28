@@ -1,0 +1,8 @@
+# auditctl -- loads the audit rules, and loads audit-stop.rules when the
+# service stops (audit). Not started by default; enable with:
+# slinitctl enable auditctl
+# Options: USE_AUGENRULES and AUDITD_CLEAN_STOP in /etc/conf.d/auditctl.
+type = scripted
+command = /usr/libexec/slinit/auditctl
+stop-command = /usr/libexec/slinit/auditctl-stop
+depends-on: local.target
