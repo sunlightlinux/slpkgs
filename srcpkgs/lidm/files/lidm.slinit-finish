@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit finish script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/lidm ] && . /etc/conf.d/lidm
+# utmpset comes with runit, which a Sunlight system does not install; the
+# step only marks the tty's utmp record as ended, so without it there is
+# nothing to do.
+[ -x /usr/bin/utmpset ] || exit 0
+exec /usr/bin/utmpset -w ${TTY:-tty7}

@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. setsid is
+# replaced by the service's new-session.
+set -u
+GETTY_ARGS=
+[ -r /etc/conf.d/lidm ] && . /etc/conf.d/lidm
+exec ${GETTY:-/usr/bin/agetty} ${GETTY_ARGS} \
+	"${TTY:-tty7}" "${TERM_NAME:-linux}" \
+	-n -l "${EXEC_PATH:-/bin/lidm}" -o 7

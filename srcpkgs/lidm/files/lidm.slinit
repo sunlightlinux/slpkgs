@@ -1,0 +1,14 @@
+# lidm -- TUI display manager, run through agetty on tty7 (lidm). Not
+# started by default; enable with: slinitctl enable lidm
+# Options: GETTY, GETTY_ARGS, TTY, TERM_NAME and EXEC_PATH in
+# /etc/conf.d/lidm.
+type = process
+command = /usr/libexec/slinit/lidm
+# Its own session, as the runit run script got with setsid: slinit starts
+# every service as a process group leader, where setsid(1) would fork and
+# exit, so the session comes from slinit instead.
+new-session = yes
+finish-command = /usr/libexec/slinit/lidm-finish
+depends-on: local.target
+restart = true
+log-type = journal
