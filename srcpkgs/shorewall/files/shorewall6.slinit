@@ -1,0 +1,14 @@
+# shorewall6 -- loads the Shorewall IPv6 firewall (shorewall6). Not started
+# by default; enable with: slinitctl enable shorewall6
+# Stopping it runs shorewall6 stop. It must be in place before the network
+# is used, so it does not depend on or wait for network.target.
+type = scripted
+command = /usr/bin/shorewall6 start
+stop-command = /usr/bin/shorewall6 stop
+depends-on: local.target
+# Ordered before the network setup when both start.
+before: network
+# Compiling and loading a large rule set can take a while, so the defaults
+# of 60 and 10 seconds are too short; runit never timed either out.
+start-timeout = 300
+stop-timeout = 120

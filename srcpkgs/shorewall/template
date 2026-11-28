@@ -1,7 +1,7 @@
 # Template file for 'shorewall'
 pkgname=shorewall
 version=5.2.8
-revision=1
+revision=2
 create_wrksrc=yes
 depends="shorewall-core perl"
 short_desc="Iptables-based firewall for Linux systems"
@@ -33,6 +33,7 @@ do_install() {
 	vmkdir usr/share/doc/${pkgname}
 	cp -r Samples ${PKGDESTDIR}/usr/share/doc/${pkgname}
 	vsv shorewall
+	vslinit shorewall
 }
 
 shorewall-core_package() {
@@ -52,5 +53,6 @@ shorewall6_package() {
 		cd ${wrksrc}/${pkgname}-${version}
 		DESTDIR="${PKGDESTDIR}" ./install.sh
 		vsv shorewall6
+		vslinit shorewall6
 	}
 }
