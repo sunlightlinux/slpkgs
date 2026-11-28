@@ -1,0 +1,10 @@
+# mosquitto -- MQTT message broker (mosquitto). Not started by default;
+# enable with: slinitctl enable mosquitto
+type = process
+command = /usr/bin/mosquitto -c /etc/mosquitto/mosquitto.conf
+run-as = _mosquitto:_mosquitto
+# The runit run script started it from there (cd /var/lib/mosquitto).
+working-dir = /var/lib/mosquitto
+depends-on: network.target
+restart = true
+log-type = journal
