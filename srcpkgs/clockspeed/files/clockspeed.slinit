@@ -1,0 +1,12 @@
+# clockspeed -- speeds the clock up or down to match a reference
+# (clockspeed). Not started by default; enable with:
+#     slinitctl enable clockspeed
+# When it exits, its finish helper restarts clockspeed_adjust if that is
+# running, as the runit finish script did.
+type = process
+command = /usr/bin/clockspeed
+pre-start-command = /usr/bin/mkdir -p /var/lib/clockspeed/etc
+finish-command = /usr/libexec/slinit/clockspeed-finish
+depends-on: local.target
+restart = true
+log-type = journal

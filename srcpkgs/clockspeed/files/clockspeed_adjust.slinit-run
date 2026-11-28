@@ -1,0 +1,26 @@
+#!/bin/sh
+# Void's runit clock_adjust.sh (from http://thedjbway.b0llix.net/clocksd/),
+# which the run script ran from /etc/sv/clockspeed_adjust: periodically
+# get a timing mark for the clockspeed service.
+set -u
+
+# initialize WAIT, WAIT_MAX:
+WAIT=541
+WAIT_MAX=2617923
+
+# loop indefinitely
+while :
+do
+    # obtain timing mark for calibrating clockspeed adjust:
+    /usr/bin/clockctl mark
+    # log current "attoseconds":
+    /usr/bin/clockctl atto
+    echo "==="
+    echo "Waiting ${WAIT} seconds until next adjustment..."
+    /usr/bin/sleep ${WAIT}
+    # increment $WAIT:
+    WAIT=$(/usr/bin/expr ${WAIT} + ${WAIT} + ${WAIT})
+    if [ ${WAIT} -gt ${WAIT_MAX} ] ; then
+        WAIT=${WAIT_MAX}
+    fi
+done

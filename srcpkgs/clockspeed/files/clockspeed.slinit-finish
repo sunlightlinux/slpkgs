@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit finish script: restart clockspeed_adjust if it is up, so
+# that it takes a new calibration mark for the restarted clockspeed.
+if [ -x /usr/bin/slinitctl ]; then
+	/usr/bin/slinitctl is-started clockspeed_adjust >/dev/null 2>&1 &&
+		/usr/bin/slinitctl --no-wait restart clockspeed_adjust >/dev/null 2>&1
+else
+	/usr/bin/sv s clockspeed_adjust && /usr/bin/sv t clockspeed_adjust
+fi
+exit 0

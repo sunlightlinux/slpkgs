@@ -1,0 +1,11 @@
+# clockspeed_adjust -- periodically takes a calibration mark from the
+# server in /etc/clockspeed/clockspeed.conf for clockspeed (clockspeed).
+# Not started by default; enable with:
+#     slinitctl enable clockspeed_adjust
+type = process
+command = /usr/libexec/slinit/clockspeed_adjust
+run-as = clocksd:nogroup
+depends-on: clockspeed
+waits-for: network.target
+restart = true
+log-type = journal
