@@ -1,0 +1,8 @@
+# bacula-fd -- Bacula File Daemon (client) (bacula-fd). Not started by default;
+# enable with: slinitctl enable bacula-fd
+type = process
+command = /usr/bin/bacula-fd -f -c /etc/bacula/bacula-fd.conf
+pre-start-command = /usr/bin/mkdir -p /run/bacula
+depends-on: network.target
+restart = true
+log-type = journal

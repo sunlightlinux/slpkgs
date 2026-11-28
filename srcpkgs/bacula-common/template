@@ -1,7 +1,7 @@
 # Template file for 'bacula-common'
 pkgname=bacula-common
 version=15.0.3
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--with-openssl --with-sqlite3 --with-mysql --with-postgresql
  --enable-smartalloc --sysconfdir=/etc/bacula --with-working-dir=/run/bacula
@@ -53,6 +53,7 @@ bacula-fd_package() {
 		vmove "usr/lib/bpipe-fd.so"
 		vmove "usr/share/man/man8/${pkgname}.8.gz"
 		vsv "${pkgname}"
+		vslinit bacula-fd
 	}
 }
 
@@ -67,6 +68,7 @@ bacula-sd_package() {
 			vmove "usr/share/man/man8/$x.8.gz"
 		done
 		vsv "${pkgname}"
+		vslinit bacula-sd
 	}
 }
 
@@ -93,6 +95,7 @@ bacula-dir_package() {
 			vmove "usr/share/man/man8/$x.8.gz"
 		done
 		vsv "${pkgname}"
+		vslinit bacula-dir
 	}
 }
 

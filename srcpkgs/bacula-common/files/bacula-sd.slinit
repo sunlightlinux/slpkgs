@@ -1,0 +1,8 @@
+# bacula-sd -- Bacula Storage Daemon (bacula-sd). Not started by default;
+# enable with: slinitctl enable bacula-sd
+type = process
+command = /usr/bin/bacula-sd -f -c /etc/bacula/bacula-sd.conf
+pre-start-command = /usr/bin/mkdir -p /run/bacula
+depends-on: network.target
+restart = true
+log-type = journal

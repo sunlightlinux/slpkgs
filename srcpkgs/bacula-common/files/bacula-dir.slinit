@@ -1,0 +1,8 @@
+# bacula-dir -- Bacula Director (bacula-dir). Not started by default;
+# enable with: slinitctl enable bacula-dir
+type = process
+command = /usr/bin/bacula-dir -f -c /etc/bacula/bacula-dir.conf
+pre-start-command = /usr/bin/mkdir -p /run/bacula
+depends-on: network.target
+restart = true
+log-type = journal
