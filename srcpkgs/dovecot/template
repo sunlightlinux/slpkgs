@@ -2,7 +2,7 @@
 # revbump dovecot-plugin-pigeonhole when updating dovecot!
 pkgname=dovecot
 version=2.4.5
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--with-moduledir=/usr/lib/dovecot/modules --with-sql=plugin
  --disable-static --with-pam --with-mysql --with-pgsql
@@ -59,6 +59,7 @@ post_install() {
 	vsconf doc/mkcert.sh
 
 	vsv dovecot
+	vslinit dovecot
 }
 
 dovecot-devel_package() {

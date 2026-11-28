@@ -1,0 +1,8 @@
+# dovecot -- IMAP and POP3 server (dovecot). Not started by default;
+# enable with: slinitctl enable dovecot
+type = process
+command = /usr/bin/dovecot -F
+pre-start-command = +/usr/bin/install -d -m 0755 -o root -g root /var/run/dovecot
+depends-on: network.target
+restart = true
+log-type = journal
