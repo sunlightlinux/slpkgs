@@ -91,7 +91,10 @@ part in the slinit service.
    changed to `/etc/conf.d/<service>` in the same commit. A run script
    that sources the package's own configuration elsewhere
    (`/etc/kubernetes/config`) keeps that path. Every variable a helper uses
-   is set (`VAR=`) before the `.` line, as `set -u` fails on an unset one.
+   is set (`VAR=`) before the `.` line, as `set -u` fails on an unset one,
+   except a variable the helper only `export`s for a daemon that tells
+   unset from empty (nodm): leave that one unset. A run script that sources
+   `/etc/profile` does so in the helper before `set -u`.
    Do not use `env-file`: it reads
    `KEY=value` literally, and Void's files are shell (`OPTS="-x"` would
    keep the quotes).
@@ -112,7 +115,12 @@ part in the slinit service.
 
        pre-start-command = +/usr/bin/install -d -m 0755 -o u -g g /run/x
 
-   The `+` runs it as root even with `run-as`.
+   The `+` runs it as root even with `run-as` (and is left off without
+   `run-as`). `mkdir -p X` plus `chown u:g X` is the same single
+   `install -d -o u -g g X`, and a lone `mkdir -p X` (or `[ -d X ] ||
+   mkdir -p X`) is `pre-start-command = /usr/bin/mkdir -p X`; under
+   `run-as`, where the helper cannot chown, this is the only place for
+   them.
 
 8. **`chpst` maps to directives:**
 
@@ -189,7 +197,9 @@ part in the slinit service.
 
     A scripted service fails when its setup fails, where runit's `pause`
     kept the service up; say so in the commit. Give it `start-timeout` and
-    `stop-timeout` long enough for slow work (runit never timed it out). A
+    `stop-timeout` long enough for slow work (runit never timed it out):
+    60 seconds as a floor, more for work known to be slow (compiling a
+    firewall, starting containers). A
     run script that exits 0 on a missing configuration becomes a scripted
     service whose helper does the same.
 
@@ -213,8 +223,12 @@ part in the slinit service.
 
 14. **Package scripts that call runit.** A script the package installs
     that runs `sv up <service>` (or `start`, `restart`, `once`...) calls
-    `slinitctl start <service>` instead when `slinitctl` exists, keeping
-    `sv` for a runit system:
+    `slinitctl start <service>` (or `restart`) instead when `slinitctl`
+    exists, keeping `sv` for a runit system; `sv hup`/`sv reload` is
+    `slinitctl signal HUP <service>` (slinitctl's own `reload` re-reads the
+    service description, it sends no signal). A package document telling
+    users to run `/etc/sv/<service>/run` by hand gets the slinit equivalent
+    next to it:
 
         if command -v slinitctl >/dev/null 2>&1; then
             slinitctl start statd
@@ -223,6 +237,9 @@ part in the slinit service.
         fi
 
 15. **What is not a conversion, and is reported instead:** a run script
+    that disables itself (`rm /var/service/<service>`, a once-per-machine
+    job); one that exits 0 until a runtime condition holds and relies on
+    runit's one-second restart loop to poll for it (waiting for X); one
     that relies on a runit-only tool (`utmpset`, `svlogd`, `chpst` beyond
     rule 8) without a slinit equivalent; one whose path the template's own
     install steps contradict (the service is broken in Void too); a runit
