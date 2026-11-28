@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+MAX_OPEN_FILES=
+[ -r /etc/conf.d/tor ] && . /etc/conf.d/tor
+ulimit -n ${MAX_OPEN_FILES:-65536}
+exec /usr/bin/tor ${OPTS:=--quiet} --runasdaemon 0

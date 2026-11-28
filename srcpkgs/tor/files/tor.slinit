@@ -1,0 +1,9 @@
+# tor -- the Tor anonymizing overlay network daemon (tor). Not started by
+# default; enable with: slinitctl enable tor
+# Settings: OPTS (default --quiet) and MAX_OPEN_FILES (default 65536) in
+# /etc/conf.d/tor. tor drops to the tor user itself (User in torrc).
+type = process
+command = /usr/libexec/slinit/tor
+depends-on: network.target
+restart = true
+log-type = journal
