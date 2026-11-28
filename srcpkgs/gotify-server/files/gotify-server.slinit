@@ -1,0 +1,9 @@
+# gotify-server -- server for sending and receiving messages
+# (gotify-server). Not started by default; enable with:
+#     slinitctl enable gotify-server
+type = process
+command = /usr/bin/gotify-server
+run-as = _gotify:_gotify
+depends-on: network.target
+restart = true
+log-type = journal
