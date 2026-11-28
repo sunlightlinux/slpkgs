@@ -1,0 +1,8 @@
+# rpcbind -- maps RPC program numbers to addresses (rpcbind).
+# Not started by default; enable with: slinitctl enable rpcbind
+type = process
+command = /usr/bin/rpcbind -f
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'rpcbind'
 pkgname=rpcbind
 version=1.3.1
-revision=2
+revision=3
 build_style=gnu-configure
 configure_args="--enable-warmstarts --with-statedir=/run --with-rpcuser=rpc
  --with-systemdsystemunitdir=no"
@@ -19,6 +19,7 @@ system_accounts="rpc"
 post_install() {
 	vlicense COPYING
 	vsv rpcbind
+	vslinit rpcbind
 	vman man/rpcbind.8
 	vman man/rpcinfo.8
 }
