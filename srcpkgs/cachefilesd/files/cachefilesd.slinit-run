@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/cachefilesd ] && . /etc/conf.d/cachefilesd
+/usr/bin/modprobe cachefiles || exit 1
+exec /usr/bin/cachefilesd -n ${OPTS:= -f /etc/cachefilesd.conf}

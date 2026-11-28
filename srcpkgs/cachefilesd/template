@@ -1,7 +1,7 @@
 # Template file for 'cachefilesd'
 pkgname=cachefilesd
 version=0.10.10
-revision=2
+revision=3
 build_style=gnu-makefile
 make_install_args="SBINDIR=/usr/bin BINDIR=/usr/bin"
 short_desc="Userspace daemon acting as a backend for FS-Cache"
@@ -18,4 +18,5 @@ post_patch() {
 
 post_install() {
 	vsv cachefilesd
+	vslinit cachefilesd
 }

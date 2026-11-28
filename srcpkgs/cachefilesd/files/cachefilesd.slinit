@@ -1,0 +1,8 @@
+# cachefilesd -- userspace backend for FS-Cache (cachefilesd). Not started
+# by default; enable with: slinitctl enable cachefilesd
+# Options: OPTS in /etc/conf.d/cachefilesd.
+type = process
+command = /usr/libexec/slinit/cachefilesd
+depends-on: local.target
+restart = true
+log-type = journal
