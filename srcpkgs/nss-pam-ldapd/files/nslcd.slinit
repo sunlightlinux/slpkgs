@@ -1,0 +1,14 @@
+# nslcd -- local LDAP name service daemon (nss-pam-ldapd). Not started by
+# default; enable with: slinitctl enable nslcd
+# Configuration file: NSLCD_CONF in /etc/conf.d/nslcd (default
+# /etc/nslcd.conf).
+type = process
+command = /usr/libexec/slinit/nslcd
+run-as = nslcd:nslcd
+# The runit run script created /var/run/nslcd and gave it to nslcd;
+# install -d does both in one step, as root.
+pre-start-command = +/usr/bin/install -d -o nslcd -g nslcd /var/run/nslcd
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

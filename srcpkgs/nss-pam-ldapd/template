@@ -1,7 +1,7 @@
 # Template file for 'nss-pam-ldapd'
 pkgname=nss-pam-ldapd
 version=0.9.13
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--enable-sasl --enable-kerberos --with-pam-seclib-dir=/usr/lib/security/"
 conf_files="/etc/nslcd.conf"
@@ -30,6 +30,7 @@ pre_configure() {
 
 post_install() {
 	vsv nslcd
+	vslinit nslcd
 	vman man/nslcd.8
 	vman man/nslcd.conf.5
 	vman man/chsh.ldap.1

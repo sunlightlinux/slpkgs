@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. It runs as
+# nslcd (run-as), as the daemon did under chpst.
+set -u
+NSLCD_CONF=
+[ -r /etc/conf.d/nslcd ] && . /etc/conf.d/nslcd
+
+NSLCD_CONF=${NSLCD_CONF:-/etc/nslcd.conf}
+
+exec /usr/bin/nslcd -n -f "$NSLCD_CONF"
