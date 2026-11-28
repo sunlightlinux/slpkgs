@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script; rpcbind is a dependency of the service.
+set -u
+/usr/bin/modprobe nfs || exit 1
+exec /usr/bin/rpc.statd -F -d -L

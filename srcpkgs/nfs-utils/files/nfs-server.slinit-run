@@ -1,0 +1,30 @@
+#!/bin/sh
+# Void's runit run script, with its ./conf moved to /etc/conf.d/nfs-server.
+set -u
+NFSD_OPTS=
+MOUNTD_OPTS=
+PROCESSES=
+
+# This was probably only used correctly to set PROCESSES
+[ -r /etc/conf.d/nfs-server.conf ] && . /etc/conf.d/nfs-server.conf
+
+# Settings in /etc/conf.d/nfs-server are preferred over
+# /etc/conf.d/nfs-server.conf
+[ -r /etc/conf.d/nfs-server ] && . /etc/conf.d/nfs-server
+
+# Check/mount rpc_pipefs (loads sunrpc kernel module)
+if ! /usr/bin/mountpoint -q /var/lib/nfs/rpc_pipefs; then
+	/usr/bin/mount -t rpc_pipefs rpc_pipefs /var/lib/nfs/rpc_pipefs -o defaults || exit 1
+fi
+
+# Check/mount nfsd (loads nfsd kernel module)
+if ! /usr/bin/mountpoint -q /proc/fs/nfsd; then
+	/usr/bin/mount -t nfsd nfsd /proc/fs/nfsd || exit 1
+fi
+
+/usr/bin/exportfs -ra > /dev/null || exit 1
+/usr/bin/rpc.nfsd ${NFSD_OPTS} -- ${PROCESSES:=4} || exit 1
+
+/usr/bin/sm-notify
+
+exec /usr/bin/rpc.mountd ${MOUNTD_OPTS} --foreground

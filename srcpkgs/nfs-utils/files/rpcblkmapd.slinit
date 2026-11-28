@@ -1,0 +1,11 @@
+# rpcblkmapd -- pNFS block layout mapping daemon, blkmapd (nfs-utils),
+# in the foreground (-f). Not started by default; enable with:
+#     slinitctl enable rpcblkmapd
+# Needs rpcbind, as the runit run script checked; mounts rpc_pipefs and
+# loads the blocklayoutdriver module.
+type = process
+command = /usr/libexec/slinit/rpcblkmapd
+depends-on: local.target
+depends-on: rpcbind
+restart = true
+log-type = journal

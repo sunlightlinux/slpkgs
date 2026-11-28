@@ -1,0 +1,11 @@
+# rpcidmapd -- NFSv4 ID mapping daemon, rpc.idmapd (libnfsidmap), in the
+# foreground (-f). Not started by default; enable with:
+#     slinitctl enable rpcidmapd
+# Needs rpcbind, as the runit run script checked; mounts rpc_pipefs and
+# the nfsd filesystem.
+type = process
+command = /usr/libexec/slinit/rpcidmapd
+depends-on: local.target
+depends-on: rpcbind
+restart = true
+log-type = journal

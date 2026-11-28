@@ -1,0 +1,10 @@
+# rpcgssd -- RPCSEC_GSS client daemon, rpc.gssd (nfs-utils), in the
+# foreground (-f). Not started by default; enable with:
+#     slinitctl enable rpcgssd
+# Needs rpcbind, as the runit run script checked; mounts rpc_pipefs.
+type = process
+command = /usr/libexec/slinit/rpcgssd
+depends-on: local.target
+depends-on: rpcbind
+restart = true
+log-type = journal

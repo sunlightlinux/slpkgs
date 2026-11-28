@@ -1,0 +1,9 @@
+# statd -- NFS status monitor, rpc.statd (nfs-utils), in the foreground
+# (-F). Not started by default; enable with: slinitctl enable statd
+# Needs rpcbind, as the runit run script checked; loads the nfs module.
+type = process
+command = /usr/libexec/slinit/statd
+depends-on: local.target
+depends-on: rpcbind
+restart = true
+log-type = journal

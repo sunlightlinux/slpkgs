@@ -1,0 +1,11 @@
+# rpcsvcgssd -- RPCSEC_GSS server daemon, rpc.svcgssd (nfs-utils), in the
+# foreground (-f). Not started by default; enable with:
+#     slinitctl enable rpcsvcgssd
+# Needs rpcbind, as the runit run script checked; mounts rpc_pipefs and
+# the nfsd filesystem.
+type = process
+command = /usr/libexec/slinit/rpcsvcgssd
+depends-on: local.target
+depends-on: rpcbind
+restart = true
+log-type = journal

@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit finish script: unexport everything, stop the nfsd threads.
+set -u
+/usr/bin/exportfs -ua
+/usr/bin/rpc.nfsd -- 0

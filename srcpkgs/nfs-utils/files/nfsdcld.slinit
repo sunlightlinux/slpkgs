@@ -1,0 +1,9 @@
+# nfsdcld -- NFSv4 client tracking daemon (nfs-utils). Not started by
+# default; enable with: slinitctl enable nfsdcld
+# Options: OPTS in /etc/conf.d/nfsdcld (default --foreground; options
+# given there replace it, so keep --foreground in them).
+type = process
+command = /usr/libexec/slinit/nfsdcld
+depends-on: local.target
+restart = true
+log-type = journal

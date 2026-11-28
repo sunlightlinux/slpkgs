@@ -1,7 +1,7 @@
 # Template file for 'nfs-utils'
 pkgname=nfs-utils
 version=3.1.1
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--with-statduser=nobody --enable-gss --enable-nfsv4
  --with-statedir=/var/lib/nfs --enable-libmount-mount --enable-svcgss
@@ -50,11 +50,17 @@ post_install() {
 	vconf ${FILESDIR}/exports
 	# runit services
 	vsv rpcblkmapd
+	vslinit rpcblkmapd
 	vsv rpcgssd
+	vslinit rpcgssd
 	vsv rpcsvcgssd
+	vslinit rpcsvcgssd
 	vsv statd
+	vslinit statd
 	vsv nfs-server
+	vslinit nfs-server
 	vsv nfsdcld
+	vslinit nfsdcld
 	# replacement scripts
 	rm -rf ${DESTDIR}/usr/bin/start-statd
 	vbin ${FILESDIR}/start-statd
@@ -67,6 +73,7 @@ libnfsidmap_package() {
 	conf_files="/etc/idmapd.conf"
 	pkg_install() {
 		vsv rpcidmapd
+		vslinit rpcidmapd
 		vconf ${FILESDIR}/idmapd.conf
 		vmove usr/bin/rpc.idmapd
 		vmove usr/lib/libnfsidmap*

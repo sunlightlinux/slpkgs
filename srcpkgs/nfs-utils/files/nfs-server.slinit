@@ -1,0 +1,12 @@
+# nfs-server -- NFS server: starts the kernel nfsd threads and runs
+# rpc.mountd in the foreground (nfs-utils). Not started by default;
+# enable with: slinitctl enable nfs-server
+# Options: NFSD_OPTS, PROCESSES (default 4) and MOUNTD_OPTS in
+# /etc/conf.d/nfs-server, read after /etc/conf.d/nfs-server.conf.
+# On exit it unexports everything and stops the nfsd threads.
+type = process
+command = /usr/libexec/slinit/nfs-server
+finish-command = /usr/libexec/slinit/nfs-server-finish
+depends-on: network.target
+restart = true
+log-type = journal

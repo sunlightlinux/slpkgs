@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script; rpcbind is a dependency of the service.
+set -u
+# Check/mount rpc_pipefs (loads sunrpc kernel module)
+if ! /usr/bin/mountpoint -q /var/lib/nfs/rpc_pipefs; then
+	/usr/bin/mount -t rpc_pipefs rpc_pipefs /var/lib/nfs/rpc_pipefs -o defaults || exit 1
+fi
+/usr/bin/modprobe blocklayoutdriver || exit 1
+exec /usr/bin/blkmapd -f
