@@ -1,0 +1,9 @@
+# miniflux -- minimalist feed reader (miniflux). Not started by default;
+# enable with: slinitctl enable miniflux
+# Options: OPTS in /etc/conf.d/miniflux.
+type = process
+command = /usr/libexec/slinit/miniflux
+run-as = _miniflux
+depends-on: network.target
+restart = true
+log-type = journal
