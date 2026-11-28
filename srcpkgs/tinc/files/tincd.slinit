@@ -1,0 +1,7 @@
+# tincd -- tinc VPN daemon (tinc). Not started by default; enable with:
+# slinitctl enable tincd
+type = process
+command = /usr/bin/tincd -D
+depends-on: network.target
+restart = true
+log-type = journal
