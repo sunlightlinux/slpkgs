@@ -1,0 +1,9 @@
+# netauth-ldap -- LDAP proxy for NetAuth (NetAuth-ldap). Not started by
+# default; enable with: slinitctl enable netauth-ldap
+# Settings: shell variables in /etc/conf.d/netauth-ldap.
+type = process
+command = /usr/libexec/slinit/netauth-ldap
+run-as = _netauth_ldap:_netauth_ldap
+depends-on: network.target
+restart = true
+log-type = journal

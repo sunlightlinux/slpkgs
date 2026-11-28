@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/netauth-ldap ] && . /etc/conf.d/netauth-ldap
+exec /usr/bin/ldap

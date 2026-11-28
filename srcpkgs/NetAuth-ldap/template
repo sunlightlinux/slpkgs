@@ -1,7 +1,7 @@
 # Template file for 'NetAuth-ldap'
 pkgname=NetAuth-ldap
 version=0.4.0
-revision=1
+revision=2
 build_style=go
 go_import_path=github.com/netauth/ldap
 go_ldflags="-X github.com/netauth/ldap/internal/buildinfo.Version=${version}"
@@ -15,5 +15,6 @@ system_accounts="_netauth_ldap"
 
 post_install() {
 	vsv netauth-ldap
+	vslinit netauth-ldap
 	vlicense LICENSE
 }
