@@ -1,0 +1,9 @@
+# chrony_exporter -- Prometheus exporter for chrony (chrony_exporter). Not
+# started by default; enable with: slinitctl enable chrony_exporter
+# Options: OPTS in /etc/conf.d/chrony_exporter.
+type = process
+command = /usr/libexec/slinit/chrony_exporter
+run-as = chrony
+depends-on: network.target
+restart = true
+log-type = journal

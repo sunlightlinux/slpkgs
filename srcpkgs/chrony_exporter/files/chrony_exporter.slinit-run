@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/chrony_exporter ] && . /etc/conf.d/chrony_exporter
+exec /usr/bin/chrony_exporter ${OPTS}
