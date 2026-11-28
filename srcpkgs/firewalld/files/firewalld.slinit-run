@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+FIREWALLD_ARGS=
+[ -r /etc/conf.d/firewalld ] && . /etc/conf.d/firewalld
+exec /usr/bin/firewalld --nofork --nopid ${FIREWALLD_ARGS}

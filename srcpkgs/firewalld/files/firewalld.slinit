@@ -1,0 +1,14 @@
+# firewalld -- dynamic firewall daemon (firewalld). Not started by
+# default; enable with: slinitctl enable firewalld
+# Options: FIREWALLD_ARGS in /etc/conf.d/firewalld. It must be in place
+# before the network is used, so it does not depend on or wait for
+# network.target.
+type = process
+command = /usr/libexec/slinit/firewalld
+ready-check-command = /usr/bin/firewall-cmd --state
+depends-on: local.target
+depends-on: dbus
+# Ordered before the network setup when both start.
+before: network
+restart = true
+log-type = journal

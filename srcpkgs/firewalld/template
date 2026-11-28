@@ -1,12 +1,13 @@
 # Template file for 'firewalld'
 pkgname=firewalld
 version=2.5.2
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--disable-systemd"
 hostmakedepends="autoconf pkg-config docbook-xsl xmlcatmgr intltool libxslt
  python3 glib-devel iptables-nft ipset"
-depends="python3-gobject python3-dbus libcap-ng-python3 nftables iptables-nft ipset polkit"
+depends="python3-gobject python3-dbus libcap-ng-python3 nftables iptables-nft ipset polkit
+ dbus"
 short_desc="Dynamically managed firewall with support for network zones"
 maintainer="Daniel Martinez <danielmartinez@cock.li>"
 license="GPL-2.0-or-later"
@@ -14,13 +15,15 @@ homepage="https://firewalld.org/"
 distfiles="https://github.com/firewalld/firewalld/releases/download/v${version}/firewalld-${version}.tar.bz2"
 checksum=99d7468c22f6cafd8c72aa53173a632f2ca29cb19aec913e8ed45b6102af322d
 python_version=3
-conf_files="/etc/firewalld/firewalld.conf /etc/sysconfig/firewalld"
+conf_files="/etc/firewalld/firewalld.conf /etc/sysconfig/firewalld
+ /etc/conf.d/firewalld"
 # firewalld does not believe it is root in the chroot and fails
 make_check=no
 
 post_install() {
 	mv ${DESTDIR}/etc/modprobe.d ${DESTDIR}/usr/lib
 	vsv ${pkgname}
+	vslinit firewalld
 }
 
 firewalld-applet_package() {
