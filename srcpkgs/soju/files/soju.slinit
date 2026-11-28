@@ -1,0 +1,10 @@
+# soju -- user-friendly IRC bouncer (soju). Not started by default;
+# enable with: slinitctl enable soju
+# Options: OPTS in /etc/conf.d/soju.
+type = process
+command = /usr/libexec/slinit/soju
+run-as = _soju
+pre-start-command = +/usr/bin/install -d -o _soju -g _soju /run/soju
+depends-on: network.target
+restart = true
+log-type = journal

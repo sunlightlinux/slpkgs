@@ -1,4 +1,5 @@
-The system service /etc/sv/soju runs soju as system user _soju.
+The system service soju (runit: /etc/sv/soju; slinit:
+slinitctl enable soju) runs soju as system user _soju.
 
 By default, the database will be stored in /var/db/soju/ and logs will be in
 /var/log/soju/. Both directories are owned by user _soju.

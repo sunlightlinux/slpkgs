@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/soju ] && . /etc/conf.d/soju
+exec /usr/bin/soju ${OPTS}
