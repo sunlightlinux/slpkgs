@@ -1,0 +1,10 @@
+# activityrelay -- LitePub/ActivityPub relay (activityrelay). Not started
+# by default; enable with: slinitctl enable activityrelay
+# Options: CONFIG_FILE in /etc/conf.d/activityrelay (default
+# /etc/activityrelay/activityrelay.yaml).
+type = process
+command = /usr/libexec/slinit/activityrelay
+run-as = _activityrelay:_activityrelay
+depends-on: network.target
+restart = true
+log-type = journal

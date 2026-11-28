@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+CONFIG_FILE=
+[ -r /etc/conf.d/activityrelay ] && . /etc/conf.d/activityrelay
+exec /usr/bin/activityrelay \
+	-c ${CONFIG_FILE:-/etc/activityrelay/activityrelay.yaml} run
