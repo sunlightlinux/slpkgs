@@ -1,0 +1,10 @@
+# xenstored -- the Xen store daemon of dom0 (xen), in the foreground
+# (--no-fork). Not started by default; enable with:
+#     slinitctl enable xenstored
+# It loads the Xen modules and mounts xenfs and the store's tmpfs first,
+# and fails outside a Xen dom0.
+type = process
+command = /usr/libexec/slinit/xenstored
+depends-on: local.target
+restart = true
+log-type = journal

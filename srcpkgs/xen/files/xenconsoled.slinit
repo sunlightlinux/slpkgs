@@ -1,0 +1,9 @@
+# xenconsoled -- the Xen console daemon of dom0 (xen), logging every guest
+# console to /var/log/xen/console. Not started by default; enable with:
+#     slinitctl enable xenconsoled
+type = process
+command = /usr/bin/xenconsoled -i --log=all
+pre-start-command = /usr/bin/mkdir -p /var/log/xen/console
+depends-on: xenstored
+restart = true
+log-type = journal

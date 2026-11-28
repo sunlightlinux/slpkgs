@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script.
+set -u
+[ ! -d /run/xen ] && /usr/bin/mkdir -p /run/xen
+/usr/bin/modprobe -q xen-evtchn xen-gnttalloc || exit 1
+/usr/bin/mountpoint -q /proc/xen || /usr/bin/mount -t xenfs xenfs /proc/xen
+/usr/bin/mountpoint -q /var/lib/xenstored || /usr/bin/mount -t tmpfs xenstored /var/lib/xenstored
+/usr/bin/grep -q control_d /proc/xen/capabilities || exit 1
+exec /usr/bin/xenstored --verbose --no-fork

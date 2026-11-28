@@ -1,0 +1,7 @@
+# xen -- sets up dom0 once xenstored and xenconsoled run (xen). Not
+# started by default; enable with: slinitctl enable xen
+type = scripted
+command = /usr/lib/xen/bin/xen-init-dom0
+start-timeout = 60
+stop-timeout = 60
+depends-on: xenconsoled
