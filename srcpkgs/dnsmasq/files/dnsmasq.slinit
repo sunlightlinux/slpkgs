@@ -1,0 +1,12 @@
+# dnsmasq -- DNS forwarder and DHCP server (dnsmasq). Not started by
+# default; enable with: slinitctl enable dnsmasq
+# Options: OPTS in /etc/conf.d/dnsmasq (default --enable-dbus -u dnsmasq
+# -g dnsmasq).
+type = process
+command = /usr/libexec/slinit/dnsmasq
+depends-on: network.target
+# dnsmasq copes without the bus (its D-Bus connection retries), so it waits
+# for dbus rather than depending on it: a dbus restart does not stop DNS.
+waits-for: dbus
+restart = true
+log-type = journal

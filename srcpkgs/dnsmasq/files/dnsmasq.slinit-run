@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+/usr/bin/mkdir -p /var/lib/misc
+[ -r /etc/conf.d/dnsmasq ] && . /etc/conf.d/dnsmasq
+exec /usr/bin/dnsmasq -k ${OPTS:---enable-dbus -u dnsmasq -g dnsmasq}

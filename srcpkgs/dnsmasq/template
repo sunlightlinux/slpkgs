@@ -1,7 +1,7 @@
 # Template file for 'dnsmasq'
 pkgname=dnsmasq
 version=2.93
-revision=1
+revision=2
 conf_files="/etc/dnsmasq.conf /etc/trust-anchors.conf"
 hostmakedepends="pkg-config"
 makedepends="dbus-devel libcap-devel libidn2-devel $(vopt_if dnssec nettle-devel)"
@@ -32,6 +32,7 @@ do_install() {
 	make PREFIX=/usr BINDIR=/usr/bin DESTDIR=${DESTDIR} install
 
 	vsv dnsmasq
+	vslinit dnsmasq
 	vconf dnsmasq.conf.example dnsmasq.conf
 	vconf trust-anchors.conf
 	vinstall ${FILESDIR}/dbus.conf 644 etc/dbus-1/system.d
