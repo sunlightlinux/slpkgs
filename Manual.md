@@ -325,7 +325,10 @@ The following functions are defined by `xbps-src` and can be used on any templat
 	`/usr/lib/slinit.d`, so a file of the same name in `/etc/slinit.d`
 	overrides the packaged one. If `${FILESDIR}/<service>.slinit-run`
 	exists, it is installed as `/usr/libexec/slinit/<service>` (mode 755)
-	for the service's `command` to run. With `enable`, a link in
+	for the service's `command` to run; `.slinit-stop`, `.slinit-finish`
+	and `.slinit-check` likewise become `<service>-stop`, `-finish` and
+	`-check` there, and `.slinit-conf` becomes `/etc/conf.d/<service>`
+	(list it in `conf_files`). With `enable`, a link in
 	`/usr/lib/slinit.d/boot.d` makes the service start at boot by default;
 	otherwise `slinitctl enable <service>` links it into
 	`/etc/slinit.d/boot.d`. Use the same `<service>` name as `vsv`, so a

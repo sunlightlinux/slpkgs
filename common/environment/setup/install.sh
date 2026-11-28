@@ -24,9 +24,10 @@ done
 # /etc/slinit.d, so an admin's file of the same name in /etc/slinit.d
 # overrides it and an update never touches the admin's copy. A helper the
 # service runs, ${FILESDIR}/<service>.slinit-run if present, lands as
-# /usr/libexec/slinit/<service>, executable; <service>.slinit-stop and
-# <service>.slinit-finish land as /usr/libexec/slinit/<service>-stop and
-# <service>-finish, for its stop-command and finish-command; and
+# /usr/libexec/slinit/<service>, executable; <service>.slinit-stop,
+# <service>.slinit-finish and <service>.slinit-check land as
+# /usr/libexec/slinit/<service>-stop, -finish and -check, for its
+# stop-command, finish-command and ready-check-command; and
 # <service>.slinit-conf lands as /etc/conf.d/<service>, which the template
 # must list in conf_files.
 #
@@ -63,7 +64,7 @@ _vslinit() {
 	if [ -f "$helper" ]; then
 		vinstall "$helper" 755 usr/libexec/slinit "$service"
 	fi
-	for f in stop finish; do
+	for f in stop finish check; do
 		if [ -f "${FILESDIR}/${service}.slinit-${f}" ]; then
 			vinstall "${FILESDIR}/${service}.slinit-${f}" 755 usr/libexec/slinit "${service}-${f}"
 		fi
