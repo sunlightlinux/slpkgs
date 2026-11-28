@@ -1,0 +1,13 @@
+# lxc-autostart -- starts the containers marked for autostart, and stops
+# them when the service stops (lxc). Not started by default; enable with:
+# slinitctl enable lxc-autostart
+type = scripted
+command = /usr/bin/lxc-autostart
+stop-command = /usr/bin/lxc-autostart -s -t 15
+depends-on: local.target
+waits-for: network.target
+# Starting and stopping waits on each container in turn (lxc.start.delay,
+# and -t 15 per container on stop), so the defaults of 60 and 10 seconds
+# are too short; runit never timed either out.
+start-timeout = 300
+stop-timeout = 300
