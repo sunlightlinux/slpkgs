@@ -1,0 +1,6 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/nscd ] && . /etc/conf.d/nscd
+/usr/bin/mkdir -p /var/run/nscd /var/db/nscd
+exec /usr/bin/nscd -F ${OPTS} >/dev/null

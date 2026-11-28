@@ -1,0 +1,9 @@
+# nscd -- Name Service Cache Daemon (nscd, from glibc). Not started by
+# default; enable with: slinitctl enable nscd
+# Options: OPTS in /etc/conf.d/nscd. Its stdout is discarded, as the runit
+# run script did; stderr goes to the journal.
+type = process
+command = /usr/libexec/slinit/nscd
+depends-on: local.target
+restart = true
+log-type = journal
