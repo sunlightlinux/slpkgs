@@ -1,0 +1,7 @@
+#!/bin/sh
+# heisenbridge -- run the Matrix IRC bridge in the foreground.
+# Homeserver: OPTS in /etc/conf.d/heisenbridge.
+set -u
+OPTS=
+[ -r /etc/conf.d/heisenbridge ] && . /etc/conf.d/heisenbridge
+exec /usr/bin/heisenbridge --config /etc/heisenbridge.yaml ${OPTS:="http://localhost:8008"}

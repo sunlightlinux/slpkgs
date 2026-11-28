@@ -1,0 +1,10 @@
+# heisenbridge -- bouncer-style Matrix IRC bridge (heisenbridge). Not
+# started by default; enable with: slinitctl enable heisenbridge
+# Homeserver: OPTS in /etc/conf.d/heisenbridge (default:
+# http://localhost:8008).
+type = process
+command = /usr/libexec/slinit/heisenbridge
+run-as = nobody:nogroup
+depends-on: network.target
+restart = true
+log-type = journal
