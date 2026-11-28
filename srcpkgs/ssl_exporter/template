@@ -1,7 +1,7 @@
 # Template file for 'ssl_exporter'
 pkgname=ssl_exporter
 version=2.4.3
-revision=2
+revision=3
 build_style=go
 go_import_path=github.com/ribbybibby/ssl_exporter/v2
 short_desc="Exports Prometheus metrics for SSL certificates"
@@ -13,4 +13,5 @@ checksum=6b50153ac8f79bd6ffc2d5045325bf23c210d0ffa27b3c68f74e274b2d258f28
 
 post_install() {
 	vsv ssl_exporter
+	vslinit ssl_exporter
 }

@@ -1,0 +1,9 @@
+# ssl_exporter -- Prometheus exporter for SSL certificates (ssl_exporter).
+# Not started by default; enable with: slinitctl enable ssl_exporter
+# Options: OPTS in /etc/conf.d/ssl_exporter.
+type = process
+command = /usr/libexec/slinit/ssl_exporter
+run-as = nobody
+depends-on: network.target
+restart = true
+log-type = journal
