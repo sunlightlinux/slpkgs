@@ -1,7 +1,7 @@
 # Template file for 'twoftpd'
 pkgname=twoftpd
 version=1.43
-revision=5
+revision=6
 build_style=gnu-makefile
 makedepends="bglibs-devel cvm-devel"
 depends="sv-helper ucspi-tcp"
@@ -13,6 +13,9 @@ distfiles="http://untroubled.org/twoftpd/twoftpd-${version}.tar.gz"
 checksum=ed77d2f3020bdbbe1a0a7d9a84780f3525431300e5000901e95a982873e24dc3
 system_accounts="ftp"
 ftp_pgroup="nogroup"
+conf_files="
+ /etc/conf.d/twoftpd-anon.env/CHROOT
+ /etc/conf.d/twoftpd-anon.env/HOME"
 nocross="deps are nocross"
 
 do_configure() {
@@ -27,6 +30,9 @@ do_configure() {
 do_install() {
 	make install install_prefix=${DESTDIR}
 	vsv twoftpd-anon
+	vslinit twoftpd-anon
+	vinstall ${FILESDIR}/twoftpd-anon/env/CHROOT 644 etc/conf.d/twoftpd-anon.env
+	vinstall ${FILESDIR}/twoftpd-anon/env/HOME 644 etc/conf.d/twoftpd-anon.env
 	vdoc README
 	vdoc NEWS
 	vdoc ANNOUNCEMENT

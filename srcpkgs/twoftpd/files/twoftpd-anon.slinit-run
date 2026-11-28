@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script. HOME and CHROOT come from env-dir
+# (/etc/conf.d/twoftpd-anon.env); UID and GID, which the run script
+# wrote into its env directory at every start, are exported here.
+set -u
+UID=$(/usr/bin/id -u ftp)
+GID=$(/usr/bin/id -g ftp)
+export UID GID
+[ -n "${HOME:-}" ] && /usr/bin/mkdir -p "$HOME"
+exec /usr/bin/tcpserver -DHRv 0 ftp /usr/bin/twoftpd-anon

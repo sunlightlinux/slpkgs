@@ -1,0 +1,10 @@
+# twoftpd-anon -- anonymous FTP server under tcpserver (twoftpd). Not
+# started by default; enable with: slinitctl enable twoftpd-anon
+# Environment: one file per variable in /etc/conf.d/twoftpd-anon.env/
+# (HOME, CHROOT); the helper adds UID and GID of the ftp user.
+type = process
+command = /usr/libexec/slinit/twoftpd-anon
+env-dir = /etc/conf.d/twoftpd-anon.env
+depends-on: network.target
+restart = true
+log-type = journal
