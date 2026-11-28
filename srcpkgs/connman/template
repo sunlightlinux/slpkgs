@@ -20,6 +20,10 @@ changelog="https://git.kernel.org/pub/scm/network/connman/connman.git/plain/Chan
 distfiles="${KERNEL_SITE}/network/${pkgname}/${pkgname}-${version}.tar.xz"
 checksum=77128cce80865455c4f106b5901a575e2dfdb35a7d2e2e2996f16e85cba10913
 lib32disabled=yes
+# connman 1.45 declares readline functions K&R-style (extern int
+# rl_message ();), which GCC 15's default C23 reads as taking no
+# arguments, failing client/input.c.
+CFLAGS="-std=gnu17"
 
 pre_configure() {
 	case "$XBPS_TARGET_MACHINE" in
