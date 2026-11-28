@@ -1,0 +1,8 @@
+# drivestrike -- DriveStrike device protection client (drivestrike). Not
+# started by default; register first with: drivestrike register
+# then enable with: slinitctl enable drivestrike
+type = process
+command = /usr/libexec/slinit/drivestrike
+depends-on: network.target
+restart = true
+log-type = journal

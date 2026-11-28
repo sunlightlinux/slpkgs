@@ -1,7 +1,7 @@
 # Template file for 'drivestrike'
 pkgname=drivestrike
 version=2.1.22
-revision=1
+revision=2
 _ver="${version}-31"
 _filename="${pkgname}_${_ver}_amd64.deb"
 archs="x86_64"
@@ -18,6 +18,7 @@ nostrip=yes
 do_install() {
 	vbin usr/bin/drivestrike
 	vsv drivestrike
+	vslinit drivestrike
 
 	# Fetched on 2022-08-26 from their website, link:
 	# https://drivestrike.com/about/drivestrike-support/end-user-subscription-agreement/

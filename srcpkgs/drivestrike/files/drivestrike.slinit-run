@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script: refuses to start before the device is
+# registered. The message names the command in single quotes; the runit
+# script's backquotes would have run it.
+set -u
+if [ ! -f /etc/drivestrike.conf ]; then
+	echo 'DriveStrike not configured yet! Run "drivestrike register" as root first.'
+	exit 1
+fi
+
+exec /usr/bin/drivestrike run
