@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/batadv-vis ] && . /etc/conf.d/batadv-vis
+exec /usr/bin/batadv-vis ${OPTS:=-si bat0}

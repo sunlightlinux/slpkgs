@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/alfred ] && . /etc/conf.d/alfred
+exec /usr/bin/alfred ${OPTS:=-i "bat0" -b "bat0"}

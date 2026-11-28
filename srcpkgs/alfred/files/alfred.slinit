@@ -1,0 +1,9 @@
+# alfred -- distributes information over a batman-adv mesh (alfred).
+# Not started by default; enable with: slinitctl enable alfred
+# Options: OPTS in /etc/conf.d/alfred (default: -i bat0 -b bat0).
+type = process
+command = /usr/libexec/slinit/alfred
+finish-command = /usr/bin/rm /var/run/alfred.sock
+depends-on: network.target
+restart = true
+log-type = journal

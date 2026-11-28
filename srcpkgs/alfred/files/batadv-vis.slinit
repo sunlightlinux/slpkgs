@@ -1,0 +1,8 @@
+# batadv-vis -- batman-adv mesh visualization server (alfred). Not
+# started by default; enable with: slinitctl enable batadv-vis
+# Options: OPTS in /etc/conf.d/batadv-vis (default: -si bat0).
+type = process
+command = /usr/libexec/slinit/batadv-vis
+depends-on: network.target
+restart = true
+log-type = journal
