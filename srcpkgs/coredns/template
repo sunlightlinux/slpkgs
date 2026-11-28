@@ -1,7 +1,7 @@
 # Template file for 'coredns'
 pkgname=coredns
 version=1.10.1
-revision=5
+revision=6
 build_style=go
 go_import_path=github.com/coredns/coredns
 hostmakedepends="mmark"
@@ -28,5 +28,6 @@ post_install() {
 		vman "${man}"
 	done
 	vsv coredns
+	vslinit coredns
 	vinstall "${FILESDIR}/Corefile" 640 etc/coredns
 }

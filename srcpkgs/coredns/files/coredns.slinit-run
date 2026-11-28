@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+COREFILE=
+DNS_PORT=
+[ -r /etc/conf.d/coredns ] && . /etc/conf.d/coredns
+
+COREFILE="${COREFILE:-/etc/coredns/Corefile}"
+DNS_PORT="${DNS_PORT:-53}"
+
+exec /usr/bin/coredns -conf "${COREFILE:-/etc/coredns/Corefile}" -dns.port "${DNS_PORT:-53}"

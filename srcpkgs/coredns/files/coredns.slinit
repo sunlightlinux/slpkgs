@@ -1,0 +1,8 @@
+# coredns -- DNS server that chains plugins (coredns). Not started by
+# default; enable with: slinitctl enable coredns
+# Settings: COREFILE and DNS_PORT in /etc/conf.d/coredns.
+type = process
+command = /usr/libexec/slinit/coredns
+depends-on: network.target
+restart = true
+log-type = journal
