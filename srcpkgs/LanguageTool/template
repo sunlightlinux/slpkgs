@@ -1,7 +1,7 @@
 # Template file for 'LanguageTool'
 pkgname=LanguageTool
 version=6.6
-revision=1
+revision=2
 _arch_commit=462256af10eb512ce9520ab1a88cc6e7dd8a0414
 depends="virtual?java-environment fasttext fasttext-lid"
 short_desc="Checks your writing in more than 20 languages"
@@ -25,4 +25,5 @@ do_install() {
 	vbin ${XBPS_SRCDISTDIR}/${pkgname}-${version}/languagetool.sh languagetool
 	vconf ${FILESDIR}/languagetool.properties
 	vsv languagetool
+	vslinit languagetool
 }

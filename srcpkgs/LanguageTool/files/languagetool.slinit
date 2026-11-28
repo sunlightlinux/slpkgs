@@ -1,0 +1,9 @@
+# languagetool -- LanguageTool HTTP server (LanguageTool). Not started by
+# default; enable with: slinitctl enable languagetool
+# Options: OPTS in /etc/conf.d/languagetool.
+type = process
+command = /usr/libexec/slinit/languagetool
+run-as = _languagetool:_languagetool
+depends-on: network.target
+restart = true
+log-type = journal
