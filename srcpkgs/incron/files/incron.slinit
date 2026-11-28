@@ -1,0 +1,7 @@
+# incron -- runs commands on inotify events (incron). Not started by
+# default; enable with: slinitctl enable incron
+type = process
+command = /usr/bin/incrond -n
+depends-on: local.target
+restart = true
+log-type = journal

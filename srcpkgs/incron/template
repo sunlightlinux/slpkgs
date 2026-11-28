@@ -1,7 +1,7 @@
 # Template file for 'incron'
 pkgname=incron
 version=0.5.12
-revision=3
+revision=4
 short_desc="Daemon that executes commands due to inotify events"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="X11"
@@ -30,6 +30,7 @@ do_build() {
 do_install() {
 	make PREFIX=/usr DESTDIR=${DESTDIR} install
 	vsv incron
+	vslinit incron
 	vlicense LICENSE-X11
 
 	# thefuck?
