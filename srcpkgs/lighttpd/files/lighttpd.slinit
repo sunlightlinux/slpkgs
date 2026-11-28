@@ -1,0 +1,9 @@
+# lighttpd -- web server (lighttpd), run under lighttpd-angel in the
+# foreground (-D), as the runit service does. Not started by default;
+# enable with: slinitctl enable lighttpd
+type = process
+command = /usr/bin/lighttpd-angel -D -f /etc/lighttpd/lighttpd.conf
+depends-on: local.target
+depends-on: network.target
+restart = true
+log-type = journal
