@@ -1,0 +1,8 @@
+# haproxy -- TCP/HTTP load balancer and proxy (haproxy). Not started by
+# default; enable with: slinitctl enable haproxy
+# Options: OPTS in /etc/conf.d/haproxy (default -W, master-worker mode).
+type = process
+command = /usr/libexec/slinit/haproxy
+depends-on: network.target
+restart = true
+log-type = journal

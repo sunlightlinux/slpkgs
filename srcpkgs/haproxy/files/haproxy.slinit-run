@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. OPTS is
+# not preset: ${OPTS--W} applies -W only when the conf leaves it unset.
+set -u
+[ -r /etc/conf.d/haproxy ] && . /etc/conf.d/haproxy
+exec /usr/bin/haproxy ${OPTS--W} -f /etc/haproxy/haproxy.cfg
