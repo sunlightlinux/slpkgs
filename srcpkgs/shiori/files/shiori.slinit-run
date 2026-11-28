@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. OPTS is
+# not preset: ${OPTS=...} applies the default only when the conf leaves
+# OPTS unset, as in the runit script, and it assigns, so set -u holds.
+set -u
+[ -r /etc/conf.d/shiori ] && . /etc/conf.d/shiori
+exec /usr/bin/shiori serve ${OPTS="--address 127.0.0.1 --port 8080"}

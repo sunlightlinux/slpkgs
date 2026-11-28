@@ -1,0 +1,10 @@
+# shiori -- bookmark manager web server (shiori). Not started by default;
+# enable with: slinitctl enable shiori
+# Options: OPTS in /etc/conf.d/shiori (default: listen on port 8080 of
+# the loopback interface only).
+type = process
+command = /usr/libexec/slinit/shiori
+run-as = _shiori
+depends-on: network.target
+restart = true
+log-type = journal
