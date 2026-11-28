@@ -1,0 +1,8 @@
+# hostapd -- Wi-Fi access point and 802.1X/RADIUS authenticator (hostapd),
+# with /etc/hostapd/hostapd.conf. Not started by default; enable with:
+#     slinitctl enable hostapd
+type = process
+command = /usr/bin/hostapd /etc/hostapd/hostapd.conf
+depends-on: local.target
+restart = true
+log-type = journal
