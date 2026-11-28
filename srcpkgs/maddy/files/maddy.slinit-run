@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, run as _maddy (run-as) in /var/lib/maddy
+# (working-dir); /run/maddy is prepared by the service's
+# pre-start-command, chpst -o by rlimit-nofile.
+set -u
+umask 0027
+ulimit -u 512
+exec /usr/bin/maddy run

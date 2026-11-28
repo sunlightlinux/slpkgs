@@ -1,0 +1,13 @@
+# maddy -- composable mail server (maddy). Not started by default; enable
+# with: slinitctl enable maddy
+# The helper sets umask 0027 and the process limit, as the runit run
+# script does.
+type = process
+command = /usr/libexec/slinit/maddy
+run-as = _maddy:_maddy
+working-dir = /var/lib/maddy
+rlimit-nofile = 131072
+pre-start-command = +/usr/bin/install -d -m 0750 -o _maddy -g _maddy /run/maddy
+depends-on: network.target
+restart = true
+log-type = journal
