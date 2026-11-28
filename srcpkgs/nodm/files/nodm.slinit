@@ -1,0 +1,10 @@
+# nodm -- minimal display manager for automatic logins (nodm). Not started
+# by default; enable with: slinitctl enable nodm
+# Settings: NODM_USER, NODM_X_OPTIONS, NODM_MIN_SESSION_TIME and
+# NODM_XSESSION in /etc/conf.d/nodm. nodm does not talk to login1 itself;
+# its session is registered through PAM.
+type = process
+command = /usr/libexec/slinit/nodm
+depends-on: local.target
+restart = true
+log-type = journal

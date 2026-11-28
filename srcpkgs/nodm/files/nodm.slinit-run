@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. The NODM_*
+# variables are not set beforehand: nodm uses its defaults only for unset
+# ones, and export does not expand them, so set -u is satisfied.
+set -u
+[ -r /etc/conf.d/nodm ] && . /etc/conf.d/nodm
+export NODM_USER NODM_X_OPTIONS NODM_MIN_SESSION_TIME NODM_XSESSION
+exec /usr/bin/nodm 1>&2
