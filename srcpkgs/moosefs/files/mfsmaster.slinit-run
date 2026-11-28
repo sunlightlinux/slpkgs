@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+CONF_FILE=
+[ -e /etc/conf.d/mfsmaster ] && . /etc/conf.d/mfsmaster
+: ${CONF_FILE:=/etc/mfs/mfsmaster.cfg}
+[ -e ${CONF_FILE} ] || exit 1
+exec /usr/bin/mfsmaster -c ${CONF_FILE} -f start

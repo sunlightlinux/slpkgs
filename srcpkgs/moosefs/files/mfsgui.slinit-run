@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -e /etc/conf.d/mfsgui ] && . /etc/conf.d/mfsgui
+exec /usr/bin/mfsgui -f $OPTS start

@@ -1,0 +1,9 @@
+# mfsmetalogger -- MooseFS metadata backup logger (moosefs). Not started by default;
+# enable with: slinitctl enable mfsmetalogger
+# Configuration file: CONF_FILE in /etc/conf.d/mfsmetalogger (default
+# /etc/mfs/mfsmetalogger.cfg); the service fails while it does not exist.
+type = process
+command = /usr/libexec/slinit/mfsmetalogger
+depends-on: network.target
+restart = true
+log-type = journal

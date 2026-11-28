@@ -1,0 +1,9 @@
+# mfschunkserver -- MooseFS chunk (data) server (moosefs). Not started by default;
+# enable with: slinitctl enable mfschunkserver
+# Configuration file: CONF_FILE in /etc/conf.d/mfschunkserver (default
+# /etc/mfs/mfschunkserver.cfg); the service fails while it does not exist.
+type = process
+command = /usr/libexec/slinit/mfschunkserver
+depends-on: network.target
+restart = true
+log-type = journal

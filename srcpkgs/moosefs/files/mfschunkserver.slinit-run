@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+CONF_FILE=
+[ -e /etc/conf.d/mfschunkserver ] && . /etc/conf.d/mfschunkserver
+: ${CONF_FILE:=/etc/mfs/mfschunkserver.cfg}
+[ -e ${CONF_FILE} ] || exit 1
+exec /usr/bin/mfschunkserver -c ${CONF_FILE} -f start

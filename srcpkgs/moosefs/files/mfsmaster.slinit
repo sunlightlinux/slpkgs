@@ -1,0 +1,9 @@
+# mfsmaster -- MooseFS metadata server (moosefs). Not started by default;
+# enable with: slinitctl enable mfsmaster
+# Configuration file: CONF_FILE in /etc/conf.d/mfsmaster (default
+# /etc/mfs/mfsmaster.cfg); the service fails while it does not exist.
+type = process
+command = /usr/libexec/slinit/mfsmaster
+depends-on: network.target
+restart = true
+log-type = journal
