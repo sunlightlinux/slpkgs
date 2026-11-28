@@ -1,0 +1,12 @@
+# sddm -- QML based display manager (sddm). Not started by default;
+# enable with: slinitctl enable sddm
+type = process
+command = /usr/libexec/slinit/sddm
+# SDDM speaks D-Bus and tracks sessions and seats through slinit-logind
+# (org.freedesktop.login1).
+depends-on: dbus
+depends-on: logind
+# udev-trigger seeds /dev/dri and the input devices.
+waits-for: udev-trigger
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'sddm'
 pkgname=sddm
 version=0.21.0
-revision=3
+revision=4
 build_style=cmake
 _configure_args="-DBUILD_MAN_PAGES=ON -DNO_SYSTEMD=ON -DUSE_ELOGIND=ON
  -DLOGIN_DEFS_PATH=${XBPS_SRCPKGDIR}/shadow/files/login.defs
@@ -68,5 +68,6 @@ post_install() {
 	vsed -i 's/^session\t\toptional pam_elogind.so$/-session\toptional pam_slinit.so/' \
 		${DESTDIR}/etc/pam.d/sddm-greeter
 	vsv sddm
+	vslinit sddm
 	vlicense LICENSE.CC-BY-3.0
 }

@@ -1,0 +1,18 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; its sv
+# check dbus is a depends-on in the service.
+set -eu
+
+if [ -x /usr/bin/elogind-inhibit ]; then
+        /usr/bin/dbus-send --system --print-reply --dest=org.freedesktop.DBus \
+                /org/freedesktop/DBus                           \
+                org.freedesktop.DBus.StartServiceByName         \
+                string:org.freedesktop.login1 uint32:0
+fi
+
+# respect system locale
+[ -r /etc/locale.conf ] && . /etc/locale.conf && export LANG
+
+[ -f /etc/conf.d/sddm ] && . /etc/conf.d/sddm
+
+exec /usr/bin/sddm
