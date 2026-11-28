@@ -1,0 +1,12 @@
+# caddy -- web server (caddy). Not started by default; enable with:
+#     slinitctl enable caddy
+# Options: OPTS, CONFFILE and MAX_OPEN_FILES in /etc/conf.d/caddy. The hard
+# open-files limit is raised here so the helper, running as caddy, can set
+# MAX_OPEN_FILES as the runit service did as root before chpst.
+type = process
+command = /usr/libexec/slinit/caddy
+run-as = caddy
+rlimit-nofile = 8192:1048576
+depends-on: network.target
+restart = true
+log-type = journal

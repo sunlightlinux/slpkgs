@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+CONFFILE=
+MAX_OPEN_FILES=
+[ -r /etc/conf.d/caddy ] && . /etc/conf.d/caddy
+export HOME=/var/lib/caddy
+ulimit -n ${MAX_OPEN_FILES:-8192}
+exec /usr/bin/caddy run ${OPTS} --config ${CONFFILE:-/etc/caddy/Caddyfile}
