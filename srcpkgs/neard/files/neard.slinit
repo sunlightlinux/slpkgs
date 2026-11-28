@@ -1,0 +1,9 @@
+# neard -- Near Field Communication manager (neard). Not started by default;
+# enable with: slinitctl enable neard
+# Options: OPTS in /etc/conf.d/neard.
+type = process
+command = /usr/libexec/slinit/neard
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal

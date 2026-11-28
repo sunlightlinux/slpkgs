@@ -1,7 +1,7 @@
 # Template file for 'neard'
 pkgname=neard
 version=0.19
-revision=2
+revision=3
 build_style=gnu-configure
 # TODO: add '--enable-test' when updated from python2 & gtk+2
 configure_args="--disable-systemd --enable-ese --enable-tools"
@@ -22,7 +22,9 @@ pre_configure() {
 
 post_install() {
 	vsv neard
+	vslinit neard
 	vsv seeld
+	vslinit seeld
 }
 
 neard-devel_package() {

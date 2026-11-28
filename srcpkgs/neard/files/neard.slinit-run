@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; its
+# sv check dbus is depends-on: dbus in the service.
+set -u
+OPTS=
+[ -r /etc/conf.d/neard ] && . /etc/conf.d/neard
+exec /usr/libexec/nfc/neard --nodaemon ${OPTS}
