@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script without its chpst -b pause, with its conf
+# moved to /etc/conf.d: adb start-server leaves the server running in
+# the background and the service stays started until stopped.
+set -eu
+OPTS=
+[ -r /etc/conf.d/adb ] && . /etc/conf.d/adb
+exec /usr/bin/adb ${OPTS:=start-server -P5037}

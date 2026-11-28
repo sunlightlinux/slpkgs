@@ -1,0 +1,8 @@
+# adb -- starts the Android Debug Bridge server, and kills it when the
+# service stops (android-tools). Not started by default; enable with:
+#     slinitctl enable adb
+# Options: OPTS in /etc/conf.d/adb (default: start-server -P5037).
+type = scripted
+command = /usr/libexec/slinit/adb
+stop-command = /usr/bin/adb kill-server
+depends-on: network.target
