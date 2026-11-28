@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+CONF_FILE=
+[ -r /etc/conf.d/lsyncd ] && . /etc/conf.d/lsyncd
+exec /usr/bin/lsyncd -nodaemon "${CONF_FILE:-/etc/lsyncd/lsyncd.conf.lua}"

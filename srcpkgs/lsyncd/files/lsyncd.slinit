@@ -1,0 +1,9 @@
+# lsyncd -- mirrors local directories to remote targets (lsyncd). Not
+# started by default; enable with: slinitctl enable lsyncd
+# Options: CONF_FILE in /etc/conf.d/lsyncd (default
+# /etc/lsyncd/lsyncd.conf.lua).
+type = process
+command = /usr/libexec/slinit/lsyncd
+depends-on: network.target
+restart = true
+log-type = journal

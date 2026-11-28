@@ -1,7 +1,7 @@
 # Template file for 'lsyncd'
 pkgname=lsyncd
 version=2.3.1
-revision=1
+revision=2
 build_style=cmake
 hostmakedepends="asciidoc lua53"
 makedepends="lua53-devel"
@@ -20,4 +20,5 @@ post_install() {
 	vmkdir /usr/share/examples
 	mv "${DESTDIR}"/usr/doc/examples "${DESTDIR}"/usr/share/examples/lsyncd
 	vsv lsyncd
+	vslinit lsyncd
 }
