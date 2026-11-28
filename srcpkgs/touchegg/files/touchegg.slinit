@@ -1,0 +1,8 @@
+# touchegg -- multitouch gesture recognizer daemon (touchegg). Not started
+# by default; enable with: slinitctl enable touchegg
+type = process
+command = /usr/bin/touchegg --daemon
+run-as = _touchegg:input
+depends-on: local.target
+restart = true
+log-type = journal
