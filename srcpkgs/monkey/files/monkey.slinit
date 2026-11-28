@@ -1,0 +1,7 @@
+# monkey -- lightweight HTTP server (monkey). Not started by default;
+# enable with: slinitctl enable monkey
+type = process
+command = /usr/bin/monkey
+depends-on: network.target
+restart = true
+log-type = journal

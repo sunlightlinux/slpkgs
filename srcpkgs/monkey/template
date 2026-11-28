@@ -1,7 +1,7 @@
 # Template file for 'monkey'
 pkgname=monkey
 version=1.6.9
-revision=7
+revision=8
 build_style=cmake
 configure_args="-DINSTALL_SYSCONFDIR=/etc/monkey/ -DWITH_PLUGINS=mbedtls
  -DWITH_SYSTEM_MALLOC=ON -DINSTALL_WEBROOTDIR=/srv/www/monkey
@@ -41,6 +41,7 @@ post_install() {
 	vmkdir usr/share/monkey/webroot
 	mv ${DESTDIR}/srv/www/$pkgname/* ${DESTDIR}/usr/share/monkey/webroot
 	vsv monkey
+	vslinit monkey
 }
 
 monkey-devel_package() {
