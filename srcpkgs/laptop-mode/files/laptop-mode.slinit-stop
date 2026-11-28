@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit finish script.
+set -u
+/usr/bin/laptop_mode init stop
+exec /usr/bin/rm -f /var/run/laptop-mode-tools/enabled

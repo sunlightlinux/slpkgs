@@ -1,0 +1,7 @@
+# laptop-mode -- applies the laptop power saving settings at start and
+# restores them when the service stops (laptop-mode). Not started by
+# default; enable with: slinitctl enable laptop-mode
+type = scripted
+command = /usr/bin/laptop_mode init auto
+stop-command = /usr/libexec/slinit/laptop-mode-stop
+depends-on: local.target

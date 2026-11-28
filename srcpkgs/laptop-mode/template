@@ -1,7 +1,7 @@
 # Template file for 'laptop-mode'
 pkgname=laptop-mode
 version=1.74
-revision=1
+revision=2
 depends="acpid hdparm sdparm wireless_tools xset bluez"
 short_desc="Laptop power saving package for Linux systems"
 maintainer="Orphaned <orphan@voidlinux.org>"
@@ -47,4 +47,5 @@ do_install() {
 	vmkdir usr/bin
 	mv ${DESTDIR}/usr/sbin/* ${DESTDIR}/usr/bin/
 	vsv laptop-mode
+	vslinit laptop-mode
 }
