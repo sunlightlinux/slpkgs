@@ -1,0 +1,8 @@
+# ofonod -- mobile telephony daemon (ofono), in the foreground (-n).
+# Not started by default; enable with: slinitctl enable ofonod
+type = process
+command = /usr/bin/ofonod -n
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
