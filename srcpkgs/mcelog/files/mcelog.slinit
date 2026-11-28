@@ -1,0 +1,7 @@
+# mcelog -- decodes and logs machine check events (mcelog). Not started
+# by default; enable with: slinitctl enable mcelog
+type = process
+command = /usr/bin/mcelog --daemon --foreground --syslog
+depends-on: local.target
+restart = true
+log-type = journal
