@@ -1,0 +1,10 @@
+# consul -- Consul agent (consul). Not started by default; enable with:
+#     slinitctl enable consul
+# Settings: shell variables in /etc/conf.d/consul; configuration in
+# /etc/consul.d.
+type = process
+command = /usr/libexec/slinit/consul
+run-as = _consul:_consul
+depends-on: network.target
+restart = true
+log-type = journal
