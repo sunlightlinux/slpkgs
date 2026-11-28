@@ -1,0 +1,10 @@
+# cupsd -- the CUPS print server (cups), in the foreground (-f). Not started
+# by default; enable with: slinitctl enable cupsd
+# It serves local clients without a network, so it waits for the network
+# rather than needing it.
+type = process
+command = /usr/bin/cupsd -f
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
