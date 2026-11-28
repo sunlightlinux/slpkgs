@@ -1,0 +1,8 @@
+# knotd -- authoritative DNS server (knot). Not started by default;
+# enable with: slinitctl enable knotd
+# Options: OPTS in /etc/conf.d/knotd.
+type = process
+command = /usr/libexec/slinit/knotd
+depends-on: network.target
+restart = true
+log-type = journal
