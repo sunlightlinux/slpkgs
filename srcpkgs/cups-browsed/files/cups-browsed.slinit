@@ -1,0 +1,11 @@
+# cups-browsed -- finds remote CUPS queues and IPP printers on the network
+# (cups-browsed). Not started by default; enable with:
+#     slinitctl enable cups-browsed
+# It talks to avahi and to cupsd over D-Bus.
+type = process
+command = /usr/bin/cups-browsed
+depends-on: local.target
+depends-on: dbus
+waits-for: network.target
+restart = true
+log-type = journal

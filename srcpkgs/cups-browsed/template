@@ -1,7 +1,7 @@
 # Template file for 'cups-browsed'
 pkgname=cups-browsed
 version=2.1.1
-revision=1
+revision=2
 build_style=gnu-configure
 conf_files="/etc/cups/cups-browsed.conf"
 hostmakedepends="pkg-config glib-devel"
@@ -19,6 +19,7 @@ lib32disabled=yes
 
 post_install() {
 	vsv cups-browsed
+	vslinit cups-browsed
 	vlicense COPYING
 	rm -r "${DESTDIR}/etc/rc.d"
 }
