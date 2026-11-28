@@ -1,0 +1,7 @@
+# incus-user -- per-user incus projects for members of _incus (incus).
+# Not started by default; enable with: slinitctl enable incus-user
+type = process
+command = /usr/libexec/incus/incus-user --group _incus
+depends-on: local.target
+restart = true
+log-type = journal

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/incus ] && . /etc/conf.d/incus
+exec /usr/libexec/incus/incusd --group _incus-admin ${OPTS:- --verbose}
