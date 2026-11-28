@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script. runit runs a service with no HOME, so znc
+# fell back to the account's home and kept its data in
+# /var/lib/znc/.znc; slinit passes on HOME=/ from the kernel, so set the
+# same home here.
+set -u
+HOME=/var/lib/znc
+export HOME
+exec /usr/bin/znc -f -n
