@@ -167,7 +167,14 @@ part in the slinit service.
    `--groups extra,...` instead of `--clear-groups`. A run-time
    `ulimit -n` then needs no `rlimit-nofile`, since the helper is root. A
    run script that already uses setpriv keeps its line, with the program
-   after `--` given by absolute path.
+   after `--` given by absolute path. Every variable the conf may set and
+   the helper defaults with `${X:=...}` (USER, GROUP, HOME included) is set
+   empty before the `.` line: runit's `env -` had cleared them, slinit's
+   environment has them. A group list in one variable
+   (`JENKINS_GROUPS=a:b:c`) gives `--regid a --groups b,c`. `chpst -U
+   user` (sets only the UID and GID variables) is
+   `exec /usr/bin/env UID="$(/usr/bin/id -u user)" GID="$(/usr/bin/id -g user)" ...`
+   (bash makes UID read-only, so no `export`).
 
    Anything else (`-U`, `-l`, `-L`, `-m`, `-d`, `-P`, `-/`): stop and
    report it rather than guess.
@@ -298,7 +305,11 @@ part in the slinit service.
     `vslinit` installs as `/usr/lib/slinit.d/user/<service>`, where
     `slinit --user` (started by turnstile) finds it. The user enables it
     with `slinitctl --user enable <service>`. Same rules otherwise; no
-    `run-as`, and `depends-on` only on other user services.
+    `run-as`, and `depends-on` only on other user services. A user
+    service's helper is `files/<service>.slinit-run`, the same path as a
+    system one's, so a package with both kinds of the same name shares one
+    helper or the user service has none. Lint a user service in a check
+    dir of its own.
 
 21. **Boot-time hooks** (`/etc/runit/core-services/NN-x.sh`). slinit has no
     such directory, as Chimera and Artix have none. Whatever the hook does
@@ -319,7 +330,9 @@ part in the slinit service.
 
 22. **An env directory** (`chpst -e ./env`) shipped for users to edit is
     installed as files under `/etc/conf.d/<service>.env/` (each in
-    `conf_files`), with `env-dir = /etc/conf.d/<service>.env`. A value the
+    `conf_files`, installed with
+    `vinstall ${FILESDIR}/<service>/env/X 644 etc/conf.d/<service>.env`),
+    with `env-dir = /etc/conf.d/<service>.env`. A value the
     run script writes there at run time is exported by the helper instead.
 
 23. **Small idioms.**
