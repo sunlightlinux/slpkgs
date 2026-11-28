@@ -1,0 +1,9 @@
+# screen -- creates screen's socket directory /run/screens (mode 1777)
+# at boot (screen). Started at every boot while the package is
+# installed, as runit's core-service 20-screen.sh was.
+type = scripted
+command = /usr/bin/install -dm 1777 /run/screens
+# Before any daemon starts (runit ran it in stage 1, after 08-sysctl).
+depends-on: filesystems
+before: local.target
+start-timeout = 60

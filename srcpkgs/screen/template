@@ -1,7 +1,7 @@
 # Template file for 'screen'
 pkgname=screen
 version=5.0.3
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--enable-telnet --enable-utmp --enable-socket-dir=/run/screens"
 makedepends="libutempter-devel ncurses-devel pam-devel"
@@ -30,4 +30,5 @@ post_install() {
 	fi
 
 	vinstall $FILESDIR/20-screen.sh 644 etc/runit/core-services
+	vslinit screen enable
 }
