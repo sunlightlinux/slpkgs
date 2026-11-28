@@ -3,12 +3,12 @@
 Thank you for your interest in contributing to slpkgs, the package collection
 for Sunlight Linux!
 
-> **Status: early bootstrap.** slpkgs is a fork of
+> **Status:** slpkgs is a fork of
 > [void-packages](https://github.com/void-linux/void-packages), rebranded from
-> Void to Sunlight Linux. Upstream's structure (`srcpkgs/`, `common/`,
-> `xbps-src`) and its packaging manual apply; this repository overlays the
-> Sunlight rebrand and additions. When the void-packages base is imported,
-> upstream's own docs are merged in.
+> Void to Sunlight Linux. The public `main` branch holds documentation and CI
+> only; the `mainline-check` branch mirrors void-packages `master` (`xbps-src`,
+> `Manual.md`, `srcpkgs/`). The Sunlight package delta is not on a public
+> branch yet, so template work today is against `mainline-check`.
 
 ## Reporting Issues
 

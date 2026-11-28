@@ -11,9 +11,11 @@ templates), rebranded from Void to Sunlight Linux.
 > supply-chain caution, and keeping a small, mergeable delta from upstream
 > void-packages.
 
-> **Status:** early bootstrap. The repo will be based on a void-packages fork
-> with the Sunlight rebrand. Upstream's `Manual.md`, `srcpkgs/`, `common/`, and
-> `xbps-src` are authoritative for *how packaging works*.
+> **Status:** the public `main` branch holds documentation and CI only;
+> `mainline-check` mirrors void-packages `master` (CI-maintained, never commit
+> there), and the Sunlight delta will be built on top of it. Upstream's
+> `Manual.md`, `srcpkgs/`, `common/`, and `xbps-src` (on `mainline-check`) are
+> authoritative for *how packaging works*.
 
 **Tradeoff:** These guidelines bias toward caution over speed. Templates run
 shell on builders and decide what lands in users' systems (supply chain), and a
