@@ -1,7 +1,7 @@
 # Template file for 'haveged'
 pkgname=haveged
 version=1.9.26
-revision=1
+revision=2
 build_style=gnu-configure
 short_desc="Entropy harvesting daemon using CPU timings"
 maintainer="Orphaned <orphan@voidlinux.org>"
@@ -13,6 +13,7 @@ checksum=74bc6052506451ca9f23ba186f72cf81b124f859351f8a4b777ead32d9bdd4da
 
 post_install() {
 	vsv $pkgname
+	vslinit haveged
 }
 
 libhaveged_package() {
