@@ -1,0 +1,7 @@
+# usbguard -- allows and blocks USB devices by policy (usbguard). Not
+# started by default; enable with: slinitctl enable usbguard
+type = process
+command = /usr/bin/usbguard-daemon
+depends-on: local.target
+restart = true
+log-type = journal
