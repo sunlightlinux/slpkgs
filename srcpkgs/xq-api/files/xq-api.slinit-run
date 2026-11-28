@@ -1,0 +1,24 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -u
+# _xqapi:_xqapi is the service's run-as.
+set -u
+NET=
+ADDR=
+RELOAD_EVERY=
+MAX_QUERIES=
+LOG_V=
+LOG_ACCESS=
+LOG_TO_STDERR=
+LOG_DIR=
+REPODATA=
+[ -r /etc/conf.d/xq-api ] && . /etc/conf.d/xq-api
+exec /usr/bin/xq-api \
+        ${NET:+-net="$NET"} \
+        ${ADDR:+-listen="$ADDR"} \
+        ${RELOAD_EVERY:+-reload-every="$RELOAD_EVERY"} \
+        ${MAX_QUERIES:+-max-queries="$MAX_QUERIES"} \
+        ${LOG_V:+-v="$LOG_V"} \
+        ${LOG_ACCESS:+-log-access="$LOG_ACCESS"} \
+        ${LOG_TO_STDERR:+-logtostderr="$LOG_TO_STDERR"} \
+        ${LOG_DIR:+-log_dir="$LOG_DIR"} \
+        ${REPODATA}

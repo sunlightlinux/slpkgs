@@ -1,0 +1,10 @@
+# xq-api -- HTTP query API for xbps repodata (xq-api), as user _xqapi.
+# Not started by default; enable with: slinitctl enable xq-api
+# Options: NET, ADDR, MAX_QUERIES, LOG_*, REPODATA and RELOAD_EVERY in
+# /etc/conf.d/xq-api, read as _xqapi.
+type = process
+command = /usr/libexec/slinit/xq-api
+run-as = _xqapi:_xqapi
+depends-on: network.target
+restart = true
+log-type = journal
