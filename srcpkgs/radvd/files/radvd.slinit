@@ -1,0 +1,9 @@
+# radvd -- IPv6 router advertisement daemon (radvd); configured in
+# /etc/radvd.conf. Not started by default; enable with:
+#     slinitctl enable radvd
+type = process
+command = /usr/bin/radvd --nodaemon --logmethod=syslog
+depends-on: local.target
+depends-on: network.target
+restart = true
+log-type = journal

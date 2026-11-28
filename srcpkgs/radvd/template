@@ -1,7 +1,7 @@
 # Template file for 'radvd'
 pkgname=radvd
 version=2.21
-revision=1
+revision=2
 build_style=gnu-configure
 hostmakedepends="flex pkg-config"
 checkdepends="check-devel"
@@ -19,6 +19,7 @@ fi
 
 post_install() {
 	vsv radvd
+	vslinit radvd
 	vconf radvd.conf.example radvd.conf
 	vlicense COPYRIGHT LICENSE
 }
