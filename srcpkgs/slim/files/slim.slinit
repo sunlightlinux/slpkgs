@@ -1,0 +1,7 @@
+# slim -- graphical login manager for X11 (slim). Not started by default;
+# enable with: slinitctl enable slim
+type = process
+command = /usr/bin/slim -nodaemon
+depends-on: local.target
+restart = true
+log-type = journal
