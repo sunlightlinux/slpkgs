@@ -1,0 +1,10 @@
+#!/bin/sh
+set -u
+if [ $# -lt 1 ] || [ -z "$1" ]; then
+	echo "dhcpcd-iface: start it as dhcpcd-iface@<interface>" >&2
+	exit 1
+fi
+IFACE=$1
+OPTS=
+[ -r "/etc/conf.d/dhcpcd-iface@$IFACE" ] && . "/etc/conf.d/dhcpcd-iface@$IFACE"
+exec /usr/bin/dhcpcd -B "$IFACE" ${OPTS:--q}

@@ -1,0 +1,12 @@
+# dhcpcd-iface -- DHCP client for one interface (dhcpcd), a template: the
+# instance argument is the interface. Not started by default; enable
+# with: slinitctl enable dhcpcd-iface@eth0
+# Replaces runit's dhcpcd-eth0. Run it or the master dhcpcd service, not
+# both, as with the runit pair: slinitctl disable dhcpcd first.
+# Options: OPTS in /etc/conf.d/dhcpcd-iface@<interface> (default -q).
+type = process
+command = /usr/libexec/slinit/dhcpcd-iface $1
+depends-on: pre-network.target
+before: network.target
+restart = true
+log-type = journal

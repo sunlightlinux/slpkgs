@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/dhcpcd ] && . /etc/conf.d/dhcpcd
+exec /usr/bin/dhcpcd -B ${OPTS:--M -q}

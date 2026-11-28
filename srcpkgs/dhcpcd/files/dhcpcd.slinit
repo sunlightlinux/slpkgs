@@ -1,0 +1,11 @@
+# dhcpcd -- DHCP client for every interface, in master mode (dhcpcd).
+# Started by default (vslinit enable): the network service of Sunlight.
+# Options: OPTS in /etc/conf.d/dhcpcd (default -M -q). For one interface
+# only, disable this and enable dhcpcd-iface@<interface> instead:
+#     slinitctl disable dhcpcd; slinitctl enable dhcpcd-iface@eth0
+type = process
+command = /usr/libexec/slinit/dhcpcd
+depends-on: pre-network.target
+before: network.target
+restart = true
+log-type = journal

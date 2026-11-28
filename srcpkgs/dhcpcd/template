@@ -1,7 +1,7 @@
 # Template file for 'dhcpcd'
 pkgname=dhcpcd
 version=10.5.2
-revision=1
+revision=2
 build_style=configure
 make_check_target=test
 configure_args="
@@ -28,7 +28,10 @@ desc_option_privsep="Enable privilege separation mode for the daemon"
 
 post_install() {
 	vsv dhcpcd
+	vslinit dhcpcd enable
 	vsv dhcpcd-eth0
+	# slinit: one template, dhcpcd-iface@<interface>, replaces dhcpcd-eth0
+	vslinit dhcpcd-iface
 
 	# Enable controlgroup by default, to make dhcpcd-ui work.
 	vsed -e 's,^#\(controlgroup.*\),\1,' -i ${DESTDIR}/etc/dhcpcd.conf
