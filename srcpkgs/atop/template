@@ -1,7 +1,7 @@
 # Template file for 'atop'
 pkgname=atop
 version=2.13.0
-revision=1
+revision=2
 build_style=gnu-makefile
 make_install_target="sysvinstall"
 make_use_env=true
@@ -24,6 +24,7 @@ pre_install() {
 
 post_install() {
 	vsv atop
+	vslinit atop
 	# Remove unused stuff.
 	rm -f ${DESTDIR}/usr/bin/atop{,sar}-${version}
 	rm -rf ${DESTDIR}/etc/init.d ${DESTDIR}/var

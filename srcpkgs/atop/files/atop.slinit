@@ -1,0 +1,8 @@
+# atop -- records system and process activity every 600 seconds to
+# /var/log/atop/atop_YYYYMMDD (atop). Not started by default; enable
+# with: slinitctl enable atop
+type = process
+command = /usr/libexec/slinit/atop
+depends-on: local.target
+restart = true
+log-type = journal
