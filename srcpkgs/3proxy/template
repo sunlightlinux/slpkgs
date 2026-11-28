@@ -1,7 +1,7 @@
 # Template file for '3proxy'
 pkgname=3proxy
 version=1.0.4
-revision=1
+revision=2
 build_style=cmake
 makedepends="openssl-devel pam-devel pcre2-devel"
 short_desc="Tiny proxy server"
@@ -15,4 +15,5 @@ checksum=b6a4ee624216d83be6dbadb64e2d5ccc7fbd19c96704bb6dc319d489d14c4cc5
 post_install() {
 	vlicense copying
 	vsv 3proxy
+	vslinit 3proxy
 }
