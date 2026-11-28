@@ -1,7 +1,7 @@
 # Template file for 'anope'
 pkgname=anope
 version=2.0.19
-revision=1
+revision=2
 build_style=cmake
 make_cmd=make
 configure_args="-DINSTDIR=../install -DRUNGROUP=_anope -DDEFUMASK=077
@@ -69,4 +69,5 @@ do_install() {
 	vcopy locale /usr/share
 
 	vsv anope
+	vslinit anope
 }

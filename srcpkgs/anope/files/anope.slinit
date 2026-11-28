@@ -1,0 +1,7 @@
+# anope -- IRC services (anope). Not started by default; enable with:
+# slinitctl enable anope
+type = process
+command = /usr/bin/anopeservices --confdir=/etc/anope --dbdir=/var/lib/anope --localedir=/usr/share/locale --logdir=/var/log/anope --modulesdir=/usr/lib/anope --nofork
+depends-on: network.target
+restart = true
+log-type = journal
