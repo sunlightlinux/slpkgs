@@ -1,7 +1,7 @@
 # Template file for 'apache-tomcat'
 pkgname=apache-tomcat
 version=9.0.106
-revision=1
+revision=2
 hostmakedepends="openjdk17 apache-ant"
 depends="virtual?java-runtime"
 short_desc="Open source implementation of the Java Servlet"
@@ -31,6 +31,7 @@ do_install() {
 	cp -r output/build/* ${DESTDIR}/usr/share/${pkgname}
 
 	vsv apache-tomcat
+	vslinit apache-tomcat
 }
 
 post_install() {

@@ -1,0 +1,9 @@
+# apache-tomcat -- the Apache Tomcat Java servlet container
+# (apache-tomcat), in the foreground (catalina.sh run). Not started by
+# default; enable with: slinitctl enable apache-tomcat
+type = process
+command = /usr/libexec/slinit/apache-tomcat
+run-as = tomcat:tomcat
+depends-on: network.target
+restart = true
+log-type = journal
