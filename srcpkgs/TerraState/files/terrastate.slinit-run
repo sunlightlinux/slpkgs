@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+export TS_STORE=bitcask
+export TS_BITCASK_PATH=/var/lib/terrastate/bitcask
+
+[ -r /etc/conf.d/terrastate ] && . /etc/conf.d/terrastate
+
+exec /usr/bin/terrastate

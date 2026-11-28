@@ -1,0 +1,9 @@
+# terrastate -- remote state server for Terraform (TerraState). Not
+# started by default; enable with: slinitctl enable terrastate
+# Settings: TS_* variables in /etc/conf.d/terrastate, if present.
+type = process
+command = /usr/libexec/slinit/terrastate
+run-as = _terrastate:_terrastate
+depends-on: network.target
+restart = true
+log-type = journal
