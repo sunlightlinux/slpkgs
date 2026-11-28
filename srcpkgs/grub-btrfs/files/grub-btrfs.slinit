@@ -1,0 +1,9 @@
+# grub-btrfs -- grub-btrfsd, regenerates the GRUB snapshot menu when
+# btrfs snapshots change (grub-btrfs). Not started by default; enable
+# with: slinitctl enable grub-btrfs
+# Options: SNAPSHOTS_PATH and GRUB_BTRFSD_OPTS in /etc/conf.d/grub-btrfs.
+type = process
+command = /usr/libexec/slinit/grub-btrfs
+depends-on: local.target
+restart = true
+log-type = journal
