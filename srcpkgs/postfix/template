@@ -1,7 +1,7 @@
 # Template file for 'postfix'
 pkgname=postfix
 version=3.11.8
-revision=1
+revision=2
 hostmakedepends="perl m4"
 makedepends="db-devel icu-devel libldap-devel libmariadbclient-devel lmdb-devel
  pcre2-devel postgresql-libs-devel sqlite-devel"
@@ -101,4 +101,5 @@ do_install() {
 	patch -p0 -i ${FILESDIR}/aliases.patch
 
 	vsv postfix
+	vslinit postfix
 }

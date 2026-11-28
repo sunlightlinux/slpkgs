@@ -1,0 +1,10 @@
+# postfix -- mail transport agent (postfix). Not started by default;
+# enable with: slinitctl enable postfix
+# postfix check must pass before the master starts, as in the runit
+# run script.
+type = process
+command = /usr/libexec/postfix/master -d
+pre-start-command = /usr/bin/postfix check
+depends-on: network.target
+restart = true
+log-type = journal
