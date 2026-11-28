@@ -1,0 +1,8 @@
+# radeon-profile-daemon -- privileged helper for the radeon-profile GUI
+# (radeon-profile-daemon). Not started by default; enable with:
+#     slinitctl enable radeon-profile-daemon
+type = process
+command = /usr/bin/radeon-profile-daemon
+depends-on: local.target
+restart = true
+log-type = journal

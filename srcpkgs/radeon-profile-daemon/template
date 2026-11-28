@@ -1,7 +1,7 @@
 # Template file for 'radeon-profile-daemon'
 pkgname=radeon-profile-daemon
 version=20190603
-revision=1
+revision=2
 build_wrksrc=radeon-profile-daemon
 build_style=qmake
 hostmakedepends="qt5-qmake qt5-host-tools"
@@ -16,4 +16,5 @@ checksum=bb0145c3dcbced094e28fe993d8f7e77defcfa5dcef3146badcd82d9fb627700
 do_install() {
 	vbin target/radeon-profile-daemon
 	vsv radeon-profile-daemon
+	vslinit radeon-profile-daemon
 }
