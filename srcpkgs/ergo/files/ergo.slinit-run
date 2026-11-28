@@ -1,0 +1,7 @@
+#!/bin/sh
+# ergo -- run the IRC server in the foreground.
+# Options: OPTS in /etc/conf.d/ergo.
+set -u
+OPTS=
+[ -r /etc/conf.d/ergo ] && . /etc/conf.d/ergo
+exec /usr/bin/ergo run ${OPTS:---conf /etc/ergo.conf}

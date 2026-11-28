@@ -1,7 +1,7 @@
 # Template file for 'ergo'
 pkgname=ergo
 version=2.19.1
-revision=2
+revision=3
 build_style=go
 go_import_path="github.com/ergochat/ergo"
 go_build_tags="i18n mysql postgresql sqlite"
@@ -33,6 +33,7 @@ post_install() {
 	vdoc docs/USERGUIDE.md
 
 	vsv ergo
+	vslinit ergo
 }
 
 oragono_package() {

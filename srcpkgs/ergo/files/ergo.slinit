@@ -1,0 +1,9 @@
+# ergo -- IRC server (ergo). Not started by default; enable with:
+#     slinitctl enable ergo
+# Options: OPTS in /etc/conf.d/ergo (default: --conf /etc/ergo.conf).
+type = process
+command = /usr/libexec/slinit/ergo
+run-as = _ergo:_ergo
+depends-on: network.target
+restart = true
+log-type = journal
