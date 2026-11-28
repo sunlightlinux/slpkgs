@@ -1,7 +1,7 @@
 # Template file for 'sing-box'
 pkgname=sing-box
 version=1.14.0
-revision=2
+revision=3
 build_style=go
 # These tests require outbound network access and namespace privileges which is unavailable in the xbps-src build environment.
 make_check_args="-skip=TestUnshareNamespace|TestTLSRecordFragment|TestTLS2Fragment|TestTLSFragment"
@@ -22,4 +22,5 @@ make_dirs="/var/lib/sing-box 700 _sing_box _sing_box"
 post_install() {
 	vinstall release/config/config.json 644 etc/sing-box
 	vsv sing-box
+	vslinit sing-box
 }

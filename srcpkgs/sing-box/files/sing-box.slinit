@@ -1,0 +1,10 @@
+# sing-box -- universal proxy platform (sing-box). Not started by default;
+# enable with: slinitctl enable sing-box
+# It reads /etc/sing-box. The helper creates /run/sing-box and drops to
+# _sing_box with setpriv, keeping only the capabilities the runit run
+# script keeps.
+type = process
+command = /usr/libexec/slinit/sing-box
+depends-on: network.target
+restart = true
+log-type = journal
