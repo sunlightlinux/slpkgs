@@ -1,0 +1,102 @@
+# Merge the void-packages mirror into the branch Sunlight's packages are
+# built from:
+#   mainline-check -> next
+#
+# next is mainline-check plus Sunlight's package delta (new packages such
+# as slinit and sunlight-base, and rebranded or adjusted Void templates),
+# one commit per package. Void's changes reach it as merge commits, never
+# by rebasing: next is published, and the build tree and the package
+# mirror refer to its commits.
+#
+# Runs after every "Sync void-packages" run, and also when that run
+# failed, because a mirror it did not update has nothing new to merge.
+# Lives on the default branch because workflow_run only fires from there.
+# The merge is computed with `git merge-tree` in a blobless bare clone, so
+# no tree is checked out on the runner.
+#
+# A conflict fails the job and nothing is pushed. It means Void changed a
+# template Sunlight also changes; resolve it by hand on next: take Void's
+# new version, re-apply the Sunlight change, and keep the revision above
+# Void's.
+#
+# The push needs SLPKGS_SYNC_TOKEN, as the mirror sync does: the merge
+# brings in Void's edits under .github/workflows/, which GITHUB_TOKEN may
+# not push.
+
+name: Sync next
+
+on:
+  workflow_run:
+    workflows: ['Sync void-packages']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-next
+  cancel-in-progress: false
+
+env:
+  SOURCE_BRANCH: mainline-check
+  TARGET_BRANCH: next
+  GIT_AUTHOR_NAME: Ionut Nechita
+  GIT_AUTHOR_EMAIL: ionut_n2001@yahoo.com
+  GIT_COMMITTER_NAME: Ionut Nechita
+  GIT_COMMITTER_EMAIL: ionut_n2001@yahoo.com
+
+jobs:
+  sync:
+    name: mainline-check -> next
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check the token
+        env:
+          GH_TOKEN: ${{ secrets.SLPKGS_SYNC_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::The SLPKGS_SYNC_TOKEN secret is not set; see the comment at the top of this workflow."
+            exit 1
+          fi
+
+      - name: Clone next and fetch mainline-check
+        env:
+          GH_TOKEN: ${{ secrets.SLPKGS_SYNC_TOKEN }}
+        run: |
+          git clone --bare --filter=blob:none --single-branch \
+            --branch "$TARGET_BRANCH" \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo.git
+          git -C repo.git fetch --filter=blob:none --no-tags origin \
+            "+refs/heads/${SOURCE_BRANCH}:refs/remotes/origin/${SOURCE_BRANCH}"
+
+      - name: Merge and push
+        working-directory: repo.git
+        run: |
+          base=$(git rev-parse "refs/heads/${TARGET_BRANCH}")
+          source=$(git rev-parse "refs/remotes/origin/${SOURCE_BRANCH}")
+
+          if git merge-base --is-ancestor "$source" "$base"; then
+            echo "${TARGET_BRANCH} already contains ${SOURCE_BRANCH} (${source:0:12})."
+            exit 0
+          fi
+
+          if ! tree=$(git merge-tree --write-tree --name-only "$base" "$source"); then
+            echo "::error::Merge conflict between ${TARGET_BRANCH} and ${SOURCE_BRANCH}; resolve by hand (see the comment at the top of this workflow)."
+            echo "$tree"
+            exit 1
+          fi
+
+          count=$(git rev-list --count "${base}..${source}")
+          commit=$(git commit-tree "$tree" -p "$base" -p "$source" -F - <<EOF
+          Merge void-packages master ${source:0:11} into next
+
+          ${count} commits from void-packages, by way of mainline-check.
+
+          Signed-off-by: ${GIT_AUTHOR_NAME} <${GIT_AUTHOR_EMAIL}>
+          EOF
+          )
+
+          git log -1 --format='%H%n%B' "$commit"
+          git push origin "${commit}:refs/heads/${TARGET_BRANCH}"
