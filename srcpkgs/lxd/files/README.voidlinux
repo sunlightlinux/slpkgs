@@ -2,6 +2,13 @@ Start lxd service:
 
 	$ sudo ln -s /etc/sv/lxd /var/service/
 
+or, under slinit:
+
+	$ sudo slinitctl enable lxd
+
+Under slinit, options (OPTS) go in /etc/conf.d/lxd instead of
+/etc/sv/lxd/conf.
+
 Run LXD initialization:
 
 	$ sudo lxd init

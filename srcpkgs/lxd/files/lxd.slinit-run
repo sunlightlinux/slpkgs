@@ -1,0 +1,14 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+_systemd_cgrp="/sys/fs/cgroup/systemd"
+if [ ! -d ${_systemd_cgrp} ]; then
+	/usr/bin/mkdir ${_systemd_cgrp}
+fi
+if ! /usr/bin/mountpoint -q "${_systemd_cgrp}"; then
+	/usr/bin/mount -t cgroup -o none,name=systemd cgroup ${_systemd_cgrp}
+fi
+
+[ -r /etc/conf.d/lxd ] && . /etc/conf.d/lxd
+exec /usr/bin/lxd --group lxd ${OPTS:- --verbose}
