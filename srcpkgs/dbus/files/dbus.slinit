@@ -4,3 +4,4 @@ command = /usr/libexec/slinit/dbus
 ready-notification = pipefd:3
 depends-on: early-setup
 restart = true
+log-type = journal
