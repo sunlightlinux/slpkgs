@@ -1,7 +1,7 @@
 # Template file for 'gdnsd'
 pkgname=gdnsd
 version=3.8.3
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="
  --disable-silent-rules
@@ -27,4 +27,5 @@ make_check=no # Skip tests as they require a Maxmind DB
 
 post_install() {
 	vsv gdnsd
+	vslinit gdnsd
 }

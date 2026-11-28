@@ -1,0 +1,9 @@
+# gdnsd -- authoritative-only DNS server (gdnsd). Not started by default;
+# enable with: slinitctl enable gdnsd
+# The helper prepares /run/gdnsd and starts gdnsd through setpriv as
+# _gdnsd with only CAP_NET_BIND_SERVICE, as the runit run script does.
+type = process
+command = /usr/libexec/slinit/gdnsd
+depends-on: network.target
+restart = true
+log-type = journal
