@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+MID_CLICK=
+RIGHT_CLICK=
+SCROLL=
+TYPING_BLOCK=
+[ -r /etc/conf.d/mouseemu ] && . /etc/conf.d/mouseemu
+exec /usr/bin/mouseemu -nofork $MID_CLICK $RIGHT_CLICK $SCROLL $TYPING_BLOCK
