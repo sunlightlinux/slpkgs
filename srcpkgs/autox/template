@@ -1,7 +1,7 @@
 # Template file for 'autox'
 pkgname=autox
 version=0.1.1
-revision=1
+revision=2
 build_wrksrc=src
 build_style=gnu-makefile
 conf_files="/etc/pam.d/autox"
@@ -19,4 +19,5 @@ do_install() {
 	vbin autox
 	vinstall autox.pam 755 /etc/pam.d autox
 	vsv autox
+	vslinit autox
 }

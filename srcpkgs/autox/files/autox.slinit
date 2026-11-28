@@ -1,0 +1,13 @@
+# autox -- logs a user in on a tty and starts X through agetty (autox).
+# Not started by default; enable with: slinitctl enable autox
+# Options: USER (default nobody) and TTY (default tty7) in
+# /etc/conf.d/autox.
+type = process
+command = /usr/libexec/slinit/autox
+# Its own session, as the runit run script got with setsid -w: slinit
+# starts every service as a process group leader, where setsid(1) would
+# fork, so the session comes from slinit instead.
+new-session = yes
+depends-on: local.target
+restart = true
+log-type = journal

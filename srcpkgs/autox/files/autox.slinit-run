@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. setsid -w
+# is replaced by the service's new-session.
+set -u
+USER=
+TTY=
+[ -s /etc/conf.d/autox ] && . /etc/conf.d/autox
+: ${USER:=nobody}
+: ${TTY:=tty7}
+exec /usr/bin/agetty -a $USER -n -l /usr/bin/autox -o $USER $TTY 38400 linux
