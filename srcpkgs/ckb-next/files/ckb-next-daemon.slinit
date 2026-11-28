@@ -1,0 +1,8 @@
+# ckb-next-daemon -- driver daemon for Corsair keyboards and mice
+# (ckb-next). Not started by default; enable with:
+#     slinitctl enable ckb-next-daemon
+type = process
+command = /usr/bin/ckb-next-daemon
+depends-on: local.target
+restart = true
+log-type = journal
