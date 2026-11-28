@@ -1,7 +1,7 @@
 # Template file for 'podman'
 pkgname=podman
 version=6.1.4
-revision=2
+revision=3
 _container_libs_common=0.69.2
 build_style=go
 build_wrksrc=podman-${version}
@@ -56,6 +56,7 @@ post_install() {
 	vsv podman
 	vslinit podman
 	vsv podman-docker
+	vslinit podman-docker
 	vbin podman-remote
 	ln -sf podman ${DESTDIR}/usr/bin/podmansh
 }

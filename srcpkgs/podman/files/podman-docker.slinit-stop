@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit finish script.
+set -u
+if [ "$(/usr/bin/realpath /run/docker.sock)" = "/run/podman/podman.sock" ]; then
+	/usr/bin/rm /run/docker.sock
+fi

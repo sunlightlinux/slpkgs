@@ -1,0 +1,7 @@
+# podman-docker -- points /run/docker.sock at the Podman API socket, and
+# removes the link when the service stops (podman). Not started by
+# default; enable with: slinitctl enable podman-docker
+type = scripted
+command = /usr/bin/ln -sf /run/podman/podman.sock /run/docker.sock
+stop-command = /usr/libexec/slinit/podman-docker-stop
+depends-on: local.target
