@@ -1,0 +1,6 @@
+# containerd -- container runtime (containerd). Not started by default;
+# enabling docker starts it, or: slinitctl enable containerd
+type = process
+command = /usr/libexec/slinit/containerd
+depends-on: local.target
+restart = true

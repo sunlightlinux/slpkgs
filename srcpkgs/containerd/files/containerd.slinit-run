@@ -1,0 +1,3 @@
+#!/bin/sh
+modprobe -q overlay 2>/dev/null
+exec containerd
