@@ -1,0 +1,8 @@
+# zed -- ZFS Event Daemon (zfs). Not started by default; enable with:
+#     slinitctl enable zed
+# Options: OPTS in /etc/conf.d/zed. Needs the zfs module loaded (/dev/zfs).
+type = process
+command = /usr/libexec/slinit/zed
+depends-on: local.target
+restart = true
+log-type = journal
