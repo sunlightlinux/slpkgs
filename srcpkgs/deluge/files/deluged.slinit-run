@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/deluged ] && . /etc/conf.d/deluged
+exec /usr/bin/deluged -d -U deluge -g deluge -c /var/lib/deluge/.config/deluge ${OPTS}

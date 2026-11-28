@@ -1,0 +1,9 @@
+# deluged -- the Deluge BitTorrent daemon (deluge), running as deluge
+# with its config in /var/lib/deluge/.config/deluge. Not started by
+# default; enable with: slinitctl enable deluged
+# Options: OPTS in /etc/conf.d/deluged.
+type = process
+command = /usr/libexec/slinit/deluged
+depends-on: network.target
+restart = true
+log-type = journal

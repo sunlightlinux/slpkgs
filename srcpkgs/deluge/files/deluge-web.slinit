@@ -1,0 +1,11 @@
+# deluge-web -- the Deluge web interface (deluge-web), running as
+# deluge. Not started by default; enable with:
+#     slinitctl enable deluge-web
+# Needs deluged, as the runit run script checked with sv check.
+type = process
+command = /usr/libexec/slinit/deluge-web
+run-as = deluge:deluge
+depends-on: network.target
+depends-on: deluged
+restart = true
+log-type = journal

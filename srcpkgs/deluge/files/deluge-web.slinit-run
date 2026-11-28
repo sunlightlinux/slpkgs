@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script: HOME set as it did; the user comes from the
+# service's run-as.
+set -u
+HOME=/var/lib/deluge
+export HOME
+exec /usr/bin/deluge-web -d
