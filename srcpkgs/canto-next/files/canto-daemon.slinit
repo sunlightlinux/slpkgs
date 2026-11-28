@@ -1,0 +1,10 @@
+# canto-daemon -- Atom/RSS feed fetching daemon (canto-next). Not
+# started by default; enable with: slinitctl enable canto-daemon
+# On exit, canto-remote kill is run, as runit's finish did.
+type = process
+command = /usr/bin/canto-daemon
+finish-command = /usr/bin/canto-remote kill
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
