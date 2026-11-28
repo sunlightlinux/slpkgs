@@ -30,8 +30,12 @@ and needs no `vinstall` line for any of them. Put the
 `vslinit` line directly after the `vsv` line of the same service, in the
 same function (also when `vsv` sits in a subpackage's `pkg_install`; no
 `vmove` is needed then), and bump `revision`. A subpackage that `vmove`s
-`etc/sv/<service>` also moves `usr/lib/slinit.d/<service>` (and, with
-`enable`, `usr/lib/slinit.d/boot.d/<service>`).
+`etc/sv/<service>` also moves everything vslinit installed for it:
+`usr/lib/slinit.d/<service>`, `usr/libexec/slinit/<service>` (and its
+`-stop`, `-finish`, `-check`), `etc/conf.d/<service>`, and, with
+`enable`, `usr/lib/slinit.d/boot.d/<service>`. Move them before another
+subpackage moves a whole directory (`vmove usr/libexec` in a -common
+package would otherwise take the helper away from its service).
 
 `<service>` is the name `vsv` uses, so a daemon is enabled by the same name
 under either init. Never invent another one. A second `vsv` argument
@@ -115,12 +119,15 @@ part in the slinit service.
    environment variable the run script sets (`HOME=...`) is exported in
    the helper, which runs with the service's `run-as` user.
 
-   Anything else (`-l`, `-L`, `-m`, `-d`, `-p`, `-P`, `-0`..`-2`): stop
-   and report it rather than guess.
+   Anything else (`-U`, `-l`, `-L`, `-m`, `-d`, `-P`, `-/`, `-0`..`-2`):
+   stop and report it rather than guess. So also when a `chpst` argument
+   comes from the conf at run time (`chpst -u "${USER:-_x}"`): `run-as`
+   and `working-dir` are fixed, and a conversion would drop the setting.
 
 9. **Dependencies:**
    - a daemon that needs the network gets `depends-on: network.target`
-     alone: network.target already depends on local.target;
+     alone: network.target already depends on local.target. A server that
+     listens on a port counts as needing it;
    - every other daemon gets `depends-on: local.target` (filesystems
      mounted, root read-write), unless it must run earlier in boot, and
      one that uses the network but copes without it adds
@@ -255,7 +262,8 @@ packaged slinit, together with slinit-services' services (which define
     done
     slinit-check -d /tmp/svc <service>
 
-A warning that a command's binary, or a `run-as` user, does not exist is
+A warning that a command's binary, a `run-as` user, or a `working-dir`
+the package's `make_dirs` creates does not exist is
 expected on a machine without the package, for the service and for
 slinit-services' own helpers;
 every other warning or error is a failure. Two services of the same name in
