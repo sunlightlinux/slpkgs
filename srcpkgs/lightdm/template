@@ -1,7 +1,7 @@
 # Template file for 'lightdm'
 pkgname=lightdm
 version=1.33.1
-revision=1
+revision=2
 build_style=gnu-configure
 build_helper="gir"
 configure_args="--sbindir=/usr/bin --with-greeter-session=lightdm-gtk-greeter
@@ -49,6 +49,7 @@ post_install() {
 	# Remove provided init file and use our own.
 	rm -rf ${DESTDIR}/etc/init
 	vsv lightdm
+	vslinit lightdm
 	vinstall ${FILESDIR}/lightdm.rules 644 usr/share/polkit-1/rules.d
 	vinstall ${FILESDIR}/xsession 755 etc/lightdm Xsession
 	sed 's|\#session-wrapper=.*|session-wrapper=/etc/lightdm/Xsession|' -i ${DESTDIR}/etc/lightdm/lightdm.conf

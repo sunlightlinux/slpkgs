@@ -1,0 +1,34 @@
+# lightdm -- display manager (lightdm). Not started by default; enable with:
+#     slinitctl enable lightdm
+type = process
+
+# Only start when the kernel exposes a DRM device — otherwise LightDM
+# spends a few seconds trying to open an X server against a phantom
+# card and then flails in respawn loop.
+condition-path-exists = /dev/dri/card0
+
+# Wait for dbus (LightDM speaks org.freedesktop.DisplayManager) and
+# slinit-logind (session tracking / seat allocation via
+# org.freedesktop.login1).
+depends-on: dbus
+depends-on: logind
+# Nice to have but not strictly required — udev-trigger seeds
+# /dev/dri and input devices; skipping it would race the DRM open.
+waits-for: udev-trigger
+
+# LightDM needs /run/lightdm at boot; the Void runit script does the
+# same install-d call. mode 0711 so the daemon can traverse into it
+# but per-user session sockets stay private. We do this in a
+# pre-start-command so we do not have to model it via slinit runtime-
+# directory (which would want run-as = lightdm, but the daemon itself
+# needs to fork+setuid from root to seat sessions).
+pre-start-command = /usr/bin/install -d -m 0711 -o lightdm -g lightdm /run/lightdm
+
+command = /usr/bin/lightdm
+
+# Own vt7 by default — LightDM configures that in /etc/lightdm/lightdm.conf.
+# Keeping tty1..tty6 for text getty means Ctrl+Alt+F1..F6 still work.
+restart = yes
+restart-delay = 2
+restart-limit-count = 5
+restart-limit-interval = 60
