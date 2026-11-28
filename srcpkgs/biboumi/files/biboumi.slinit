@@ -1,0 +1,8 @@
+# biboumi -- XMPP to IRC gateway (biboumi). Not started by default; enable
+# with: slinitctl enable biboumi
+type = process
+command = /usr/bin/biboumi /etc/biboumi/biboumi.cfg
+run-as = _biboumi:_biboumi
+depends-on: network.target
+restart = true
+log-type = journal
