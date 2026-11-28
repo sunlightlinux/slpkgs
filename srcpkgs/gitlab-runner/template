@@ -1,7 +1,7 @@
 # Template file for 'gitlab-runner'
 pkgname=gitlab-runner
 version=19.2.2
-revision=2
+revision=3
 build_style=go
 go_import_path=gitlab.com/gitlab-org/gitlab-runner
 short_desc="Official GitLab CI runner written in Go"
@@ -16,5 +16,6 @@ checksum=093d8e33789357f3ec3a930340dd9496a964163d51e01a479b114b675dec1040
 make_check=no
 post_install() {
 	vsv gitlab-runner
+	vslinit gitlab-runner
 	vlicense ${wrksrc}/LICENSE
 }
