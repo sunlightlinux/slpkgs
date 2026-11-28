@@ -1,8 +1,9 @@
 # cronie -- runs crontabs (cronie). Started by default (vslinit enable).
-# Same invocation as Void's runit service, with mail off, as no mail transport
-# is installed by default. Named cronie, as Void's runit service is; it was
-# crond in slinit-services before 20261108_13.
+# Named cronie, as Void's runit service is; it was crond in slinit-services
+# before 20261108_13. Options: OPTS in /etc/conf.d/cronie, which by default
+# turns mail off (-s -m off), as no mail transport is installed by default.
 type = process
-command = /usr/bin/cronie-crond -n -s -m off
+command = /usr/libexec/slinit/cronie
 depends-on: local.target
 restart = true
+log-type = journal

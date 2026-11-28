@@ -1,7 +1,7 @@
 # Template file for 'cronie'
 pkgname=cronie
 version=1.7.2
-revision=3
+revision=4
 build_style=gnu-configure
 configure_args="--with-inotify --without-selinux --with-pam
  --enable-anacron --enable-pie --enable-relro"
@@ -23,7 +23,8 @@ make_dirs="
 	/etc/cron.monthly 0755 root root
 	/var/spool/cron 0755 root root
 	/var/spool/anacron 0755 root root"
-conf_files="/etc/anacrontab /etc/pam.d/crond /etc/cron.deny /etc/default/anacron"
+conf_files="/etc/anacrontab /etc/pam.d/crond /etc/cron.deny /etc/default/anacron
+ /etc/conf.d/cronie"
 provides="cron-daemon-0_1"
 
 alternatives="
@@ -47,6 +48,7 @@ pre_configure() {
 post_install() {
 	vsv cronie cron
 	vslinit cronie enable
+	vinstall ${FILESDIR}/cronie.conf 644 etc/conf.d cronie
 	vinstall ${FILESDIR}/crond.pam 644 etc/pam.d crond
 
 	# Add /etc/cron.deny empty, to allow all users.
