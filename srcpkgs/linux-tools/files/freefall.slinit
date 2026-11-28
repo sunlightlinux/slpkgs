@@ -1,0 +1,9 @@
+# freefall -- parks the disk heads when an HP/Dell laptop falls
+# (freefall). Not started by default; enable with:
+# slinitctl enable freefall
+# Options: OPTS in /etc/conf.d/freefall (the disk, default /dev/sda).
+type = process
+command = /usr/libexec/slinit/freefall
+depends-on: local.target
+restart = true
+log-type = journal

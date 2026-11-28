@@ -1,0 +1,7 @@
+# usbipd -- USB/IP server, shares USB devices over the network (usbip).
+# Not started by default; enable with: slinitctl enable usbipd
+type = process
+command = /usr/libexec/slinit/usbipd
+depends-on: network.target
+restart = true
+log-type = journal

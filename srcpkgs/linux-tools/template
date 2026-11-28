@@ -1,7 +1,7 @@
 # Template file for 'linux-tools'
 pkgname=linux-tools
 version=6.5
-revision=8
+revision=9
 metapackage=yes
 hostmakedepends="asciidoc automake flex gettext libtool perl
  python3-setuptools python3-docutils xmlto pkg-config"
@@ -238,6 +238,7 @@ usbip_package() {
 		vmove "usr/share/man/man8/usbip*"
 		vmove usr/lib/modules-load.d/usbip.conf
 		vsv usbipd
+		vslinit usbipd
 	}
 }
 freefall_package() {
@@ -245,6 +246,7 @@ freefall_package() {
 	pkg_install() {
 		vbin "${wrksrc}/tools/laptop/freefall/freefall"
 		vsv freefall
+		vslinit freefall
 	}
 }
 turbostat_package() {

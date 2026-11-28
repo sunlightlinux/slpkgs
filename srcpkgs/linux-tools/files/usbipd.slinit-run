@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script.
+set -u
+/usr/bin/modprobe -q usbip-host || exit 1
+/usr/bin/modprobe -q vhci-hcd || exit 1
+exec /usr/bin/usbipd
