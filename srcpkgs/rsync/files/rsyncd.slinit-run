@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script.
+set -u
+[ ! -e /etc/rsyncd.conf ] && exit 1
+exec /usr/bin/rsync --daemon --no-detach
