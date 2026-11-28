@@ -1,0 +1,14 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. The runit
+# script removed /var/service/shinit after one run; here the marker
+# /var/lib/shinit/done, which shinit itself checks, makes later runs
+# exit at once.
+set -u
+[ -e /var/lib/shinit/done ] && exit 0
+
+export SHINIT_USER=void
+
+[ -r /etc/conf.d/shinit ] && . /etc/conf.d/shinit
+
+/usr/bin/shinit || exit
+/usr/bin/touch /var/lib/shinit/done

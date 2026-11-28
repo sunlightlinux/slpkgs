@@ -1,7 +1,7 @@
 # Template file for 'shinit'
 pkgname=shinit
 version=0.2.0
-revision=1
+revision=2
 depends="curl"
 make_dirs="/var/lib/shinit 0755 root root"
 short_desc="Minimalist approach to cloud-init style provisioning"
@@ -17,4 +17,5 @@ do_install() {
 	vmkdir usr/libexec/shinit
 	vcopy libexec/* usr/libexec/shinit
 	vsv shinit
+	vslinit shinit
 }

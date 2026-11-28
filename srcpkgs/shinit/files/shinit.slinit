@@ -1,0 +1,10 @@
+# shinit -- cloud-init style first-boot provisioning (shinit). Not
+# started by default; enable with: slinitctl enable shinit
+# Runs once per machine: the helper does nothing once
+# /var/lib/shinit/done exists. Options: /etc/conf.d/shinit.
+type = scripted
+command = /usr/libexec/slinit/shinit
+depends-on: network.target
+# Provisioning runs the instance's user data, which may take any time;
+# runit never timed it out.
+start-timeout = 0
