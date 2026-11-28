@@ -1,0 +1,11 @@
+# avahi-daemon -- mDNS/DNS-SD service discovery daemon (avahi). Not
+# started by default; enable with: slinitctl enable avahi-daemon
+type = process
+command = /usr/bin/avahi-daemon -s
+depends-on: network.target
+# The package sets enable-dbus=warn, so avahi-daemon copes without the
+# bus: it waits for dbus rather than depending on it, as the runit run
+# script waited for dbus only when dbus was enabled.
+waits-for: dbus
+restart = true
+log-type = journal
