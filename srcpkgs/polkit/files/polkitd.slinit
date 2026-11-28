@@ -8,3 +8,4 @@ restart = yes
 restart-delay = 2
 restart-limit-count = 5
 restart-limit-interval = 60
+log-type = journal
