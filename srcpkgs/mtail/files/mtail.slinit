@@ -1,0 +1,9 @@
+# mtail -- extracts metrics from logs (mtail). Not started by default;
+# enable with: slinitctl enable mtail
+# Options: OPTS in /etc/conf.d/mtail. It serves its metrics over HTTP,
+# binding to any address, so it needs the network set up.
+type = process
+command = /usr/libexec/slinit/mtail
+depends-on: network.target
+restart = true
+log-type = journal
