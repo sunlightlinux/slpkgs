@@ -1,7 +1,7 @@
 # Template file for 'irqbalance'
 pkgname=irqbalance
 version=1.9.4
-revision=1
+revision=2
 build_style=gnu-configure
 hostmakedepends="automake libtool pkg-config"
 makedepends="libcap-ng-devel libglib-devel ncurses-devel"
@@ -22,4 +22,5 @@ pre_configure() {
 
 post_install() {
 	vsv irqbalance
+	vslinit irqbalance
 }

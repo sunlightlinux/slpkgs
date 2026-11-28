@@ -1,0 +1,6 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/irqbalance ] && . /etc/conf.d/irqbalance
+/usr/bin/install -d -m0755 /run/irqbalance
+exec /usr/bin/irqbalance -f $OPTS
