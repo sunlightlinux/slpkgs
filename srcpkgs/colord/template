@@ -1,7 +1,7 @@
 # Template file for 'colord'
 pkgname=colord
 version=1.4.7
-revision=1
+revision=2
 build_style=meson
 build_helper="gir"
 configure_args="-Dsystemd=false -Dsane=true -Dargyllcms_sensor=false
@@ -11,6 +11,7 @@ hostmakedepends="docbook-xsl-ns gettext glib-devel libxslt pkg-config
  $(vopt_if vala vala)"
 makedepends="bash-completion lcms2-devel libgudev-devel libgusb-devel
  polkit-devel sane-devel sqlite-devel"
+depends="dbus"
 short_desc="System daemon for managing color devices"
 maintainer="Enno Boland <gottox@voidlinux.org>"
 license="GPL-2.0-only"
@@ -61,4 +62,5 @@ colord-devel_package() {
 
 post_install() {
 	vsv colord
+	vslinit colord
 }
