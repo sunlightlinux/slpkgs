@@ -1,0 +1,9 @@
+# nebula -- scalable overlay networking tool (nebula). Not started by
+# default; enable with: slinitctl enable nebula
+# Settings: NEBULA_CONFIG (default /etc/nebula) and extra arguments
+# (set -- ...) in /etc/conf.d/nebula.
+type = process
+command = /usr/libexec/slinit/nebula
+depends-on: network.target
+restart = true
+log-type = journal

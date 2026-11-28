@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+set --
+NEBULA_CONFIG=/etc/nebula
+[ -r /etc/conf.d/nebula ] && . /etc/conf.d/nebula
+exec /usr/bin/nebula -config "${NEBULA_CONFIG}" "$@"
