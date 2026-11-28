@@ -1,7 +1,7 @@
 # Template file for 'PopCorn'
 pkgname=PopCorn
 version=0.4
-revision=13
+revision=14
 build_style=go
 go_import_path=github.com/the-maldridge/popcorn
 go_package="${go_import_path}/cmd/popcorn
@@ -26,8 +26,11 @@ make_dirs="
 post_install() {
 	vlicense LICENSE
 	vsv popcorn
+	vslinit popcorn
 	vsv statrepo
+	vslinit statrepo
 	vsv pqueryd
+	vslinit pqueryd
 }
 
 PopCorn-Server_package() {
@@ -41,5 +44,9 @@ PopCorn-Server_package() {
 
 		vmove etc/sv/statrepo
 		vmove etc/sv/pqueryd
+		vmove usr/lib/slinit.d/statrepo
+		vmove usr/lib/slinit.d/pqueryd
+		vmove usr/libexec/slinit/statrepo
+		vmove usr/libexec/slinit/pqueryd
 	}
 }

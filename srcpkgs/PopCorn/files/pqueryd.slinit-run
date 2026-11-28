@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/pqueryd ] && . /etc/conf.d/pqueryd
+
+: ${PORT=8002}
+: ${DATA_DIR=/srv/www/popcorn}
+
+exec /usr/bin/pqueryd --checkpoint_enabled=false --port $PORT --data_dir $DATA_DIR

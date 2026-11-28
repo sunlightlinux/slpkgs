@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; its mkdir
+# and chown of /var/cache/popcorn are the service's pre-start-command.
+set -u
+[ -r /etc/conf.d/popcorn ] && . /etc/conf.d/popcorn
+
+: ${SERVER:=popcorn.voidlinux.org}
+: ${PORT:=8001}
+
+exec /usr/bin/snooze -s 1d -t /var/cache/popcorn/snooze -- /bin/sh -c \
+	"/usr/bin/popcorn --server $SERVER --port $PORT; /usr/bin/touch /var/cache/popcorn/snooze"

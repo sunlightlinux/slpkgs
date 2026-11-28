@@ -1,0 +1,9 @@
+# statrepo -- PopCorn statistics repository server (PopCorn-Server). Not
+# started by default; enable with: slinitctl enable statrepo
+# Options: PORT and KEY in /etc/conf.d/statrepo.
+type = process
+command = /usr/libexec/slinit/statrepo
+run-as = _popcorn:_popcorn
+depends-on: network.target
+restart = true
+log-type = journal

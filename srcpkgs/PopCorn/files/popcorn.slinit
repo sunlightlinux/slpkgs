@@ -1,0 +1,12 @@
+# popcorn -- reports package statistics to a PopCorn server once a day,
+# through snooze (PopCorn). Not started by default; enable with:
+#     slinitctl enable popcorn
+# Options: SERVER and PORT in /etc/conf.d/popcorn.
+type = process
+command = /usr/libexec/slinit/popcorn
+run-as = _popcorn:_popcorn
+pre-start-command = +/usr/bin/install -d -o _popcorn -g _popcorn /var/cache/popcorn
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

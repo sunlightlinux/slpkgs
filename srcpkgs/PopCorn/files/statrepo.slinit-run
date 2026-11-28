@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/statrepo ] && . /etc/conf.d/statrepo
+
+: ${PORT=8001}
+: ${KEY=RESET_KEY}
+
+exec /usr/bin/statrepo  --port $PORT --reset_key $KEY
