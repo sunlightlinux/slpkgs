@@ -1,0 +1,7 @@
+# glusterfsd -- GlusterFS brick server (glusterfs). Not started by
+# default; enable with: slinitctl enable glusterfsd
+type = process
+command = /usr/bin/glusterfsd -N
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'glusterfs'
 pkgname=glusterfs
 version=9.6
-revision=3
+revision=4
 build_style=gnu-configure
 configure_args="
  --with-mountutildir=/usr/bin
@@ -41,6 +41,7 @@ post_extract() {
 post_install() {
 	rm -rf ${DESTDIR}/var ${DESTDIR}/usr/share/glusterfs/scripts/gsync-sync-gfid
 	vsv glusterfsd
+	vslinit glusterfsd
 }
 
 glusterfs-server_package() {
@@ -56,6 +57,7 @@ glusterfs-server_package() {
 		vmove usr/share/man/man8/gluster.8
 		vmove usr/share/man/man8/glusterd.8
 		vsv glusterd
+		vslinit glusterd
 	}
 }
 glusterfs-devel_package() {
