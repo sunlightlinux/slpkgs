@@ -1,0 +1,8 @@
+# spampd -- SMTP proxy that scans mail with SpamAssassin (spampd). Not
+# started by default; enable with: slinitctl enable spampd
+# Options: OPTS in /etc/conf.d/spampd.
+type = process
+command = /usr/libexec/slinit/spampd
+depends-on: network.target
+restart = true
+log-type = journal

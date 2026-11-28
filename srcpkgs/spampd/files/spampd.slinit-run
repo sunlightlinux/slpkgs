@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/spampd ] && . /etc/conf.d/spampd
+exec /usr/bin/spampd --nodetach ${OPTS:=--host=127.0.0.1:10025 --relayhost=127.0.0.1:10026 --a --rh --u=_spampd --g=_spampd --maxsize=512}
