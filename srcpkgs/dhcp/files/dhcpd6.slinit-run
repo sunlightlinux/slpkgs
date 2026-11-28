@@ -1,0 +1,6 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/dhcpd6 ] && . /etc/conf.d/dhcpd6
+/usr/bin/touch /var/lib/dhcp/dhcpd.leases
+exec /usr/bin/dhcpd -f ${OPTS:=-6 -q -pf /run/dhcpd6.pid}

@@ -1,0 +1,9 @@
+# dhcpd6 -- ISC DHCP server, DHCPv6 (dhcp). Not started by default; enable
+# with: slinitctl enable dhcpd6
+# Configured in /etc/dhcpd.conf; options: OPTS in /etc/conf.d/dhcpd6
+# (default -6 -q -pf /run/dhcpd6.pid).
+type = process
+command = /usr/libexec/slinit/dhcpd6
+depends-on: network.target
+restart = true
+log-type = journal

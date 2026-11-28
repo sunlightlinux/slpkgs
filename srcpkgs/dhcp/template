@@ -1,7 +1,7 @@
 # Template file for 'dhcp'
 pkgname=dhcp
 version=4.4.3P1
-revision=1
+revision=2
 build_style=gnu-configure
 hostmakedepends="perl tar pkg-config"
 short_desc="Server from the Internet Software Consortium's implementation of DHCP"
@@ -34,10 +34,13 @@ post_install() {
 	mv ${DESTDIR}/etc/dhclient.conf.example ${DESTDIR}/etc/dhclient.conf
 	mv ${DESTDIR}/etc/dhcpd.conf.example ${DESTDIR}/etc/dhcpd.conf
 	sed -i "s/^/#/" $DESTDIR/etc/dhclient.conf $DESTDIR/etc/dhcpd.conf
-	vsv dhcpd4
-	vsv dhcpd6
-	# Remove development stuff, useless...
+	# Remove development stuff, useless... (before vslinit, which installs
+	# into usr/lib/slinit.d)
 	rm -rf ${DESTDIR}/usr/include ${DESTDIR}/usr/lib ${DESTDIR}/usr/share/man/man3
+	vsv dhcpd4
+	vslinit dhcpd4
+	vsv dhcpd6
+	vslinit dhcpd6
 	vlicense LICENSE
 }
 
@@ -52,5 +55,6 @@ dhclient_package() {
 		vmove usr/share/man/man8/dhclient*
 		vbin client/scripts/linux dhclient-script
 		vsv dhclient
+		vslinit dhclient
 	}
 }

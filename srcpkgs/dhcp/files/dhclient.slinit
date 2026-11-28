@@ -1,0 +1,10 @@
+# dhclient -- ISC DHCP client (dhclient). Not started by default; enable
+# with: slinitctl enable dhclient
+# Configured in /etc/dhclient.conf; options: OPTS in /etc/conf.d/dhclient
+# (default -d). Sets up the network, so it runs before network.target.
+type = process
+command = /usr/libexec/slinit/dhclient
+depends-on: pre-network.target
+before: network.target
+restart = true
+log-type = journal

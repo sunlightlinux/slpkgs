@@ -1,0 +1,9 @@
+# dhcpd4 -- ISC DHCP server, DHCPv4 (dhcp). Not started by default; enable
+# with: slinitctl enable dhcpd4
+# Configured in /etc/dhcpd.conf; options: OPTS in /etc/conf.d/dhcpd4
+# (default -4 -q -pf /run/dhcpd4.pid).
+type = process
+command = /usr/libexec/slinit/dhcpd4
+depends-on: network.target
+restart = true
+log-type = journal

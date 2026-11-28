@@ -1,0 +1,6 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/dhcpd4 ] && . /etc/conf.d/dhcpd4
+/usr/bin/touch /var/lib/dhcp/dhcpd.leases
+exec /usr/bin/dhcpd -f ${OPTS:=-4 -q -pf /run/dhcpd4.pid}

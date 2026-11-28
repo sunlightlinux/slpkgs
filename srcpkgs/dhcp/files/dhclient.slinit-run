@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/dhclient ] && . /etc/conf.d/dhclient
+exec /usr/bin/dhclient ${OPTS:=-d}
