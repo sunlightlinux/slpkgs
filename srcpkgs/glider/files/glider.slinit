@@ -1,0 +1,8 @@
+# glider -- forward proxy (glider). Not started by default; enable with:
+#     slinitctl enable glider
+type = process
+command = /usr/bin/glider -config /etc/glider/config
+run-as = nobody:nogroup
+depends-on: network.target
+restart = true
+log-type = journal
