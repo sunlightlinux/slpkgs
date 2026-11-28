@@ -1,0 +1,8 @@
+# lact -- AMDGPU control daemon (LACT). Not started by default; enable
+# with: slinitctl enable lact
+type = process
+command = /usr/bin/lact daemon
+nice = -10
+depends-on: local.target
+restart = true
+log-type = journal
