@@ -1,0 +1,12 @@
+# resize-root -- grows the root partition and its filesystem to fill the
+# disk at boot, when ENABLE_ROOT_GROWPART is set in /etc/default/growpart
+# (cloud-guest-utils). Started at every boot while the package is
+# installed, as runit's core-service 10-resize-root.sh was; it does
+# nothing unless enabled in that file.
+type = scripted
+command = /usr/libexec/slinit/resize-root
+# Root mounted read-write, before any daemon starts (runit ran it in
+# stage 1, after 05-misc).
+depends-on: filesystems
+before: local.target
+start-timeout = 300

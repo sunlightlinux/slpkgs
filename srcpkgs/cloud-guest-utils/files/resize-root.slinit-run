@@ -1,0 +1,24 @@
+#!/bin/sh
+# Void's runit core-service 10-resize-root.sh.
+set -u
+ENABLE_ROOT_GROWPART=
+. /etc/default/growpart
+
+if [ -n "$ENABLE_ROOT_GROWPART" ]; then
+	echo "Growing root partition"
+
+	rpart="$(/usr/bin/findmnt -r -o SOURCE -v -n /)"
+	rnum="$(/usr/bin/cat /sys/class/block/"${rpart##*/}"/partition)"
+	rdisk="${rpart%%"$rnum"}"
+	rdisk="${rdisk%p}"
+	rtype="$(/usr/bin/blkid -o value -s TYPE "${rpart}")"
+
+	/usr/bin/growpart "$rdisk" "$rnum"
+
+	case "$rtype" in
+		ext*) /usr/bin/resize2fs "$rpart" ;;
+		f2fs) /usr/bin/resize.f2fs "$rpart" ;;
+		xfs) /usr/bin/xfs_growfs -d "$rpart" ;;
+		*) echo "Couldn't resize partition, partition type $rtype not supported" >&2 ;;
+	esac
+fi

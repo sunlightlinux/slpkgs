@@ -1,7 +1,7 @@
 # Template file for 'cloud-guest-utils'
 pkgname=cloud-guest-utils
 version=0.33
-revision=3
+revision=4
 build_style=gnu-makefile
 depends="e2fsprogs util-linux gptfdisk"
 short_desc="Useful programs inside of a VM Guest"
@@ -15,6 +15,7 @@ checksum=338770d637788466aacfcbcec17a8d0046f92a13cc3b25fce8fceadb02a7339f
 post_install() {
 	vdoc "${FILESDIR}"/README.voidlinux
 	vinstall "${FILESDIR}"/10-resize-root.sh 644 /etc/runit/core-services
+	vslinit resize-root enable
 	vinstall "${FILESDIR}"/growpart.default 644 /etc/default growpart
 }
 
