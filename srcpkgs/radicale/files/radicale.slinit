@@ -1,0 +1,8 @@
+# radicale -- CalDAV and CardDAV server (radicale). Not started by
+# default; enable with: slinitctl enable radicale
+type = process
+command = /usr/bin/radicale -C /etc/radicale/config
+run-as = radicale
+depends-on: network.target
+restart = true
+log-type = journal
