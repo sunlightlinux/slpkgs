@@ -1,0 +1,8 @@
+# pbbuttonsd -- Apple laptop hotkey daemon (pbbuttonsd). Not started by
+# default; enable with: slinitctl enable pbbuttonsd
+# Options: CONF and OPTS in /etc/conf.d/pbbuttonsd.
+type = process
+command = /usr/libexec/slinit/pbbuttonsd
+depends-on: local.target
+restart = true
+log-type = journal

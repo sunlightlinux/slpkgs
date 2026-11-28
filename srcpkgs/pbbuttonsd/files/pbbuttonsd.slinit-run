@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+CONF=
+OPTS=
+[ -r /etc/conf.d/pbbuttonsd ] && . /etc/conf.d/pbbuttonsd
+exec /usr/bin/pbbuttonsd --configfile=${CONF:=/etc/pbbuttonsd.cnf} ${OPTS}

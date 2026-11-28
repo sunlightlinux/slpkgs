@@ -1,7 +1,7 @@
 # Template file for 'pbbuttonsd'
 pkgname=pbbuttonsd
 version=0.8.1a
-revision=1
+revision=2
 archs="ppc ppc-musl"
 build_style=gnu-configure
 # enabling ibam requires /var/lib/ibam to exist for it to start
@@ -25,6 +25,7 @@ post_extract() {
 
 post_install() {
 	vsv pbbuttonsd
+	vslinit pbbuttonsd
 	vinstall ${FILESDIR}/85-pbbuttonsd.rules 644 usr/lib/udev/rules.d/
 }
 
