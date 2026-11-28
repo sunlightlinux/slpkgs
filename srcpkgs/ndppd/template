@@ -1,7 +1,7 @@
 # Template file for 'ndppd'
 pkgname=ndppd
 version=0.2.5
-revision=2
+revision=3
 build_style=gnu-makefile
 short_desc="NDP Proxy Daemon"
 maintainer="lemmi <lemmi@nerd2nerd.org>"
@@ -16,5 +16,6 @@ do_install() {
 	vman ndppd.1
 	vman ndppd.conf.5
 	vsv ndppd
+	vslinit ndppd
 	vsconf ndppd.conf-dist ndppd.conf
 }
