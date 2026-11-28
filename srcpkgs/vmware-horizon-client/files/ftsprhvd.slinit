@@ -1,0 +1,8 @@
+# ftsprhvd -- VMware Horizon serial port redirection daemon
+# (vmware-horizon-client). Not started by default; enable with:
+#     slinitctl enable ftsprhvd
+type = process
+command = /usr/lib/vmware/view/bin/ftsprhvd -D
+depends-on: local.target
+restart = true
+log-type = journal

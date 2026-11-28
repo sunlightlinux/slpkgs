@@ -1,0 +1,13 @@
+#!/bin/sh
+set -u
+
+for user in $(/usr/bin/awk -F'[/:]' '{if ($3 == 0 || ($3 >= 1000 && $3 != 65534)) print $1}' /etc/passwd); do
+	_uid=$(/usr/bin/id -u $user)
+	if ! [ -f "/var/run/vmware/${_uid}" ] ; then
+		/usr/bin/mkdir -p "/var/run/vmware/${_uid}"
+		/usr/bin/chown -R -- "${user}:" "/var/run/vmware/${_uid}"
+		/usr/bin/chmod 700 "/var/run/vmware/${_uid}"
+	fi
+done
+
+exec /usr/bin/vmware-usbarbitrator -f

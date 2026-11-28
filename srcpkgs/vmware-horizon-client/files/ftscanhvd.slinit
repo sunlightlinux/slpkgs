@@ -1,0 +1,8 @@
+# ftscanhvd -- VMware Horizon scanner redirection daemon
+# (vmware-horizon-client). Not started by default; enable with:
+#     slinitctl enable ftscanhvd
+type = process
+command = /usr/lib/vmware/view/bin/ftscanhvd -D
+depends-on: local.target
+restart = true
+log-type = journal

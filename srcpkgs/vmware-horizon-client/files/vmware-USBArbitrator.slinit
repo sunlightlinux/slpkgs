@@ -1,0 +1,10 @@
+# vmware-USBArbitrator -- VMware Horizon USB redirection arbitrator
+# (vmware-horizon-client). Not started by default; enable with:
+#     slinitctl enable vmware-USBArbitrator
+# Its helper first creates /var/run/vmware/<uid> for root and every
+# regular user.
+type = process
+command = /usr/libexec/slinit/vmware-USBArbitrator
+depends-on: local.target
+restart = true
+log-type = journal

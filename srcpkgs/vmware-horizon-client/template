@@ -1,7 +1,7 @@
 # Template file for 'vmware-horizon-client'
 pkgname=vmware-horizon-client
 version=2406
-revision=1
+revision=2
 _build1=8.13.0
 _build2=9995429239
 _cart="CART25FQ2_LIN_${version}"
@@ -34,8 +34,11 @@ do_install() {
 	ln -sf /usr/lib/pkcs11/opensc-pkcs11.so ${DESTDIR}/usr/lib/vmware/view/pkcs11/libopenscpkcs11.so
 
 	vsv ftscanhvd
+	vslinit ftscanhvd
 	vsv ftsprhvd
+	vslinit ftsprhvd
 	vsv vmware-USBArbitrator
+	vslinit vmware-USBArbitrator
 
 	vlicense ${DESTDIR}/usr/share/doc/vmware-horizon-client/open_source_licenses.txt
 
