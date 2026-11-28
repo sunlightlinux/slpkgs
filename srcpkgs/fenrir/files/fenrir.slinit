@@ -1,0 +1,8 @@
+# fenrir -- console screen reader (fenrir). Not started by default;
+# enable with: slinitctl enable fenrir
+# Options: OPTS in /etc/conf.d/fenrir.
+type = process
+command = /usr/libexec/slinit/fenrir
+depends-on: local.target
+restart = true
+log-type = journal
