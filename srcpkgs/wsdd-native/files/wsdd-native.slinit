@@ -1,0 +1,8 @@
+# wsdd-native -- WS-Discovery daemon, makes this host visible in the
+# Windows network view (wsdd-native). Not started by default; enable
+# with: slinitctl enable wsdd-native
+type = process
+command = /usr/bin/wsddn --config=/etc/wsddn.conf --user=_wsddn
+depends-on: network.target
+restart = true
+log-type = journal
