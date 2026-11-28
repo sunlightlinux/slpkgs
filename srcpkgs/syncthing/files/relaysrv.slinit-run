@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. Runs as
+# the service's run-as user, relaysrv.
+set -u
+RELAY_ARGS=
+[ -r /etc/conf.d/relaysrv ] && . /etc/conf.d/relaysrv
+exec /usr/bin/strelaysrv -keys=/var/lib/relaysrv $RELAY_ARGS

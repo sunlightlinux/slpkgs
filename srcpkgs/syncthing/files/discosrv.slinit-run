@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. Runs as
+# the service's run-as user, _discosrv.
+set -u
+DISCO_ARGS=
+[ -r /etc/conf.d/discosrv ] && . /etc/conf.d/discosrv
+DISCO_ARGS="${DISCO_ARGS:--cert=/var/lib/discosrv/cert.pem -key=/var/lib/discosrv/key.pem}"
+exec /usr/bin/stdiscosrv $DISCO_ARGS

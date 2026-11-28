@@ -1,0 +1,9 @@
+# relaysrv -- Syncthing relay server (syncthing-relaysrv). Not started by
+# default; enable with: slinitctl enable relaysrv
+# Options: RELAY_ARGS in /etc/conf.d/relaysrv.
+type = process
+command = /usr/libexec/slinit/relaysrv
+run-as = relaysrv
+depends-on: network.target
+restart = true
+log-type = journal
