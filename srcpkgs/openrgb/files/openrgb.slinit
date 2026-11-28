@@ -1,0 +1,7 @@
+# openrgb -- RGB lighting control server (openrgb). Not started by default;
+# enable with: slinitctl enable openrgb
+type = process
+command = /usr/bin/openrgb --server
+depends-on: local.target
+restart = true
+log-type = journal
