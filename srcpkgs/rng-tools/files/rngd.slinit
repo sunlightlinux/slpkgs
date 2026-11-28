@@ -1,0 +1,8 @@
+# rngd -- feeds hardware entropy to the kernel (rng-tools). Not started
+# by default; enable with: slinitctl enable rngd
+# Options: RNGD_OPTS in /etc/conf.d/rngd.
+type = process
+command = /usr/libexec/slinit/rngd
+depends-on: local.target
+restart = true
+log-type = journal
