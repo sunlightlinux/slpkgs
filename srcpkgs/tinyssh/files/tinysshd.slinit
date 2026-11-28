@@ -1,0 +1,10 @@
+# tinysshd -- minimalistic SSH server, run by tcpserver (tinyssh). Not
+# started by default; enable with: slinitctl enable tinysshd
+# Settings: SSHPORT (default 22) and OPTS (default -l -v) in
+# /etc/conf.d/tinysshd. The helper creates the host keys on first start.
+# tinysshd's standard error is discarded, as the runit run script did.
+type = process
+command = /usr/libexec/slinit/tinysshd
+depends-on: network.target
+restart = true
+log-type = journal

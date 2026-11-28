@@ -1,7 +1,7 @@
 # Template file for 'tinyssh'
 pkgname=tinyssh
 version=20261101
-revision=1
+revision=2
 build_style=gnu-makefile
 make_dirs="/etc/tinyssh 0755 root root"
 make_use_env=yes
@@ -20,5 +20,6 @@ pre_build() {
 
 post_install() {
 	vsv tinysshd
+	vslinit tinysshd
 	vlicense LICENSE.md
 }
