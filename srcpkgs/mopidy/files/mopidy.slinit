@@ -1,0 +1,11 @@
+# mopidy -- music server (mopidy). Not started by default; enable with:
+#     slinitctl enable mopidy
+type = process
+command = /usr/bin/mopidy --config /etc/mopidy/mopidy.conf
+run-as = mopidy:audio
+# Its MPD frontend listens on a port (127.0.0.1:6600 by default).
+depends-on: network.target
+restart = true
+# The runit run script discarded all output (>/dev/null 2>&1); mopidy logs
+# to syslog through /etc/mopidy/logging.conf.
+log-type = none
