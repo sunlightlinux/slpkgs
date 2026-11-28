@@ -1,0 +1,8 @@
+# kapacitor -- alerting framework for time series data (kapacitor). Not
+# started by default; enable with: slinitctl enable kapacitor
+type = process
+command = /usr/bin/kapacitord --config /etc/kapacitor/kapacitor.conf
+run-as = _kapacitor:_kapacitor
+depends-on: network.target
+restart = true
+log-type = journal
