@@ -1,0 +1,12 @@
+# gdm -- GNOME Display Manager (gdm). Not started by default; enable with:
+#     slinitctl enable gdm
+type = process
+command = /usr/libexec/slinit/gdm
+# GDM speaks D-Bus and tracks sessions and seats through slinit-logind
+# (org.freedesktop.login1).
+depends-on: dbus
+depends-on: logind
+# udev-trigger seeds /dev/dri and the input devices.
+waits-for: udev-trigger
+restart = true
+log-type = journal

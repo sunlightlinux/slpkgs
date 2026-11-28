@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script, which prepares /run/gdm when it is missing.
+set -u
+[ ! -d /run/gdm ] && /usr/bin/mkdir -m0711 -p /run/gdm && /usr/bin/chown root:gdm /run/gdm
+exec /usr/bin/gdm

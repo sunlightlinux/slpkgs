@@ -1,7 +1,7 @@
 # Template file for 'gdm'
 pkgname=gdm
 version=48.0
-revision=2
+revision=3
 build_helper="gir"
 build_style=meson
 configure_args="
@@ -19,7 +19,7 @@ makedepends="accountsservice-devel elogind-devel gettext-devel glib-devel
  iso-codes libSM-devel libcanberra-devel nss-devel pam-devel upower-devel
  plymouth-devel libgudev-devel polkit-devel"
 depends="gnome-settings-daemon gnome-shell gnome-session gnome-themes-extra
- gsettings-desktop-schemas xorg-server xorg-server-xwayland xrdb"
+ gsettings-desktop-schemas xorg-server xorg-server-xwayland xrdb dbus"
 checkdepends="check-devel"
 short_desc="GNOME Display Manager"
 maintainer="Orphaned <orphan@voidlinux.org>"
@@ -62,6 +62,7 @@ post_install() {
 
 	# runit service
 	vsv gdm
+	vslinit gdm
 }
 
 libgdm_package() {
