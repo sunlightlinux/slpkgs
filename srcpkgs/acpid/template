@@ -1,8 +1,9 @@
 # Template file for 'acpid'
 pkgname=acpid
 version=2.0.34
-revision=4
+revision=5
 build_style=gnu-configure
+conflicts="slinit-services<20261108_13"
 short_desc="ACPI Daemon (acpid) With Netlink Support"
 maintainer="Enno Boland <gottox@voidlinux.org>"
 license="GPL-2.0-or-later"
@@ -16,4 +17,5 @@ post_install() {
 	vinstall ${FILESDIR}/handler.sh 755 etc/acpi
 	vinstall ${FILESDIR}/anything 644 etc/acpi/events
 	vsv acpid
+	vslinit acpid enable
 }
