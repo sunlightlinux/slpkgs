@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/criu ] && . /etc/conf.d/criu
+exec /usr/bin/criu service ${OPTS:=-o /var/log/criu-service.log}

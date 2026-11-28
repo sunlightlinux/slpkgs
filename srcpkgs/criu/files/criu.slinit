@@ -1,0 +1,9 @@
+# criu -- the criu RPC service (criu). Not started by default; enable
+# with: slinitctl enable criu
+# Options: OPTS in /etc/conf.d/criu (default:
+# -o /var/log/criu-service.log).
+type = process
+command = /usr/libexec/slinit/criu
+depends-on: local.target
+restart = true
+log-type = journal
