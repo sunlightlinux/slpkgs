@@ -1,0 +1,11 @@
+# scx-loader -- D-Bus loader for sched_ext schedulers (scx-loader). Not
+# started by default; enable with: slinitctl enable scx-loader
+# The helper fails when the kernel has no sched_ext or debugfs is not
+# mounted, as the runit run script does.
+type = process
+command = /usr/libexec/slinit/scx-loader
+depends-on: local.target
+# scx_loader serves org.scx.Loader on the system bus.
+depends-on: dbus
+restart = true
+log-type = journal

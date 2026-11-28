@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script: needs a kernel with sched_ext and debugfs.
+set -u
+export NO_COLOR=1
+[ -d /sys/kernel/sched_ext ] || exit 1
+[ -d /sys/kernel/debug ]     || exit 2
+exec /usr/bin/scx_loader
