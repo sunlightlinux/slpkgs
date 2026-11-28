@@ -1,0 +1,10 @@
+# bitlbee -- IRC gateway to instant messaging networks (bitlbee). Not
+# started by default; enable with: slinitctl enable bitlbee
+# Options: OPTS in /etc/conf.d/bitlbee (default -F).
+type = process
+command = /usr/libexec/slinit/bitlbee
+run-as = bitlbee:bitlbee
+pre-start-command = +/usr/bin/install -d -m0755 -o bitlbee -g bitlbee /run/bitlbee
+depends-on: network.target
+restart = true
+log-type = journal

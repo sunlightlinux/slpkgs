@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+OPTS=
+[ -r /etc/conf.d/bitlbee ] && . /etc/conf.d/bitlbee
+exec /usr/bin/bitlbee -n ${OPTS:=-F}
