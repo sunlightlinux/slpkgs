@@ -1,0 +1,11 @@
+# wicd -- wired and wireless network manager (wicd). Not started by
+# default; enable with: slinitctl enable wicd
+# Needs dbus, as the runit run script checked with sv check dbus. Its
+# stdout is closed, as chpst -1 did.
+type = process
+command = /usr/libexec/slinit/wicd
+depends-on: dbus
+depends-on: pre-network.target
+before: network.target
+restart = true
+log-type = journal

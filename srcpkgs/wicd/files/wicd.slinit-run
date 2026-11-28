@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script: sv check dbus is the service's depends-on, and
+# chpst -1 closes stdout.
+set -u
+exec 1>&-
+exec /usr/bin/wicd --no-daemon
