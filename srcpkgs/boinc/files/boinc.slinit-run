@@ -1,0 +1,19 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d, absolute
+# paths, and chpst -u replaced by setpriv.
+set -u
+BOINCEXE_NAME=
+BOINCCMD_NAME=
+BOINCUSER=
+BOINCDIR=
+LOGFILE=
+ERRORLOG=
+BOINCOPTS=
+OPTS=
+[ -r /etc/conf.d/boinc ] && . /etc/conf.d/boinc
+[ -d ${BOINCDIR} ] || /usr/bin/mkdir -m 755 -p ${BOINCDIR}
+[ -f ${LOGFILE} ] || /usr/bin/touch ${LOGFILE}
+[ -f ${ERRORLOG} ] || /usr/bin/touch ${ERRORLOG}
+/usr/bin/chown --recursive ${BOINCUSER}:${BOINCUSER} ${BOINCDIR} ${LOGFILE} ${ERRORLOG}
+exec /usr/bin/setpriv --reuid "${BOINCUSER}" --regid "$(/usr/bin/id -g "${BOINCUSER}")" \
+	--clear-groups -- /usr/bin/${BOINCEXE_NAME} ${OPTS}

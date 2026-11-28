@@ -1,0 +1,10 @@
+# boinc -- BOINC volunteer computing client (boinc, boinc-nox). Not
+# started by default; enable with: slinitctl enable boinc
+# Options: /etc/default/boinc-client and /etc/boinc-client.conf, read
+# through /etc/conf.d/boinc. The helper runs as root, prepares BOINCDIR
+# and the log files, and drops to BOINCUSER through setpriv.
+type = process
+command = /usr/libexec/slinit/boinc
+depends-on: network.target
+restart = true
+log-type = journal

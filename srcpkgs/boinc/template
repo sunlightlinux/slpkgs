@@ -1,7 +1,7 @@
 # Template file for 'boinc'
 pkgname=boinc
 version=8.0.2
-revision=2
+revision=3
 _majorver=${version%.*}
 build_style=gnu-configure
 hostmakedepends="automake libtool pkg-config xorgproto shared-mime-info"
@@ -9,7 +9,7 @@ makedepends="glu-devel libfreeglut-devel libcurl-devel
  libjpeg-turbo-devel libnotify-devel sqlite-devel libxcb-devel
  libXmu-devel libXi-devel wxWidgets-gtk3-devel"
 depends="curl ca-certificates"
-conf_files="/etc/default/boinc-client"
+conf_files="/etc/default/boinc-client /etc/conf.d/boinc"
 short_desc="Berkely Infrastructure for Network Computing"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="LGPL-3.0-or-later"
@@ -102,6 +102,7 @@ do_install() {
 
 	vinstall client/scripts/boinc.bash 644 usr/share/bash-completion/completions boinc
 	vsv boinc
+	vslinit boinc
 }
 
 boinc-devel_package() {
@@ -117,6 +118,7 @@ boinc-devel_package() {
 boinc-nox_package() {
 	short_desc+=" - no X"
 	conflicts="boinc>=0"
+	conf_files="/etc/conf.d/boinc"
 	system_accounts="boinc"
 	boinc_homedir="/var/lib/boinc"
 	boinc_shell="/bin/bash"
@@ -137,5 +139,6 @@ boinc-nox_package() {
 
 		vinstall client/scripts/boinc.bash 644 usr/share/bash-completion/completions boinc
 		vsv boinc
+		vslinit boinc
 	}
 }
