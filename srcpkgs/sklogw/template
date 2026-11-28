@@ -1,7 +1,7 @@
 # Template file for 'sklogw'
 pkgname=sklogw
 version=0.1
-revision=1
+revision=2
 short_desc="A simple cache for dns query"
 maintainer="xant0me <xant0me@openmailbox.org>"
 license="MIT"
@@ -14,4 +14,5 @@ broken="Source can no longer be downloaded. No mirror available."
 post_install() {
 	vlicense LICENSE
 	vsv sklogw
+	vslinit sklogw
 }

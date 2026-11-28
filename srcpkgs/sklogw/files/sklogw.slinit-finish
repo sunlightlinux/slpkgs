@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit finish script, with absolute paths.
+set -u
+
+/usr/bin/rm -rf /var/cache_dns
+/usr/bin/cp -rp /tmp/cache_dns /var/cache_dns

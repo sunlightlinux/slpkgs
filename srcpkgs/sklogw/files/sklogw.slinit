@@ -1,0 +1,10 @@
+# sklogw -- a simple DNS query cache (sklogw). Not started by default;
+# enable with: slinitctl enable sklogw
+# The helper copies the persistent cache to /tmp before starting it, and
+# the finish helper copies it back, as the runit run and finish scripts do.
+type = process
+command = /usr/libexec/slinit/sklogw
+finish-command = /usr/libexec/slinit/sklogw-finish
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with absolute paths.
+set -u
+
+# copy the persistant cache to the in memory tmpfs
+/usr/bin/rm -rf /tmp/cache_dns
+/usr/bin/cp -rp /var/cache/dns /tmp/cache_dns
+/usr/bin/chmod 700 -R /tmp/cache_dns
+exec /usr/bin/sklogw
