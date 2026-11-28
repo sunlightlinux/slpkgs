@@ -1,0 +1,7 @@
+# frps -- fast reverse proxy server (frp). Not started by default;
+# enable with: slinitctl enable frps
+type = process
+command = /usr/bin/frps -c /etc/frp/frps.toml
+depends-on: network.target
+restart = true
+log-type = journal
