@@ -1,0 +1,8 @@
+# php-fpm8.3 -- PHP 8.3 FastCGI Process Manager (php8.3-fpm). Not started by
+# default; enable with: slinitctl enable php-fpm8.3
+# Options: OPTS in /etc/conf.d/php-fpm8.3.
+type = process
+command = /usr/libexec/slinit/php-fpm8.3
+depends-on: network.target
+restart = true
+log-type = journal
