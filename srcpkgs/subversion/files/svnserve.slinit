@@ -1,0 +1,8 @@
+# svnserve -- Subversion repository server (subversion). Not started by
+# default; enable with: slinitctl enable svnserve
+# Options: OPTS in /etc/conf.d/svnserve.
+type = process
+command = /usr/libexec/slinit/svnserve
+depends-on: network.target
+restart = true
+log-type = journal
