@@ -1,0 +1,9 @@
+# swayosd-libinput-backend -- reports keyboard events to the SwayOSD
+# on-screen display over the system D-Bus (SwayOSD). Not started by
+# default; enable with: slinitctl enable swayosd-libinput-backend
+type = process
+command = /usr/bin/swayosd-libinput-backend
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
