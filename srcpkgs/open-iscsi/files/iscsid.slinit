@@ -1,0 +1,7 @@
+# iscsid -- Open-iSCSI initiator daemon (open-iscsi). Not started by
+# default; enable with: slinitctl enable iscsid
+type = process
+command = /usr/bin/iscsid -f
+depends-on: network.target
+restart = true
+log-type = journal

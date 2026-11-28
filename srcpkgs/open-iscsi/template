@@ -1,7 +1,7 @@
 # Template file for 'open-iscsi'
 pkgname=open-iscsi
 version=2.1.11
-revision=2
+revision=3
 conf_files="/etc/iscsi/iscsid.conf /etc/iscsi/initiatorname.iscsi"
 build_style=gnu-configure
 hostmakedepends="automake libtool pkg-config"
@@ -38,6 +38,7 @@ do_build() {
 do_install() {
 	make install exec_prefix=/usr SBINDIR=/usr/bin RULESDIR=/usr/lib/udev/rules.d DESTDIR="$DESTDIR"
 	vsv iscsid
+	vslinit iscsid
 
 	rm -rf ${DESTDIR}/usr/lib/systemd
 
