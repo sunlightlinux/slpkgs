@@ -1,0 +1,9 @@
+# chronograf -- monitoring and visualization UI for the TICK stack
+# (chronograf). Not started by default; enable with:
+#     slinitctl enable chronograf
+type = process
+command = /usr/bin/chronograf --bolt-path=/var/lib/chronograf/chronograf-v1.db --canned-path=/usr/share/chronograf/canned
+run-as = _chronograf:_chronograf
+depends-on: network.target
+restart = true
+log-type = journal

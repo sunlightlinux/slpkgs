@@ -1,7 +1,7 @@
 # Template file for 'chronograf'
 pkgname=chronograf
 version=1.11.4
-revision=1
+revision=2
 build_style=go
 build_helper="rust"
 go_import_path="github.com/influxdata/${pkgname}"
@@ -45,6 +45,7 @@ pre_build() {
 post_install() {
 	vlicense LICENSE
 	vsv chronograf
+	vslinit chronograf
 	vmkdir usr/share/chronograf/
 	vcopy ${wrksrc}/${build_wrksrc}/canned usr/share/chronograf/canned
 }
