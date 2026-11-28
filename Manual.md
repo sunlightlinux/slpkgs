@@ -318,6 +318,21 @@ The following functions are defined by `xbps-src` and can be used on any templat
 	For more information about `vlogger` and available values for the facility,
 	see [vlogger(8)](https://man.voidlinux.org/vlogger.8).
 
+- *vslinit()* `vslinit <service> [enable]`
+
+	Sunlight: installs the slinit service `${FILESDIR}/<service>.slinit` as
+	`/usr/lib/slinit.d/<service>`. slinit searches `/etc/slinit.d` before
+	`/usr/lib/slinit.d`, so a file of the same name in `/etc/slinit.d`
+	overrides the packaged one. If `${FILESDIR}/<service>.slinit-run`
+	exists, it is installed as `/usr/libexec/slinit/<service>` (mode 755)
+	for the service's `command` to run. With `enable`, a link in
+	`/usr/lib/slinit.d/boot.d` makes the service start at boot by default;
+	otherwise `slinitctl enable <service>` links it into
+	`/etc/slinit.d/boot.d`. Use the same `<service>` name as `vsv`, so a
+	daemon is enabled by the same name under either init. A change to a
+	`.slinit` file of a published package needs a revision bump, or
+	installed systems never receive it.
+
 - *vsed()* `vsed -i <file> -e <regex>`
 
 	Wrapper around sed that checks sha256sum of a file before and after running

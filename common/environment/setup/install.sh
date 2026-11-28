@@ -13,11 +13,56 @@ _noglob_helper() {
 }
 
 # Apply _noglob to v* commands
-for cmd in vinstall vcopy vcompletion vmove vmkdir vbin vman vdoc vconf vsconf vlicense vsv; do
+for cmd in vinstall vcopy vcompletion vmove vmkdir vbin vman vdoc vconf vsconf vlicense vsv vslinit; do
 	# intentionally expanded when defined
 	# shellcheck disable=SC2139
 	alias ${cmd}="set -f; _noglob_helper _${cmd}"
 done
+
+# Sunlight: install a slinit service. ${FILESDIR}/<service>.slinit lands as
+# /usr/lib/slinit.d/<service>, the vendor directory slinit searches after
+# /etc/slinit.d, so an admin's file of the same name in /etc/slinit.d
+# overrides it and an update never touches the admin's copy. A helper the
+# service runs, ${FILESDIR}/<service>.slinit-run if present, lands as
+# /usr/libexec/slinit/<service>, executable.
+#
+# Nothing is enabled unless the second argument is "enable": then a link in
+# /usr/lib/slinit.d/boot.d makes the distribution start it at boot (read by
+# the "system" service of slinit-services). Otherwise the admin enables it:
+# `slinitctl enable <service>` links it into /etc/slinit.d/boot.d.
+_vslinit() {
+	local service="$1" enable="$2"
+	local src="${FILESDIR}/${service}.slinit"
+	local helper="${FILESDIR}/${service}.slinit-run"
+
+	if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+		msg_red "$pkgver: vslinit: 1 or 2 arguments expected: <service> [enable]\n"
+		return 1
+	fi
+	case "$service" in
+	""|.*|*/*|*[[:space:]]*)
+		msg_red "$pkgver: vslinit: invalid service name '$service'\n"
+		return 1
+		;;
+	esac
+	if [ $# -eq 2 ] && [ "$enable" != enable ]; then
+		msg_red "$pkgver: vslinit: second argument must be 'enable', not '$enable'\n"
+		return 1
+	fi
+	if [ ! -f "$src" ]; then
+		msg_red "$pkgver: vslinit: ${service}.slinit not found in \${FILESDIR}\n"
+		return 1
+	fi
+
+	vinstall "$src" 644 usr/lib/slinit.d "$service"
+	if [ -f "$helper" ]; then
+		vinstall "$helper" 755 usr/libexec/slinit "$service"
+	fi
+	if [ "$enable" = enable ]; then
+		vmkdir usr/lib/slinit.d/boot.d
+		ln -sf "../${service}" "${PKGDESTDIR}/usr/lib/slinit.d/boot.d/${service}"
+	fi
+}
 
 _vsv() {
 	local service="$1"
