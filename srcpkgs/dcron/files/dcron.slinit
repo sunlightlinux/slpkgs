@@ -1,0 +1,8 @@
+# dcron -- Dillon's cron daemon (dcron), in the foreground (-f). Not
+# started by default; enable with: slinitctl enable dcron
+# Options: OPTS in /etc/conf.d/dcron.
+type = process
+command = /usr/libexec/slinit/dcron
+depends-on: local.target
+restart = true
+log-type = journal
