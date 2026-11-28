@@ -1,7 +1,7 @@
 # Template file for 'gitea'
 pkgname=gitea
 version=28.4.0
-revision=1
+revision=2
 build_style=go
 go_import_path=gitea.dev
 go_ldflags=" -X main.Version=${version}"
@@ -48,5 +48,6 @@ post_install() {
 	mv "${DESTDIR}"/usr/bin/gitea{.dev,}
 	vlicense LICENSE
 	vsv gitea
+	vslinit gitea
 	vinstall custom/conf/app.example.ini 0640 /etc gitea.conf
 }

@@ -1,0 +1,10 @@
+# gitea -- self-hosted Git service (gitea). Not started by default;
+# enable with: slinitctl enable gitea
+# Runs from its home, /var/lib/gitea, which SSH access needs.
+type = process
+command = /usr/libexec/slinit/gitea
+run-as = _gitea:_gitea
+working-dir = /var/lib/gitea
+depends-on: network.target
+restart = true
+log-type = journal
