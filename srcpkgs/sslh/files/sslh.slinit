@@ -1,0 +1,7 @@
+# sslh -- protocol multiplexer (sslh). Not started by default; enable
+# with: slinitctl enable sslh
+type = process
+command = /usr/bin/sslh -f -u nobody -F/etc/sslh.cfg
+depends-on: network.target
+restart = true
+log-type = journal

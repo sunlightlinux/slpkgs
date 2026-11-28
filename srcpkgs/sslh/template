@@ -1,7 +1,7 @@
 # Template file for 'sslh'
 pkgname=sslh
 version=1.22c
-revision=2
+revision=3
 hostmakedepends="perl"
 makedepends="pcre-devel libconfig-devel libcap-devel pcre2-devel"
 short_desc="Applicative Protocol Multiplexer"
@@ -21,6 +21,7 @@ do_install() {
 	make DESTDIR=${DESTDIR} PREFIX=/usr install
 	vman sslh.8
 	vsv sslh
+	vslinit sslh
 	for f in *.cfg; do
 		vdoc ${f}
 	done
