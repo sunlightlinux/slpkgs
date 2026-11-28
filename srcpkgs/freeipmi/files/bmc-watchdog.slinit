@@ -1,0 +1,8 @@
+# bmc-watchdog -- starts the IPMI BMC watchdog timer daemon, and stops it
+# when the service stops (freeipmi). Not started by default; enable with:
+# slinitctl enable bmc-watchdog
+# Options: OPTIONS in /etc/conf.d/bmc-watchdog.
+type = scripted
+command = /usr/libexec/slinit/bmc-watchdog
+stop-command = /usr/bin/bmc-watchdog --stop
+depends-on: local.target

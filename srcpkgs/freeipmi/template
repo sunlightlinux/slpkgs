@@ -1,7 +1,7 @@
 # Template file for 'freeipmi'
 pkgname=freeipmi
 version=1.6.18
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--without-systemdsystemunitdir ac_cv_header_sys_stropts_h=no"
 hostmakedepends="pkg-config texinfo"
@@ -24,8 +24,11 @@ esac
 post_install() {
 	rm -rf ${DESTDIR}/etc/{sysconfig,init.d}
 	vsv ipmiseld
+	vslinit ipmiseld
 	vsv ipmidetectd
+	vslinit ipmidetectd
 	vsv bmc-watchdog
+	vslinit bmc-watchdog
 }
 
 freeipmi-devel_package() {

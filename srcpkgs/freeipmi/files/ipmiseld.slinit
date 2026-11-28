@@ -1,0 +1,7 @@
+# ipmiseld -- logs IPMI System Event Log entries to syslog (freeipmi).
+# Not started by default; enable with: slinitctl enable ipmiseld
+type = process
+command = /usr/bin/ipmiseld --foreground
+depends-on: local.target
+restart = true
+log-type = journal

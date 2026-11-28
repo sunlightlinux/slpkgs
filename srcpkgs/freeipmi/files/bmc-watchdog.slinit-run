@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script without its chpst -b pause, with its conf
+# moved to /etc/conf.d: bmc-watchdog -d runs in the background and the
+# service stays started until stopped.
+set -u
+OPTIONS=
+[ -r /etc/conf.d/bmc-watchdog ] && . /etc/conf.d/bmc-watchdog
+: ${OPTIONS:=-d -u 4 -p 0 -a 1 -F -P -L -S -O -i 900 -e 60}
+exec /usr/bin/bmc-watchdog ${OPTIONS}
