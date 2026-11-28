@@ -1,0 +1,8 @@
+# iio-sensor-proxy -- IIO sensors to D-Bus proxy (iio-sensor-proxy).
+# Not started by default; enable with: slinitctl enable iio-sensor-proxy
+type = process
+command = /usr/libexec/iio-sensor-proxy
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
