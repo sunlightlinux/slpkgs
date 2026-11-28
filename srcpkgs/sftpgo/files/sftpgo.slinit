@@ -1,0 +1,12 @@
+# sftpgo -- SFTP, FTP/S and WebDAV server (sftpgo). Not started by default;
+# enable with: slinitctl enable sftpgo
+# The helper sets the same SFTPGO_* environment as the runit run script and
+# reads /etc/conf.d/sftpgo, where it read ./conf. sftpgo serve looks for
+# its configuration and resolves relative paths in its working directory,
+# which was /etc/sv/sftpgo under runit; here it is its data directory.
+type = process
+command = /usr/libexec/slinit/sftpgo
+working-dir = /var/lib/sftpgo
+depends-on: network.target
+restart = true
+log-type = journal
