@@ -1,0 +1,9 @@
+# nginx -- HTTP and reverse proxy server (nginx). Not started by default;
+# enable with: slinitctl enable nginx
+# Kept in the foreground with -g 'daemon off;', as the runit service does.
+type = process
+command = /usr/bin/nginx -g 'daemon off;'
+depends-on: local.target
+depends-on: network.target
+restart = true
+log-type = journal

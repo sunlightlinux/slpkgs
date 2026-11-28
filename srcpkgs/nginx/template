@@ -4,7 +4,7 @@
 # See comments in mime-types template
 pkgname=nginx
 version=1.30.7
-revision=2
+revision=3
 _tests_commit=cf2b5bf5f98f578a0a3da13c8c507c996f5f74fe
 _njs_version=1.0.2
 _quickjs_version=2026-06-04
@@ -192,6 +192,7 @@ post_install() {
 
 	vlicense LICENSE
 	vsv nginx
+	vslinit nginx
 }
 
 nginx-mod-http-geoip_package() {
