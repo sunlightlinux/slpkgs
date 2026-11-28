@@ -11,7 +11,7 @@ license="GPL-2.0-or-later"
 homepage="https://savannah.nongnu.org/projects/hddtemp/"
 distfiles="
  ${NONGNU_SITE}/hddtemp/hddtemp-${version/.b/-b}.tar.bz2
- ${DEBIAN_SITE}/main/h/hddtemp/hddtemp_${version/.b/-b}-53.diff.gz"
+ https://snapshot.debian.org/archive/debian/20220101T000000Z/pool/main/h/hddtemp/hddtemp_${version/.b/-b}-53.diff.gz"
 checksum="
  618541584054093d53be8a2d9e81c97174f30f00af91cb8700a97e442d79ef5b
  6f1ddaa9fbc90ea5c00b949e0981b78c5014e109de88804ae2512209091eae56"
