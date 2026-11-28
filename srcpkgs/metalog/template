@@ -1,7 +1,7 @@
 # Template file for 'metalog'
 pkgname=metalog
 version=20260105
-revision=1
+revision=2
 build_style=gnu-configure
 conf_files="/etc/metalog.conf"
 hostmakedepends="autoconf autoconf-archive automake pkg-config"
@@ -20,6 +20,7 @@ pre_configure() {
 
 post_install() {
 	vsv metalog
+	vslinit metalog
 
 	# Disable logging for metaloga to avoid any issues
 	# https://github.com/void-linux/void-packages/pull/44912#issuecomment-1625625388

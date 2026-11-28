@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/metalog ] && . /etc/conf.d/metalog
+exec /usr/bin/metalog ${OPTS} >/dev/null

@@ -1,0 +1,9 @@
+# metalog -- syslog daemon (metalog). Not started by default; enable
+# with: slinitctl enable metalog
+# Options: OPTS in /etc/conf.d/metalog. Its stdout is discarded, as the
+# runit run script did; stderr goes to the journal.
+type = process
+command = /usr/libexec/slinit/metalog
+depends-on: local.target
+restart = true
+log-type = journal
