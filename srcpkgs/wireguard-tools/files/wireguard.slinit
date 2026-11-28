@@ -1,0 +1,10 @@
+# wireguard -- brings up every WireGuard interface of /etc/wireguard/*.conf
+# with wg-quick at start and takes them down when the service stops
+# (wireguard-tools). Not started by default; enable with:
+#     slinitctl enable wireguard
+type = scripted
+command = /usr/libexec/slinit/wireguard
+stop-command = /usr/libexec/slinit/wireguard-stop
+start-timeout = 60
+stop-timeout = 60
+depends-on: network.target

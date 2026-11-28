@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit finish script.
+set -eu
+for conf in /etc/wireguard/*.conf; do
+	[ -e "$conf" ] || continue;
+	/usr/bin/wg-quick down "$conf"
+done

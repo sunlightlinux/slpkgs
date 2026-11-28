@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, without the chpst -b pause that kept it up.
+set -eu
+for conf in /etc/wireguard/*.conf; do
+	[ -e "$conf" ] || continue;
+	/usr/bin/wg-quick up "$conf"
+done
