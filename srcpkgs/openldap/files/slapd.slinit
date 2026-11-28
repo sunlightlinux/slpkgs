@@ -1,0 +1,9 @@
+# slapd -- OpenLDAP directory server (openldap). Not started by default;
+# enable with: slinitctl enable slapd
+# Options: LDAPUSER, LDAPGROUP, LDAPURLS and LDAPOPTS in /etc/conf.d/slapd.
+# slapd drops to LDAPUSER:LDAPGROUP (default ldap:ldap) itself.
+type = process
+command = /usr/libexec/slinit/slapd
+depends-on: network.target
+restart = true
+log-type = journal

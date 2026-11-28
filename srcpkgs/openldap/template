@@ -1,7 +1,7 @@
 # Template file for 'openldap'
 pkgname=openldap
 version=2.6.10
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--prefix=/usr
  --libexecdir=/usr/libexec
@@ -47,6 +47,7 @@ pre_build() {
 post_install() {
 	ln -sf ../libexec/slapd ${DESTDIR}/usr/bin/slapd
 	vsv slapd
+	vslinit slapd
 	vlicense LICENSE
 	chmod 755 ${DESTDIR}/usr/lib/*.so.*
 	vmkdir usr/share/examples/openldap

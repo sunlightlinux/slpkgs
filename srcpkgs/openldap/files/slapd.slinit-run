@@ -1,0 +1,15 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+LDAPUSER=
+LDAPGROUP=
+LDAPURLS=
+LDAPOPTS=
+[ -r /etc/conf.d/slapd ] && . /etc/conf.d/slapd
+: ${LDAPUSER:=ldap}
+: ${LDAPGROUP:=ldap}
+if [ ! -d /run/openldap ]; then
+	/usr/bin/mkdir /run/openldap
+	/usr/bin/chown $LDAPUSER:$LDAPGROUP /run/openldap
+fi
+exec /usr/bin/slapd -u $LDAPUSER -g $LDAPGROUP -d 0 ${LDAPURLS:+-h "$LDAPURLS"} $LDAPOPTS
