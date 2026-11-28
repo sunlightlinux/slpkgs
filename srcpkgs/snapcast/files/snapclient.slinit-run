@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. Runs as
+# _snapclient:audio (run-as in the service replaces chpst -u).
+set -u
+OPTS=
+[ -r /etc/conf.d/snapclient ] && . /etc/conf.d/snapclient
+exec /usr/bin/snapclient ${OPTS}

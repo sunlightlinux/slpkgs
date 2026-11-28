@@ -1,0 +1,10 @@
+# snapclient -- Snapcast multi-room audio client (snapclient). Not started
+# by default; enable with: slinitctl enable snapclient
+# Options: OPTS in /etc/conf.d/snapclient.
+type = process
+command = /usr/libexec/slinit/snapclient
+run-as = _snapclient:audio
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

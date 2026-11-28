@@ -1,0 +1,9 @@
+# snapserver -- Snapcast multi-room audio server (snapserver). Not started
+# by default; enable with: slinitctl enable snapserver
+# Options: OPTS in /etc/conf.d/snapserver.
+type = process
+command = /usr/libexec/slinit/snapserver
+run-as = _snapserver
+depends-on: network.target
+restart = true
+log-type = journal
