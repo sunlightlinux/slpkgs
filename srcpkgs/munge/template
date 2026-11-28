@@ -1,7 +1,7 @@
 # Template file for 'munge'
 pkgname=munge
 version=0.5.15
-revision=3
+revision=4
 build_style=gnu-configure
 configure_args="--with-crypto-lib=openssl
  --with-openssl-prefix=${XBPS_CROSS_BASE}/usr
@@ -28,6 +28,7 @@ pre_install() {
 }
 post_install() {
 	vsv munge
+	vslinit munge
 	rm -f ${DESTDIR}/etc/init.d/munge
 	rm -f ${DESTDIR}/etc/default/munge
 	rm -f ${DESTDIR}/usr/lib/tmpfiles.d/munge.conf

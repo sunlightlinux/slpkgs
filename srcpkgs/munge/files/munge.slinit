@@ -1,0 +1,12 @@
+# munge -- MUNGE authentication service (munge). Not started by default;
+# enable with: slinitctl enable munge
+# It needs the secret key /etc/munge/munge.key; see README.voidlinux.
+type = process
+command = /usr/bin/munged -F
+run-as = munge:munge
+# The runit run script created /var/run/munge (mode 0755) and gave it to
+# munge; install -d does both in one step, as root.
+pre-start-command = +/usr/bin/install -d -m 0755 -o munge -g munge /var/run/munge
+depends-on: local.target
+restart = true
+log-type = journal
