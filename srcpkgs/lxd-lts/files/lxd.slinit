@@ -1,0 +1,10 @@
+# lxd -- system container manager (lxd-lts). Not started by default; enable
+# with: slinitctl enable lxd
+# Options: OPTS in /etc/conf.d/lxd (default --verbose). The helper mounts
+# the named systemd cgroup hierarchy first, as the runit run script does.
+type = process
+command = /usr/libexec/slinit/lxd
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

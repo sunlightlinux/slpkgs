@@ -1,7 +1,7 @@
 # Template file for 'lxd-lts'
 pkgname=lxd-lts
 version=5.0.2
-revision=3
+revision=4
 build_style=go
 go_import_path=github.com/lxc/lxd
 go_build_tags=libsqlite3
@@ -37,5 +37,6 @@ post_build() {
 post_install() {
 	vinstall scripts/bash/lxd-client 644 /usr/share/bash-completion/completions lxd
 	vsv lxd
+	vslinit lxd
 	vdoc "${FILESDIR}/README.voidlinux"
 }
