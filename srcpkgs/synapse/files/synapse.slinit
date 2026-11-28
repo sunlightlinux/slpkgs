@@ -1,0 +1,11 @@
+# synapse -- Matrix reference homeserver (synapse). Not started by
+# default; enable with: slinitctl enable synapse
+# Options: CONFIG_FILE in /etc/conf.d/synapse (default
+# /etc/synapse/homeserver.yaml).
+type = process
+command = /usr/libexec/slinit/synapse
+run-as = synapse:synapse
+working-dir = /var/lib/synapse
+depends-on: network.target
+restart = true
+log-type = journal

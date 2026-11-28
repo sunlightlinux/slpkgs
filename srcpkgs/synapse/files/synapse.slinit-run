@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+CONFIG_FILE=
+[ -r /etc/conf.d/synapse ] && . /etc/conf.d/synapse
+exec /usr/bin/synapse_homeserver -c ${CONFIG_FILE:-/etc/synapse/homeserver.yaml}

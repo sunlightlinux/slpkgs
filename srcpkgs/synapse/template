@@ -1,7 +1,7 @@
 # Template file for 'synapse'
 pkgname=synapse
 version=1.165.0
-revision=1
+revision=2
 build_style=python3-pep517
 build_helper=rust
 hostmakedepends="maturin cargo"
@@ -46,6 +46,7 @@ do_check() {
 
 post_install() {
 	vsv synapse
+	vslinit synapse
 
 	vsconf docs/sample_config.yaml homeserver.yaml
 	vsconf docs/sample_log_config.yaml log.yaml
