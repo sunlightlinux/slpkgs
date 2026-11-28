@@ -1,0 +1,8 @@
+# minissdpd -- SSDP daemon speeding up UPnP device discovery (minissdpd).
+# Not started by default; enable with: slinitctl enable minissdpd
+# Options: OPTS in /etc/conf.d/minissdpd (for example -i <interface>).
+type = process
+command = /usr/libexec/slinit/minissdpd
+depends-on: network.target
+restart = true
+log-type = journal

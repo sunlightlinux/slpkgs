@@ -1,7 +1,7 @@
 # Template file for 'minissdpd'
 pkgname=minissdpd
 version=1.6.0
-revision=1
+revision=2
 build_style=gnu-makefile
 makedepends="libnfnetlink-devel"
 short_desc="MiniSSDP Daemon to speed up UPnP device discovery"
@@ -22,4 +22,5 @@ do_install() {
 	vman minissdpd.1
 	vlicense LICENSE
 	vsv minissdpd
+	vslinit minissdpd
 }
