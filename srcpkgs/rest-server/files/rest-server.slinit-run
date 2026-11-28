@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script; reads the package's /etc/default/rest-server.
+set -u
+DATA_DIRECTORY=
+OPTIONS=
+. /etc/default/rest-server
+exec /usr/bin/rest-server --path $DATA_DIRECTORY $OPTIONS

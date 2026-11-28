@@ -1,0 +1,9 @@
+# rest-server -- restic REST backend server (rest-server). Not started by
+# default; enable with: slinitctl enable rest-server
+# Options: DATA_DIRECTORY and OPTIONS in /etc/default/rest-server.
+type = process
+command = /usr/libexec/slinit/rest-server
+run-as = _restserver:_restserver
+depends-on: network.target
+restart = true
+log-type = journal
