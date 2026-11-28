@@ -1,7 +1,7 @@
 # Template file for 'thttpd'
 pkgname=thttpd
 version=2.29
-revision=3
+revision=4
 build_style=gnu-configure
 short_desc="Tiny/turbo/throttling HTTP server"
 maintainer="Orphaned <orphan@voidlinux.org>"
@@ -33,6 +33,7 @@ do_install() {
 		MANDIR=${DESTDIR}/usr/share/man install
 
 	vsv thttpd
+	vslinit thttpd
 
 	# Rename htpasswd to not conflict with apache.
 	mv ${DESTDIR}/usr/bin/{htpasswd,thttpd-htpasswd}
