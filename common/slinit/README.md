@@ -62,7 +62,7 @@ part in the slinit service.
 
 4. **Anything a shell does goes in a helper**, `files/<service>.slinit-run`:
    POSIX `sh`, `set -u` (and `-e` too if the run script had it), absolute
-   paths, ending in
+   paths (in a `sh -c` string too), ending in
    `exec /absolute/daemon ...`; the service's `command` is then
    `/usr/libexec/slinit/<service>`. That covers sourcing a configuration
    file, more than one preparation step, `modprobe`, `ulimit` beyond
@@ -88,7 +88,11 @@ part in the slinit service.
    the package's documentation says may hold a secret must then be
    readable by that user; say so in that documentation. A package document that tells
    users to edit `/etc/sv/<service>/conf` (a `README.voidlinux`, say) is
-   changed to `/etc/conf.d/<service>` in the same commit. Do not use `env-file`: it reads
+   changed to `/etc/conf.d/<service>` in the same commit. A run script
+   that sources the package's own configuration elsewhere
+   (`/etc/kubernetes/config`) keeps that path. Every variable a helper uses
+   is set (`VAR=`) before the `.` line, as `set -u` fails on an unset one.
+   Do not use `env-file`: it reads
    `KEY=value` literally, and Void's files are shell (`OPTS="-x"` would
    keep the quotes).
 
@@ -122,6 +126,10 @@ part in the slinit service.
    | `-n N` | `nice = N` |
    | `prlimit --nofile=N`, `ulimit -n N` | `rlimit-nofile = N` |
 
+   `setsid` in a run script becomes `new-session = yes`: slinit already
+   starts a service as a process-group leader, where setsid(1) forks and
+   exits, which slinit would see as the service dying.
+
    Other limits (`-p`, `ulimit -u`) stay as `ulimit` in a helper.
    A limit taken from the conf at run time (`ulimit -n ${MAX_OPEN_FILES:-N}`,
    `chpst -o $MAX_OPEN_FILES`) stays as `ulimit -n` in the helper. If the
@@ -147,11 +155,17 @@ part in the slinit service.
      `waits-for: network.target`;
    - a daemon that sets up the network itself (iwd, wpa_supplicant,
      NetworkManager, dhcpcd) never depends on or waits for network.target,
-     which would invert the order;
+     which would invert the order; a firewall or interface setup that must
+     be in place before the network is configured also gets
+     `before: network` (slinit-services' network service);
    - `sv check <other>` / `sv start <other>` in `run` becomes
      `depends-on: <other>`, using the other daemon's slinit service name;
-   - a daemon that talks D-Bus gets `depends-on: dbus`; one that uses it
-     only optionally, through a library (avahi-client), does not.
+   - a daemon that talks D-Bus gets `depends-on: dbus`; one that copes
+     without the bus (its connection retries, as dnsmasq's does) gets
+     `waits-for: dbus`, so a dbus restart does not stop it; one that uses
+     it only optionally, through a library (avahi-client), gets neither;
+   - services of slinit-services (`logind`, `udevd`, `udev-trigger`) are on
+     every Sunlight system and need no `depends` entry.
 
 10. **Runit's other files:** `finish` becomes `finish-command`, `check`
     becomes `ready-check-command` (one command written directly: slinit
@@ -172,6 +186,12 @@ part in the slinit service.
       `files/<service>.slinit-stop`), and `chpst -b`, which only names the
       process, is dropped. A scripted service has no `log-type` and no
       `restart`.
+
+    A scripted service fails when its setup fails, where runit's `pause`
+    kept the service up; say so in the commit. Give it `start-timeout` and
+    `stop-timeout` long enough for slow work (runit never timed it out). A
+    run script that exits 0 on a missing configuration becomes a scripted
+    service whose helper does the same.
 
     A `finish` that needs a shell (a redirection, a condition) becomes
     `files/<service>.slinit-finish`, run by
@@ -202,7 +222,10 @@ part in the slinit service.
             sv up statd
         fi
 
-15. **What is not a conversion, and is reported instead:** a runit
+15. **What is not a conversion, and is reported instead:** a run script
+    that relies on a runit-only tool (`utmpset`, `svlogd`, `chpst` beyond
+    rule 8) without a slinit equivalent; one whose path the template's own
+    install steps contradict (the service is broken in Void too); a runit
     service dir in `files/` that the template never `vsv`s (it is not
     installed); a script the package puts in `/etc/runit/core-services/`
     (a boot-time hook, handled by slinit-services, not per package); a
@@ -256,7 +279,7 @@ helper, `srcpkgs/chrony/files/chronyd.slinit-run`:
     set -u
     OPTS=
     [ -r /etc/conf.d/chronyd ] && . /etc/conf.d/chronyd
-    install -d -m750 -o chrony -g chrony /var/run/chrony
+    /usr/bin/install -d -m750 -o chrony -g chrony /var/run/chrony
     exec /usr/bin/chronyd -n -u chrony ${OPTS}
 
 and the service, `srcpkgs/chrony/files/chronyd.slinit`:
