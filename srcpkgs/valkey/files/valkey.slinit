@@ -1,0 +1,9 @@
+# valkey -- flexible distributed key-value datastore (valkey). Not started by
+# default; enable with: slinitctl enable valkey
+type = process
+command = /usr/bin/valkey-server /etc/valkey/valkey.conf
+pre-start-command = +/usr/bin/install -d -m0750 -o _valkey -g _valkey /run/valkey
+run-as = _valkey:_valkey
+depends-on: network.target
+restart = true
+log-type = journal

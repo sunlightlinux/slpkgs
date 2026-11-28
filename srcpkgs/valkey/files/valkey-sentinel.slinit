@@ -1,0 +1,9 @@
+# valkey-sentinel -- monitoring and failover for valkey (valkey). Not started by
+# default; enable with: slinitctl enable valkey-sentinel
+type = process
+command = /usr/bin/valkey-sentinel /etc/valkey/sentinel.conf
+pre-start-command = +/usr/bin/install -d -m0750 -o _valkey -g _valkey /run/valkey
+run-as = _valkey:_valkey
+depends-on: network.target
+restart = true
+log-type = journal
