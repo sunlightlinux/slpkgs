@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/ipfs ] && . /etc/conf.d/ipfs
+export IPFS_PATH=${IPFS_PATH:=/var/lib/ipfs}
+exec /usr/bin/ipfs daemon ${OPTS:=--init --enable-gc --migrate}

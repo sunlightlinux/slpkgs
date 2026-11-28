@@ -1,0 +1,9 @@
+# ipfs -- IPFS daemon (kubo). Not started by default; enable with:
+# slinitctl enable ipfs
+# Options: OPTS and IPFS_PATH in /etc/conf.d/ipfs.
+type = process
+command = /usr/libexec/slinit/ipfs
+run-as = _ipfs
+depends-on: network.target
+restart = true
+log-type = journal
