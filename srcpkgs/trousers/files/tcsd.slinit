@@ -1,0 +1,8 @@
+# tcsd -- TrouSerS TPM core services daemon (trousers). Not started by
+# default; enable with: slinitctl enable tcsd
+type = process
+command = /usr/bin/tcsd -f
+run-as = tss:tss
+depends-on: network.target
+restart = true
+log-type = journal
