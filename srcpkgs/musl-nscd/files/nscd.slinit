@@ -1,0 +1,9 @@
+# nscd -- NSS to NSCD bridge for musl (musl-nscd). Not started by default;
+# enable with: slinitctl enable nscd
+# Options: OPTS in /etc/conf.d/nscd. Its standard output is discarded, as
+# in the runit run script; its errors go to the journal.
+type = process
+command = /usr/libexec/slinit/nscd
+depends-on: local.target
+restart = true
+log-type = journal

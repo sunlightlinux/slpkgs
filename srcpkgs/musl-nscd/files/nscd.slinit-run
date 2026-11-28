@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/nscd ] && . /etc/conf.d/nscd
+/usr/bin/mkdir -p /var/run/nscd /var/db/nscd
+exec /usr/bin/nscd ${OPTS} >/dev/null
