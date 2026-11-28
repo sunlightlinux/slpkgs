@@ -1,0 +1,11 @@
+# mysqld -- MariaDB SQL database server (mariadb). Not started by default;
+# enable with: slinitctl enable mysqld
+type = process
+command = /usr/bin/mysqld --user=mysql
+run-as = mysql:mysql
+# The runit run script created /run/mysqld and gave it to mysql; install -d
+# does both in one step, as root.
+pre-start-command = +/usr/bin/install -d -o mysql -g mysql /run/mysqld
+depends-on: network.target
+restart = true
+log-type = journal
