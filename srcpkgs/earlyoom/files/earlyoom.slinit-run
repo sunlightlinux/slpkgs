@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. As there,
+# earlyoom's stderr is kept (here in the journal) and its stdout, the
+# periodic memory report, is thrown away.
+set -u
+OPTS=
+[ -r /etc/conf.d/earlyoom ] && . /etc/conf.d/earlyoom
+exec /usr/bin/earlyoom ${OPTS} 2>&1 >/dev/null
