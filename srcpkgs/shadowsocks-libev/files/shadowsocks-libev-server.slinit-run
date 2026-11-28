@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script; chpst -u is run-as in the service. Only
+# standard output is discarded, as there.
+set -u
+exec /usr/bin/ss-server -c /etc/shadowsocks-libev/config.json 1>/dev/null

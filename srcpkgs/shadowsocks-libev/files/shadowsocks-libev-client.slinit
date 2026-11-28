@@ -1,0 +1,11 @@
+# shadowsocks-libev-client -- shadowsocks local client, ss-local
+# (shadowsocks-libev). Not started by default; enable with:
+# slinitctl enable shadowsocks-libev-client
+# It reads /etc/shadowsocks-libev/config.json. The helper discards its
+# standard output, as the runit run script did; stderr goes to the journal.
+type = process
+command = /usr/libexec/slinit/shadowsocks-libev-client
+run-as = shadowsocks:shadowsocks
+depends-on: network.target
+restart = true
+log-type = journal
