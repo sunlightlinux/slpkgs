@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; the
+# service is scripted, so runit's pause is gone.
+set -u
+: ${CONF_FILE:=/etc/ipvsadm.conf}
+[ -r /etc/conf.d/ipvsadm ] && . /etc/conf.d/ipvsadm
+[ -s $CONF_FILE ] || exit 0
+exec /usr/bin/ipvsadm-restore < $CONF_FILE

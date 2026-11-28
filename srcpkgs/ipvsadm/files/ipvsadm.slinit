@@ -1,0 +1,11 @@
+# ipvsadm -- loads the IPVS rules from /etc/ipvsadm.conf and clears them
+# on stop (ipvsadm). Not started by default; enable with:
+# slinitctl enable ipvsadm
+# Options: CONF_FILE in /etc/conf.d/ipvsadm. Does nothing when the rules
+# file is missing or empty.
+type = scripted
+command = /usr/libexec/slinit/ipvsadm
+stop-command = /usr/bin/ipvsadm -C
+start-timeout = 60
+stop-timeout = 60
+depends-on: local.target
