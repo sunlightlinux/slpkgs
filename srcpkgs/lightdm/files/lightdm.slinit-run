@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script sources a conf before starting lightdm; it is
+# /etc/conf.d/lightdm here.
+set -u
+[ -r /etc/conf.d/lightdm ] && . /etc/conf.d/lightdm
+exec /usr/bin/lightdm

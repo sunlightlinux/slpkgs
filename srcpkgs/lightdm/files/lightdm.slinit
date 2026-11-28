@@ -24,7 +24,7 @@ waits-for: udev-trigger
 # needs to fork+setuid from root to seat sessions).
 pre-start-command = /usr/bin/install -d -m 0711 -o lightdm -g lightdm /run/lightdm
 
-command = /usr/bin/lightdm
+command = /usr/libexec/slinit/lightdm
 
 # Own vt7 by default — LightDM configures that in /etc/lightdm/lightdm.conf.
 # Keeping tty1..tty6 for text getty means Ctrl+Alt+F1..F6 still work.
@@ -32,3 +32,4 @@ restart = yes
 restart-delay = 2
 restart-limit-count = 5
 restart-limit-interval = 60
+log-type = journal
