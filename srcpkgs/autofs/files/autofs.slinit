@@ -1,0 +1,8 @@
+# autofs -- automounter daemon (autofs). Not started by default; enable
+# with: slinitctl enable autofs
+type = process
+command = /usr/bin/automount -f
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
