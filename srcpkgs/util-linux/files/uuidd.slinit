@@ -1,0 +1,9 @@
+# uuidd -- UUID generation daemon (util-linux). Not started by default;
+# enable with: slinitctl enable uuidd
+type = process
+command = /usr/bin/uuidd -F -P
+pre-start-command = +/usr/bin/install -d -o _uuidd -g _uuidd /run/uuidd
+run-as = _uuidd:_uuidd
+depends-on: local.target
+restart = true
+log-type = journal
