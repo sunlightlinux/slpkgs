@@ -1,0 +1,10 @@
+# polkitd -- the authorization daemon (polkit). Not started by default: the
+# bus starts it on first use. To have it up from boot: slinitctl enable polkitd
+type = process
+depends-on: dbus
+waits-for: logind
+command = /usr/lib/polkit-1/polkitd --no-debug
+restart = yes
+restart-delay = 2
+restart-limit-count = 5
+restart-limit-interval = 60

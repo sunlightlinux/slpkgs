@@ -1,7 +1,7 @@
 # Template file for 'polkit'
 pkgname=polkit
 version=127
-revision=1
+revision=2
 build_style=meson
 build_helper=gir
 configure_args="$(vopt_bool gir introspection) -Dman=true
@@ -39,6 +39,7 @@ fi
 post_install() {
 	vinstall ${FILESDIR}/polkit-1.pam 644 usr/lib/pam.d polkit-1
 	vsv polkitd
+	vslinit polkitd
 	# the build doesn't set setuid bits when not installing as root
 	chmod u+s ${DESTDIR}/usr/bin/pkexec
 	chmod u+s ${DESTDIR}/usr/lib/polkit-1/polkit-agent-helper-1
