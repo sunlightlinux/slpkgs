@@ -1,0 +1,8 @@
+# elogd -- ELOG logbook web server (elog). Not started by default;
+# enable with: slinitctl enable elogd
+type = process
+command = /usr/bin/elogd -c /etc/elog/elogd.cfg
+run-as = elog:elog
+depends-on: network.target
+restart = true
+log-type = journal
