@@ -1,0 +1,9 @@
+# upmpdcli -- UPnP media renderer front-end for MPD (upmpdcli). Not
+# started by default; enable with: slinitctl enable upmpdcli
+# Options: OPTS in /etc/conf.d/upmpdcli (default: -c /etc/upmpdcli.conf).
+type = process
+command = /usr/libexec/slinit/upmpdcli
+run-as = _upmpdcli
+depends-on: network.target
+restart = true
+log-type = journal

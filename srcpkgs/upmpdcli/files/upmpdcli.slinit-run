@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+# runit runs a service with no HOME, so upmpdcli fell back to the
+# account's home (/var/lib/upmpdcli) for its cache directory; slinit
+# passes on HOME=/ from the kernel, so set the same home here.
+set -u
+HOME=/var/lib/upmpdcli
+export HOME
+OPTS=
+[ -r /etc/conf.d/upmpdcli ] && . /etc/conf.d/upmpdcli
+exec /usr/bin/upmpdcli ${OPTS:- -c /etc/upmpdcli.conf}
