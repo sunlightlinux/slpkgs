@@ -1,7 +1,7 @@
 # Template file for 'minidlna'
 pkgname=minidlna
 version=1.3.3
-revision=4
+revision=5
 build_style=gnu-configure
 configure_args="
  --sbindir=/usr/bin
@@ -41,4 +41,5 @@ post_install() {
 	vman minidlna.conf.5
 	vman minidlnad.8
 	vsv minidlnad
+	vslinit minidlnad
 }

@@ -1,0 +1,8 @@
+# minidlnad -- DLNA/UPnP-AV media server (minidlna). Not started by
+# default; enable with: slinitctl enable minidlnad
+# Options: OPTS in /etc/conf.d/minidlnad.
+type = process
+command = /usr/libexec/slinit/minidlnad
+depends-on: network.target
+restart = true
+log-type = journal
