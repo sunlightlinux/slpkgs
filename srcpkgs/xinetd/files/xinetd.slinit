@@ -1,0 +1,9 @@
+# xinetd -- extended Internet services daemon (xinetd); services are in
+# /etc/xinetd.conf and /etc/xinetd.d. Not started by default; enable with:
+#     slinitctl enable xinetd
+type = process
+command = /usr/bin/xinetd -dontfork -syslog daemon
+depends-on: local.target
+depends-on: network.target
+restart = true
+log-type = journal
