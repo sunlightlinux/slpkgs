@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+# /etc/profile puts java in PATH; it and the profile.d scripts it reads
+# are not written for set -u, so they are sourced before it.
+. /etc/profile
+set -u
+DAEMON=
+OPTS=
+[ -f /etc/conf.d/orientdb ] && . /etc/conf.d/orientdb
+DAEMON=${DAEMON:-server} # Set to dserver in /etc/conf.d/orientdb for distributed server
+exec /usr/lib/orientdb/bin/${DAEMON}.sh $OPTS

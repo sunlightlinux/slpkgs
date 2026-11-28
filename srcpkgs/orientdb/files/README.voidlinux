@@ -6,3 +6,13 @@ You must run the orientdb service once to initialize this node.
 Then you may enable the orientdb service
 
 # sv-enable orientdb
+
+With slinit, run its helper once as the orientdb user instead:
+
+# sudo -u orientdb /usr/libexec/slinit/orientdb
+
+Then enable the service with
+
+# slinitctl enable orientdb
+
+Its options (DAEMON, OPTS) go in /etc/conf.d/orientdb.

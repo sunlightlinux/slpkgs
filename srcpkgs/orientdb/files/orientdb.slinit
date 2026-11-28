@@ -1,0 +1,11 @@
+# orientdb -- distributed graph database (orientdb). Not started by
+# default; run it once by hand first (see README.voidlinux), then enable
+# with: slinitctl enable orientdb
+# Options: DAEMON (server, or dserver for a distributed server) and OPTS
+# in /etc/conf.d/orientdb.
+type = process
+command = /usr/libexec/slinit/orientdb
+run-as = orientdb:orientdb
+depends-on: network.target
+restart = true
+log-type = journal
