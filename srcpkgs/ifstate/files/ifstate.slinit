@@ -1,0 +1,8 @@
+# ifstate -- applies the declared interface settings once (ifstate). Not
+# started by default; enable with: slinitctl enable ifstate
+# It sets up the network itself, so it does not wait for network.target.
+type = scripted
+command = /usr/bin/ifstatecli apply
+depends-on: local.target
+# It configures interfaces itself: ordered before the network setup.
+before: network
