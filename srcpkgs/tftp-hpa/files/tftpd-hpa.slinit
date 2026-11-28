@@ -1,0 +1,8 @@
+# tftpd-hpa -- TFTP server serving /var/lib/tftp (tftp-hpa). Not started
+# by default; enable with: slinitctl enable tftpd-hpa
+# Options: OPTS in /etc/conf.d/tftpd-hpa (default " -s -v").
+type = process
+command = /usr/libexec/slinit/tftpd-hpa
+depends-on: network.target
+restart = true
+log-type = journal

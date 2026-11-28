@@ -1,0 +1,6 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/tftpd-hpa ] && . /etc/conf.d/tftpd-hpa
+: "${OPTS:= -s -v}"
+exec /usr/bin/in.tftpd -L $OPTS /var/lib/tftp
