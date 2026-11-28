@@ -1,0 +1,8 @@
+# dnscrypt-proxy -- DNS proxy that encrypts queries (dnscrypt-proxy).
+# Not started by default; enable with: slinitctl enable dnscrypt-proxy
+type = process
+command = /usr/bin/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

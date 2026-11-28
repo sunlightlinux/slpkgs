@@ -1,7 +1,7 @@
 # Template file for 'dnscrypt-proxy'
 pkgname=dnscrypt-proxy
 version=2.1.21
-revision=1
+revision=2
 build_style=go
 go_import_path=github.com/dnscrypt/dnscrypt-proxy
 go_package="${go_import_path}/dnscrypt-proxy"
@@ -20,6 +20,7 @@ post_install() {
 	vinstall dnscrypt-proxy/example-dnscrypt-proxy.toml 644 /etc/dnscrypt-proxy dnscrypt-proxy.toml
 	vlicense LICENSE
 	vsv dnscrypt-proxy
+	vslinit dnscrypt-proxy
 	for example in dnscrypt-proxy/example*txt; do
 		vsconf "${example}"
 	done
