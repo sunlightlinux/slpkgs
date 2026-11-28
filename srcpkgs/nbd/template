@@ -1,7 +1,7 @@
 # Template file for 'nbd'
 pkgname=nbd
 version=3.24
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--enable-syslog"
 hostmakedepends="pkg-config bison"
@@ -26,6 +26,7 @@ post_configure() {
 
 post_install() {
 	vsv nbd
+	vslinit nbd
 	vinstall ${FILESDIR}/config 644 etc/nbd-server
 	vdoc doc/README
 }
