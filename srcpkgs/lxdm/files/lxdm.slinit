@@ -1,0 +1,7 @@
+# lxdm -- LXDE display manager (lxdm). Not started by default; enable
+# with: slinitctl enable lxdm
+type = process
+command = /usr/bin/lxdm
+depends-on: local.target
+restart = true
+log-type = journal
