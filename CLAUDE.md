@@ -13,9 +13,11 @@ templates), rebranded from Void to Sunlight Linux.
 
 > **Status:** the public `main` branch holds documentation and CI only;
 > `mainline-check` mirrors void-packages `master` (CI-maintained, never commit
-> there), and the Sunlight delta will be built on top of it. Upstream's
-> `Manual.md`, `srcpkgs/`, `common/`, and `xbps-src` (on `mainline-check`) are
-> authoritative for *how packaging works*.
+> there); `next` is `mainline-check` plus the Sunlight delta, kept current by
+> the "Sync next" workflow's merges (never rebased), and is the tree the
+> packages and the mirror are built from. Template work goes to `next`, one
+> commit per package change. Upstream's `Manual.md`, `srcpkgs/`, `common/`,
+> and `xbps-src` are authoritative for *how packaging works*.
 
 **Tradeoff:** These guidelines bias toward caution over speed. Templates run
 shell on builders and decide what lands in users' systems (supply chain), and a

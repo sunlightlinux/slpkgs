@@ -3,8 +3,9 @@
 #   mainline-check -> next
 #
 # next is mainline-check plus Sunlight's package delta (new packages such
-# as slinit and sunlight-base, and rebranded or adjusted Void templates),
-# one commit per package. Void's changes reach it as merge commits, never
+# as slinit and sunlight-base, and rebranded or adjusted Void templates):
+# one initial commit holding the delta as it stood on 2026-11-28, then one
+# commit per package change. Void's changes reach it as merge commits, never
 # by rebasing: next is published, and the build tree and the package
 # mirror refer to its commits.
 #

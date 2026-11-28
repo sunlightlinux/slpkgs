@@ -7,8 +7,10 @@ for Sunlight Linux!
 > [void-packages](https://github.com/void-linux/void-packages), rebranded from
 > Void to Sunlight Linux. The public `main` branch holds documentation and CI
 > only; the `mainline-check` branch mirrors void-packages `master` (`xbps-src`,
-> `Manual.md`, `srcpkgs/`). The Sunlight package delta is not on a public
-> branch yet, so template work today is against `mainline-check`.
+> `Manual.md`, `srcpkgs/`); the `next` branch is `mainline-check` plus the
+> Sunlight package delta, and Sunlight's packages are built from it. Template
+> work goes to `next`, one commit per package change; never commit to
+> `mainline-check`.
 
 ## Reporting Issues
 
@@ -19,7 +21,7 @@ for Sunlight Linux!
 ## Submitting Changes
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b pkg/my-change`)
+2. Create a feature branch from `next` (`git checkout -b pkg/my-change origin/next`)
 3. Edit the template under `srcpkgs/<package>/template`
 4. Lint it: `./xbps-src lint <package>` (or `xlint`)
 5. Build it in a clean masterdir: `./xbps-src pkg <package>`
