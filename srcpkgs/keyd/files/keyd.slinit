@@ -1,0 +1,10 @@
+# keyd -- key remapping daemon (keyd). Not started by default;
+# enable with: slinitctl enable keyd
+# Starts after udevd, as the runit run script waited for the supervised
+# udevd.
+type = process
+command = /usr/bin/keyd
+depends-on: local.target
+depends-on: udevd
+restart = true
+log-type = journal
