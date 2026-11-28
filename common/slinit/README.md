@@ -81,7 +81,12 @@ part in the slinit service.
    run script that uses `${OPTS:=default}` but sources no conf has the
    default written straight into `command`; one that sources a conf and
    uses `${OPTS:=default}` or `${OPTS:-default}` keeps that expansion in
-   the helper, after `OPTS=` and the `.` line. A package document that tells
+   the helper, after `OPTS=` and the `.` line; with `${OPTS=default}`
+   (no colon) leave out the `OPTS=` line, or the default never applies.
+   With `run-as`, the helper itself runs as that user, so it reads the
+   conf as that user, where runit read it as root before `chpst`. A conf
+   the package's documentation says may hold a secret must then be
+   readable by that user; say so in that documentation. A package document that tells
    users to edit `/etc/sv/<service>/conf` (a `README.voidlinux`, say) is
    changed to `/etc/conf.d/<service>` in the same commit. Do not use `env-file`: it reads
    `KEY=value` literally, and Void's files are shell (`OPTS="-x"` would
@@ -93,6 +98,8 @@ part in the slinit service.
    exceptions keep what the run script asked for:
    - a run script that discards all output on the daemon's exec line
      (`>/dev/null 2>&1`) gets `log-type = none`, with a comment saying so;
+   - a `2>&1` on the daemon's own exec line is dropped: the journal takes
+     both streams;
    - a redirection of one stream only stays on the `exec` line of a
      helper, since `command` has no shell: `2>&1 >/dev/null`, and also
      `exec 2>&1` followed by `exec daemon >/dev/null`, which keeps stderr.
@@ -127,7 +134,7 @@ part in the slinit service.
 9. **Dependencies:**
    - a daemon that needs the network gets `depends-on: network.target`
      alone: network.target already depends on local.target. A server that
-     listens on a port counts as needing it;
+     listens on a port counts as needing it, loopback-only included;
    - every other daemon gets `depends-on: local.target` (filesystems
      mounted, root read-write), unless it must run earlier in boot, and
      one that uses the network but copes without it adds
@@ -137,7 +144,8 @@ part in the slinit service.
      which would invert the order;
    - `sv check <other>` / `sv start <other>` in `run` becomes
      `depends-on: <other>`, using the other daemon's slinit service name;
-   - a daemon that talks D-Bus gets `depends-on: dbus`.
+   - a daemon that talks D-Bus gets `depends-on: dbus`; one that uses it
+     only optionally, through a library (avahi-client), does not.
 
 10. **Runit's other files:** `finish` becomes `finish-command`, `check`
     becomes `ready-check-command` (one command written directly: slinit
@@ -188,13 +196,26 @@ part in the slinit service.
             sv up statd
         fi
 
-15. **Every runit service of a package is converted**, in one commit for
+15. **What is not a conversion, and is reported instead:** a runit
+    service dir in `files/` that the template never `vsv`s (it is not
+    installed); a script the package puts in `/etc/runit/core-services/`
+    (a boot-time hook, handled by slinit-services, not per package); a
+    `chpst -e` env directory shipped for users to edit (it needs a home
+    outside `/etc/sv`, decided separately). A package marked `broken=` is
+    converted like any other.
+
+16. **Working directory.** runit starts a daemon in `/etc/sv/<service>`;
+    slinit does not. Where the run script or the daemon reads files
+    relative to its working directory, set `working-dir` to where those
+    files really are, and say so in the commit; otherwise none is needed.
+
+17. **Every runit service of a package is converted**, in one commit for
     the package, even if only one was asked for.
 
-16. **Syslog daemons need nothing extra.** slinit as PID 1 serves
+18. **Syslog daemons need nothing extra.** slinit as PID 1 serves
     `/dev/log`; a syslog daemon started by its own service takes it over.
 
-17. **A header comment:** what the daemon is, which package ships it (the
+19. **A header comment:** what the daemon is, which package ships it (the
     subpackage that installs the service, when there is one), and
     how to enable it:
 
