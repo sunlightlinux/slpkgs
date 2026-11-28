@@ -1,0 +1,13 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+CONF_FILE=
+if [ -r /etc/conf.d/udevmon ]; then
+	. /etc/conf.d/udevmon
+	if [ -n "${CONF_FILE}" ]; then
+		OPTS="${OPTS} -c '${CONF_FILE}'"
+	fi
+fi
+
+exec /usr/bin/udevmon ${OPTS}

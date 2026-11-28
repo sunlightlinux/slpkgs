@@ -1,0 +1,9 @@
+# udevmon -- runs interception-tools jobs on input devices
+# (interception-tools). Not started by default; enable with:
+# slinitctl enable udevmon
+# Options: OPTS and CONF_FILE in /etc/conf.d/udevmon.
+type = process
+command = /usr/libexec/slinit/udevmon
+depends-on: local.target
+restart = true
+log-type = journal
