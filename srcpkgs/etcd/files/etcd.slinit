@@ -1,0 +1,9 @@
+# etcd -- distributed key-value store (etcd). Not started by default;
+# enable with: slinitctl enable etcd
+# Settings: ETCD_* variables in /etc/conf.d/etcd.
+type = process
+command = /usr/libexec/slinit/etcd
+run-as = etcd:etcd
+depends-on: network.target
+restart = true
+log-type = journal

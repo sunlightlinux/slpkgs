@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; it runs as
+# etcd (run-as), as runit ran etcd with chpst -u etcd:etcd.
+set -u
+export ETCD_DATA_DIR=/var/lib/etcd
+export ETCD_NAME=etcd
+[ -r /etc/conf.d/etcd ] && . /etc/conf.d/etcd
+exec /usr/bin/etcd
