@@ -1,0 +1,8 @@
+# saned -- SANE network scanner server (sane), standalone (-l). Not
+# started by default; enable with: slinitctl enable saned
+# Options: OPTS in /etc/conf.d/saned.
+type = process
+command = /usr/libexec/slinit/saned
+depends-on: network.target
+restart = true
+log-type = journal
