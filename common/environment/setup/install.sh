@@ -24,7 +24,11 @@ done
 # /etc/slinit.d, so an admin's file of the same name in /etc/slinit.d
 # overrides it and an update never touches the admin's copy. A helper the
 # service runs, ${FILESDIR}/<service>.slinit-run if present, lands as
-# /usr/libexec/slinit/<service>, executable.
+# /usr/libexec/slinit/<service>, executable; <service>.slinit-stop and
+# <service>.slinit-finish land as /usr/libexec/slinit/<service>-stop and
+# <service>-finish, for its stop-command and finish-command; and
+# <service>.slinit-conf lands as /etc/conf.d/<service>, which the template
+# must list in conf_files.
 #
 # Nothing is enabled unless the second argument is "enable": then a link in
 # /usr/lib/slinit.d/boot.d makes the distribution start it at boot (read by
@@ -34,6 +38,7 @@ _vslinit() {
 	local service="$1" enable="$2"
 	local src="${FILESDIR}/${service}.slinit"
 	local helper="${FILESDIR}/${service}.slinit-run"
+	local f
 
 	if [ $# -lt 1 ] || [ $# -gt 2 ]; then
 		msg_red "$pkgver: vslinit: 1 or 2 arguments expected: <service> [enable]\n"
@@ -57,6 +62,14 @@ _vslinit() {
 	vinstall "$src" 644 usr/lib/slinit.d "$service"
 	if [ -f "$helper" ]; then
 		vinstall "$helper" 755 usr/libexec/slinit "$service"
+	fi
+	for f in stop finish; do
+		if [ -f "${FILESDIR}/${service}.slinit-${f}" ]; then
+			vinstall "${FILESDIR}/${service}.slinit-${f}" 755 usr/libexec/slinit "${service}-${f}"
+		fi
+	done
+	if [ -f "${FILESDIR}/${service}.slinit-conf" ]; then
+		vinstall "${FILESDIR}/${service}.slinit-conf" 644 etc/conf.d "$service"
 	fi
 	if [ "$enable" = enable ]; then
 		vmkdir usr/lib/slinit.d/boot.d
