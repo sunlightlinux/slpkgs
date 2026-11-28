@@ -1,0 +1,8 @@
+# upsd -- Network UPS Tools information server (network-ups-tools). Not
+# started by default; enable with: slinitctl enable upsd
+type = process
+command = /usr/bin/upsd -D
+pre-start-command = +/usr/bin/install -d -m 0770 -o nut -g nut /run/ups
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,0 +1,8 @@
+# upsmon -- Network UPS Tools monitor and shutdown controller
+# (network-ups-tools). Not started by default; enable with:
+# slinitctl enable upsmon
+type = process
+command = /usr/bin/upsmon -D
+depends-on: network.target
+restart = true
+log-type = journal

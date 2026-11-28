@@ -1,0 +1,7 @@
+# upsdrvctl -- starts the Network UPS Tools drivers, and stops them when
+# the service stops (network-ups-tools). Not started by default; enable
+# with: slinitctl enable upsdrvctl
+type = scripted
+command = /usr/libexec/slinit/upsdrvctl
+stop-command = /usr/bin/upsdrvctl -D stop
+depends-on: local.target

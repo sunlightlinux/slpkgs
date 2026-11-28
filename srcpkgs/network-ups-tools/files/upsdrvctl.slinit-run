@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script without its chpst -b pause: the drivers run in
+# the background and the service stays started until stopped.
+set -eu
+/usr/bin/install -d -m 0770 -o nut -g nut /run/ups
+exec /usr/bin/upsdrvctl -D start
