@@ -20,16 +20,22 @@ carries both, and the two must describe the same daemon the same way.
 |---|---|---|
 | The service | `files/<service>.slinit` | `/usr/lib/slinit.d/<service>` |
 | A helper script it runs, if any | `files/<service>.slinit-run` | `/usr/libexec/slinit/<service>` (755) |
-| Default configuration, if the runit service had a `conf` | `files/<service>.conf` | `/etc/conf.d/<service>` (a `conf_files` entry) |
+| Its stop and finish helpers, if any | `files/<service>.slinit-stop`, `.slinit-finish` | `/usr/libexec/slinit/<service>-stop`, `-finish` (755) |
+| Default configuration, if the runit service had a `conf` | `files/<service>.slinit-conf` | `/etc/conf.d/<service>` (644) |
 
-`vslinit <service>` installs the first two; see `Manual.md` (at the top of the tree). Put the
+`vslinit <service>` installs every one of these that exists (see
+`Manual.md` at the top of the tree); the template still lists
+`/etc/conf.d/<service>` in `conf_files` when there is a `.slinit-conf`,
+and needs no `vinstall` line for any of them. Put the
 `vslinit` line directly after the `vsv` line of the same service, in the
 same function, and bump `revision`. A subpackage that `vmove`s
 `etc/sv/<service>` also moves `usr/lib/slinit.d/<service>` (and, with
 `enable`, `usr/lib/slinit.d/boot.d/<service>`).
 
 `<service>` is the name `vsv` uses, so a daemon is enabled by the same name
-under either init. Never invent another one.
+under either init. Never invent another one. A second `vsv` argument
+(`vsv cronie cron`) is a syslog facility for runit's logger and plays no
+part in the slinit service.
 
 ## The rules
 
@@ -50,7 +56,8 @@ under either init. Never invent another one.
    and a backslash is eaten, so avoid both.
 
 4. **Anything a shell does goes in a helper**, `files/<service>.slinit-run`:
-   POSIX `sh`, `set -u`, absolute paths, ending in
+   POSIX `sh`, `set -u` (and `-e` too if the run script had it), absolute
+   paths, ending in
    `exec /absolute/daemon ...`; the service's `command` is then
    `/usr/libexec/slinit/<service>`. That covers sourcing a configuration
    file, more than one preparation step, `modprobe`, `ulimit` beyond
@@ -64,9 +71,12 @@ under either init. Never invent another one.
        [ -r /etc/conf.d/<service> ] && . /etc/conf.d/<service>
 
    and uses the same variables (`$OPTS`, ...). If Void ships a default
-   `files/<service>/conf`, copy it to `files/<service>.conf`, install it with
-   `vinstall ${FILESDIR}/<service>.conf 644 etc/conf.d <service>`, and add
-   `/etc/conf.d/<service>` to `conf_files`. Do not use `env-file`: it reads
+   `files/<service>/conf`, copy it to `files/<service>.slinit-conf` and add
+   `/etc/conf.d/<service>` to `conf_files`; `vslinit` installs it. A
+   run script that uses `${OPTS:=default}` but sources no conf has the
+   default written straight into `command`. A package document that tells
+   users to edit `/etc/sv/<service>/conf` (a `README.voidlinux`, say) is
+   changed to `/etc/conf.d/<service>` in the same commit. Do not use `env-file`: it reads
    `KEY=value` literally, and Void's files are shell (`OPTS="-x"` would
    keep the quotes).
 
@@ -95,6 +105,11 @@ under either init. Never invent another one.
    | `-o N` | `rlimit-nofile = N` |
    | `-C dir` | `working-dir = dir` |
    | `-n N` | `nice = N` |
+   | `prlimit --nofile=N`, `ulimit -n N` | `rlimit-nofile = N` |
+
+   Other limits (`-p`, `ulimit -u`) stay as `ulimit` in a helper. An
+   environment variable the run script sets (`HOME=...`) is exported in
+   the helper, which runs with the service's `run-as` user.
 
    Anything else (`-l`, `-L`, `-m`, `-d`, `-p`, `-P`, `-0`..`-2`): stop
    and report it rather than guess.
@@ -123,9 +138,14 @@ under either init. Never invent another one.
     - a one-shot kept "up" with `exec chpst -b <name> pause`, whose
       `finish` undoes it, is `type = scripted`: the setup steps are its
       `command` (a helper if more than one), the `finish` logic its
-      `stop-command` (a second helper, `files/<service>.slinit-stop`,
-      installed with `vinstall ... 755 usr/libexec/slinit <service>-stop`),
-      and `chpst -b`, which only names the process, is dropped.
+      `stop-command` (one command written directly, or
+      `files/<service>.slinit-stop`), and `chpst -b`, which only names the
+      process, is dropped. A scripted service has no `log-type` and no
+      `restart`.
+
+    A `finish` that needs a shell (a redirection, a condition) becomes
+    `files/<service>.slinit-finish`, run by
+    `finish-command = /usr/libexec/slinit/<service>-finish`.
 
 11. **`restart = true`** for a daemon, as runit always restarts one.
 
@@ -140,7 +160,8 @@ under either init. Never invent another one.
 14. **Syslog daemons need nothing extra.** slinit as PID 1 serves
     `/dev/log`; a syslog daemon started by its own service takes it over.
 
-15. **A header comment:** what the daemon is, which package ships it, and
+15. **A header comment:** what the daemon is, which package ships it (the
+    subpackage that installs the service, when there is one), and
     how to enable it:
 
         # sshd -- OpenSSH server (openssh). Not started by default;
@@ -148,6 +169,10 @@ under either init. Never invent another one.
 
 ## Finding a binary's path
 
+The tree's lint (`common/hooks/pre-pkg/99-pkglint.sh`) refuses `usr/sbin`
+and `usr/local`, so a program a run script calls by bare name is
+`/usr/bin/<name>` unless the template puts it elsewhere (`/usr/libexec/...`
+is common, and then the run script names the path itself).
 `vbin` installs to `/usr/bin`. The tree's gnu-configure defaults
 (`common/environment/configure/gnu-configure-args.sh`) and meson helper
 (`common/build-helper/meson.sh`) put sbin programs in `/usr/bin` too.
@@ -200,8 +225,9 @@ packaged slinit, together with slinit-services' services (which define
     for f in srcpkgs/*/files/*.slinit; do cp "$f" /tmp/svc/"$(basename "$f" .slinit)"; done
     slinit-check -d /tmp/svc <service>
 
-A warning that a command's binary does not exist is expected on a machine
-without the package, for the service and for slinit-services' own helpers;
+A warning that a command's binary, or a `run-as` user, does not exist is
+expected on a machine without the package, for the service and for
+slinit-services' own helpers;
 every other warning or error is a failure. Two services of the same name in
 different packages would overwrite each other in that directory; check
 each in its own if a name repeats. Helpers are committed with mode 755. Then build
