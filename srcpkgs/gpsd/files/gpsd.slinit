@@ -1,0 +1,8 @@
+# gpsd -- GPS receiver daemon (gpsd). Not started by default; enable with:
+#     slinitctl enable gpsd
+# Options: OPTS and DEV (default /dev/gps0) in /etc/conf.d/gpsd.
+type = process
+command = /usr/libexec/slinit/gpsd
+depends-on: local.target
+restart = true
+log-type = journal
