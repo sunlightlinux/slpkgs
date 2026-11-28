@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/fabricd ] && . /etc/conf.d/fabricd
+exec /usr/bin/fabricd $ARGS

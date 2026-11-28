@@ -1,0 +1,12 @@
+# ospf6d -- FRRouting ospf6d daemon (frr). Not started by default; enable
+# with: slinitctl enable ospf6d
+# Options: ARGS in /etc/conf.d/ospf6d. Routing is part of the network
+# setup, so it does not depend on or wait for network.target.
+type = process
+command = /usr/libexec/slinit/ospf6d
+ready-check-command = /usr/bin/vtysh -c exit -d ospf6d
+depends-on: local.target
+# The runit run script checked staticd first (sv check staticd).
+depends-on: staticd
+restart = true
+log-type = journal

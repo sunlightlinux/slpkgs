@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/ospfd ] && . /etc/conf.d/ospfd
+exec /usr/bin/ospfd $ARGS

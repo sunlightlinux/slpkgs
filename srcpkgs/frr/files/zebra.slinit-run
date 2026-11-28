@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/zebra ] && . /etc/conf.d/zebra
+exec /usr/bin/zebra $ARGS

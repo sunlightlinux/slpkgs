@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/ldpd ] && . /etc/conf.d/ldpd
+exec /usr/bin/ldpd $ARGS

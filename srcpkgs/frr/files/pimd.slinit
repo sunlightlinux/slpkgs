@@ -1,0 +1,12 @@
+# pimd -- FRRouting pimd daemon (frr). Not started by default; enable
+# with: slinitctl enable pimd
+# Options: ARGS in /etc/conf.d/pimd. Routing is part of the network
+# setup, so it does not depend on or wait for network.target.
+type = process
+command = /usr/libexec/slinit/pimd
+ready-check-command = /usr/bin/vtysh -c exit -d pimd
+depends-on: local.target
+# The runit run script checked staticd first (sv check staticd).
+depends-on: staticd
+restart = true
+log-type = journal

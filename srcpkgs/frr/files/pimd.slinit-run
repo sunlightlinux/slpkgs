@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/pimd ] && . /etc/conf.d/pimd
+exec /usr/bin/pimd $ARGS

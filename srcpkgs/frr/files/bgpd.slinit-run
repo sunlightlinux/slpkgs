@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/bgpd ] && . /etc/conf.d/bgpd
+exec /usr/bin/bgpd $ARGS

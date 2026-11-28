@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/eigrpd ] && . /etc/conf.d/eigrpd
+exec /usr/bin/eigrpd $ARGS

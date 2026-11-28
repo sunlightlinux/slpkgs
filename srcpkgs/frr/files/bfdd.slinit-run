@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/bfdd ] && . /etc/conf.d/bfdd
+exec /usr/bin/bfdd $ARGS

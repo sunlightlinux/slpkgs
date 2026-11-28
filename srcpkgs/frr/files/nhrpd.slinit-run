@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/nhrpd ] && . /etc/conf.d/nhrpd
+exec /usr/bin/nhrpd $ARGS

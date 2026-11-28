@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/pbrd ] && . /etc/conf.d/pbrd
+exec /usr/bin/pbrd $ARGS

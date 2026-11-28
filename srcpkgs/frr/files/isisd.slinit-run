@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/isisd ] && . /etc/conf.d/isisd
+exec /usr/bin/isisd $ARGS

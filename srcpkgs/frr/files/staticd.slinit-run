@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/staticd ] && . /etc/conf.d/staticd
+exec /usr/bin/staticd $ARGS

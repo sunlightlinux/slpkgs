@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/ripd ] && . /etc/conf.d/ripd
+exec /usr/bin/ripd $ARGS

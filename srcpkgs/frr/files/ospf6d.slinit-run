@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/ospf6d ] && . /etc/conf.d/ospf6d
+exec /usr/bin/ospf6d $ARGS

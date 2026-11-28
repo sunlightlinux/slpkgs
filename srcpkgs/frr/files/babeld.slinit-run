@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/babeld ] && . /etc/conf.d/babeld
+exec /usr/bin/babeld $ARGS

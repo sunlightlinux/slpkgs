@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/ripngd ] && . /etc/conf.d/ripngd
+exec /usr/bin/ripngd $ARGS

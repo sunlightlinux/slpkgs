@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+ARGS=
+[ -r /etc/conf.d/sharpd ] && . /etc/conf.d/sharpd
+exec /usr/bin/sharpd $ARGS

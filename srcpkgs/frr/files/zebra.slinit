@@ -1,0 +1,10 @@
+# zebra -- FRRouting zebra daemon (frr). Not started by default; enable
+# with: slinitctl enable zebra
+# Options: ARGS in /etc/conf.d/zebra. Routing is part of the network
+# setup, so it does not depend on or wait for network.target.
+type = process
+command = /usr/libexec/slinit/zebra
+ready-check-command = /usr/bin/vtysh -c exit -d zebra
+depends-on: local.target
+restart = true
+log-type = journal

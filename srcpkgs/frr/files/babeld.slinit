@@ -1,0 +1,12 @@
+# babeld -- FRRouting babeld daemon (frr). Not started by default; enable
+# with: slinitctl enable babeld
+# Options: ARGS in /etc/conf.d/babeld. Routing is part of the network
+# setup, so it does not depend on or wait for network.target.
+type = process
+command = /usr/libexec/slinit/babeld
+ready-check-command = /usr/bin/vtysh -c exit -d babeld
+depends-on: local.target
+# The runit run script checked staticd first (sv check staticd).
+depends-on: staticd
+restart = true
+log-type = journal
