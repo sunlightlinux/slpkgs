@@ -1,7 +1,7 @@
 # Template file for 'open-vm-tools'
 pkgname=open-vm-tools
 version=13.1.0
-revision=1
+revision=2
 archs="x86_64* i686* aarch64*"
 build_wrksrc="open-vm-tools"
 build_style=gnu-configure
@@ -45,5 +45,7 @@ post_install() {
 	fi
 
 	vsv vmtoolsd
+	vslinit vmtoolsd
 	vsv vmware-vmblock-fuse
+	vslinit vmware-vmblock-fuse
 }
