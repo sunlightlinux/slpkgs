@@ -1,0 +1,8 @@
+# transmission-daemon -- BitTorrent daemon (transmission). Not started by
+# default; enable with: slinitctl enable transmission-daemon
+type = process
+command = /usr/bin/transmission-daemon -f --log-level=error
+run-as = transmission:transmission
+depends-on: network.target
+restart = true
+log-type = journal
