@@ -1,0 +1,10 @@
+# preload -- adaptive readahead daemon (preload). Not started by default;
+# enable with: slinitctl enable preload
+# Options: MIN_MEMORY, OPTS, IONICE_OPTS and IONICE in /etc/conf.d/preload.
+# On a machine with less than MIN_MEMORY megabytes (default 256) the
+# helper exits 0 without starting it, as the runit run script does.
+type = process
+command = /usr/libexec/slinit/preload
+depends-on: local.target
+restart = true
+log-type = journal
