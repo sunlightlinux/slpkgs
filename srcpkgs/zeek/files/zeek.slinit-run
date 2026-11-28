@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+ZEEKLOGDIR="/var/log/zeek"
+INTF=
+ZEEKPOLICY=
+[ -r /etc/conf.d/zeek ] && . /etc/conf.d/zeek
+[ -d ${ZEEKLOGDIR} ] || /usr/bin/mkdir -p ${ZEEKLOGDIR}
+cd $ZEEKLOGDIR
+exec /usr/bin/zeek -i ${INTF:=eth0} ${ZEEKPOLICY}
