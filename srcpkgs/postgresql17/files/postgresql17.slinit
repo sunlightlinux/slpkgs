@@ -1,0 +1,14 @@
+# postgresql17 -- PostgreSQL 17 database server (postgresql17). Not started
+# by default; enable with: slinitctl enable postgresql17
+# Options: PGROOT, INITOPTS and PGOPTS in /etc/psql17/default/postgresql,
+# the package's own file, read as before. The helper runs as root,
+# links /var/lib/postgresql17 to PGROOT and runs initdb on the first
+# start, then drops to postgres through setpriv. Stopped with SIGINT (a
+# fast shutdown), as runit's control/t did, with time to finish it.
+type = process
+command = /usr/libexec/slinit/postgresql17
+depends-on: network.target
+restart = true
+log-type = journal
+term-signal = INT
+stop-timeout = 90
