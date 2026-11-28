@@ -1,0 +1,9 @@
+# lldpd -- 802.1AB (LLDP) neighbour announcements (lldpd). Not started by
+# default; enable with: slinitctl enable lldpd
+# Options: OPTS in /etc/conf.d/lldpd (default -d, stay in the foreground).
+type = process
+command = /usr/libexec/slinit/lldpd
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
