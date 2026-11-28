@@ -1,7 +1,7 @@
 # Template file for 'parpd'
 pkgname=parpd
 version=1.7
-revision=1
+revision=2
 build_style=gnu-makefile
 make_install_args="BINDIR=/usr/bin"
 short_desc="RFC 1027 compliant Proxy ARP Daemon"
@@ -14,6 +14,7 @@ conf_files=/etc/parpd.conf
 
 post_install() {
 	vsv parpd
+	vslinit parpd
 	vlicense LICENSE
 
 	vconf "${FILESDIR}/parpd.conf"
