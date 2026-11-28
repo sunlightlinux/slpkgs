@@ -1,0 +1,30 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. It runs as
+# _duiadns (the service's run-as), where runit ran it as root up to the
+# chpst on the exec line.
+set -u
+CONFIG=
+PERIOD=
+TIMEFILE=
+[ -r /etc/conf.d/duiadns ] && . /etc/conf.d/duiadns
+
+# Make sure a configuration file exists
+: ${CONFIG:=/etc/duiadns.conf}
+[ -e "${CONFIG}" ] || exit 1
+
+if [ -x /usr/bin/snooze ]; then
+	# Use snooze if available because time control is better
+
+	# PERIOD is a set of snooze arguments in this context
+	: ${PERIOD:=-H /1 -M /5 -s 5m -T 1m}
+	# TIMEFILE tracks the last runtime
+	: ${TIMEFILE:=/var/cache/duiadns/timefile}
+
+	exec /usr/bin/snooze ${PERIOD} -t "${TIMEFILE}" \
+		/bin/sh -c "/usr/bin/duiadns '${CONFIG}'; /usr/bin/touch '${TIMEFILE}'"
+else
+	# Fall back to dumb sleep if snooze is not available
+	# PERIOD is just the number of seconds to sleep in this context
+	/usr/bin/sleep "${PERIOD:-300}" || exit 1
+	exec /usr/bin/duiadns "${CONFIG}"
+fi

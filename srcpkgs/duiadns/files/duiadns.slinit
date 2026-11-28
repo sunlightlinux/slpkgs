@@ -1,0 +1,12 @@
+# duiadns -- DuiaDNS dynamic DNS updater (duiadns). Not started by
+# default; enable with: slinitctl enable duiadns
+# Options: CONFIG (default /etc/duiadns.conf), PERIOD and TIMEFILE in
+# /etc/conf.d/duiadns. With snooze installed it updates every five
+# minutes; without it, it sleeps PERIOD seconds (default 300), updates
+# once and exits, and slinit restarts it.
+type = process
+command = /usr/libexec/slinit/duiadns
+run-as = _duiadns:_duiadns
+depends-on: network.target
+restart = true
+log-type = journal
