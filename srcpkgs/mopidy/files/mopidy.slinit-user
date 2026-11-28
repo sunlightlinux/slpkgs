@@ -1,0 +1,7 @@
+# mopidy -- music server for one user (mopidy). A user service; not
+# started by default; enable with: slinitctl --user enable mopidy
+# Reads the user's ~/.config/mopidy/mopidy.conf.
+type = process
+command = /usr/bin/mopidy
+restart = true
+log-type = journal
