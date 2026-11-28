@@ -1,0 +1,8 @@
+# input-remapper -- input device remapping service (input-remapper). Not
+# started by default; enable with: slinitctl enable input-remapper
+type = process
+command = /usr/bin/input-remapper-service
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
