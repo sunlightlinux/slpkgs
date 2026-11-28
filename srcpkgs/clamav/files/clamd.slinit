@@ -1,0 +1,7 @@
+# clamd -- Clam AntiVirus scanner daemon (clamav). Not started by default;
+# enable with: slinitctl enable clamd
+type = process
+command = /usr/libexec/slinit/clamd
+depends-on: local.target
+restart = true
+log-type = journal

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script: prepares /run/clamav, then runs clamd.
+set -u
+/usr/bin/mkdir -p /run/clamav
+/usr/bin/chown -R _clamav:_clamav /run/clamav
+exec /usr/bin/clamd -F
