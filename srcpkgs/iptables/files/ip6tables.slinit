@@ -1,0 +1,10 @@
+# ip6tables -- loads the IPv6 firewall rules from /etc/iptables/ip6tables.rules
+# (iptables). Not started by default; enable with: slinitctl enable ip6tables
+# Stopping it flushes the rules. It must be in place before the network is
+# used, so it does not depend on or wait for network.target.
+type = scripted
+command = /usr/libexec/slinit/ip6tables
+stop-command = /usr/libexec/iptables-flush -6
+depends-on: local.target
+# Ordered before the network setup when both start.
+before: network

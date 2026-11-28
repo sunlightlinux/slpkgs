@@ -1,0 +1,4 @@
+#!/bin/sh
+set -u
+[ ! -e /etc/iptables/iptables.rules ] && exit 0
+exec /usr/bin/iptables-restore -w 3 /etc/iptables/iptables.rules
