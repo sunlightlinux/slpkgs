@@ -1,0 +1,11 @@
+# wireproxy -- WireGuard client exposed as a SOCKS5 proxy (wireproxy), as
+# user _wireproxy. Not started by default; enable with:
+#     slinitctl enable wireproxy
+# Options: CONFFILE in /etc/conf.d/wireproxy (default
+# /etc/wireproxy/config), read as _wireproxy.
+type = process
+command = /usr/libexec/slinit/wireproxy
+run-as = _wireproxy
+depends-on: network.target
+restart = true
+log-type = journal

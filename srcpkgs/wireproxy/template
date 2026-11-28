@@ -1,7 +1,7 @@
 # Template file for 'wireproxy'
 pkgname=wireproxy
 version=1.1.3
-revision=2
+revision=3
 build_style=go
 go_import_path="github.com/windtf/wireproxy"
 go_package="${go_import_path}/cmd/wireproxy"
@@ -21,5 +21,6 @@ _wireproxy_homedir="/var/lib/wireproxy"
 
 post_install() {
 	vsv wireproxy
+	vslinit wireproxy
 	vlicense LICENSE
 }

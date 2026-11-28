@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -u
+# _wireproxy is the service's run-as.
+set -u
+CONFFILE=
+[ -r /etc/conf.d/wireproxy ] && . /etc/conf.d/wireproxy
+export HOME=/var/lib/wireproxy
+exec /usr/bin/wireproxy --config ${CONFFILE:-/etc/wireproxy/config}
