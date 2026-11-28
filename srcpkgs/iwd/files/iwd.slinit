@@ -1,0 +1,9 @@
+# iwd -- Intel's wireless daemon (iwd). Not started by default;
+# enable with: slinitctl enable iwd
+# Options: OPTS in /etc/conf.d/iwd.
+type = process
+command = /usr/libexec/slinit/iwd
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal

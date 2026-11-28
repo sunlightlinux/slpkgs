@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/iwd ] && . /etc/conf.d/iwd
+exec /usr/libexec/iwd ${OPTS}
