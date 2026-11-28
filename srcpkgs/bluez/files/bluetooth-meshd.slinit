@@ -1,0 +1,9 @@
+# bluetooth-meshd -- the Bluetooth mesh daemon (bluez-mesh), in the
+# foreground (--nodetach). Not started by default; enable with:
+#     slinitctl enable bluetooth-meshd
+type = process
+command = /usr/libexec/bluetooth/bluetooth-meshd --nodetach
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal

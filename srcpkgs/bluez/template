@@ -1,7 +1,7 @@
 # Template file for 'bluez'
 pkgname=bluez
 version=5.88
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--with-udevdir=/usr/lib/udev --disable-systemd
  --enable-sixaxis --enable-threads --enable-library --enable-deprecated
@@ -10,6 +10,7 @@ configure_args="--with-udevdir=/usr/lib/udev --disable-systemd
 hostmakedepends="automake flex libtool pkg-config python3-docutils"
 makedepends="cups-devel eudev-libudev-devel libglib-devel libical-devel
  readline-devel ell-devel json-c-devel"
+depends="dbus"
 short_desc="Bluetooth tools and daemons"
 maintainer="Érico Nogueira <ericonr@disroot.org>"
 license="GPL-2.0-or-later, LGPL-2.1-or-later"
@@ -41,6 +42,7 @@ post_install() {
 	vbin tools/btgatt-server
 	vbin tools/btmgmt
 	vsv bluetoothd
+	vslinit bluetoothd
 
 	vdoc ${FILESDIR}/README.voidlinux
 
@@ -108,6 +110,7 @@ bluez-obex_package() {
 
 bluez-mesh_package() {
 	short_desc+=" - mesh"
+	depends="dbus"
 	pkg_install() {
 		vmove "usr/bin/mesh*"
 		vmove usr/libexec/bluetooth/bluetooth-meshd
@@ -115,6 +118,7 @@ bluez-mesh_package() {
 		vmove usr/share/dbus-1/system-services/org.bluez.mesh.service
 		vmove usr/share/dbus-1/system.d/bluetooth-mesh.conf
 		vsv bluetooth-meshd
+		vslinit bluetooth-meshd
 		vinstall mesh/bluetooth-mesh.conf 644 etc/bluetooth
 		vinstall mesh/mesh-main.conf 644 etc/bluetooth
 	}

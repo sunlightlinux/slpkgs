@@ -1,0 +1,9 @@
+# bluetoothd -- the Bluetooth daemon (bluez), in the foreground (-n).
+# Not started by default; enable with: slinitctl enable bluetoothd
+# Options: OPTS in /etc/conf.d/bluetoothd.
+type = process
+command = /usr/libexec/slinit/bluetoothd
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
