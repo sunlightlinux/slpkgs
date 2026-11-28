@@ -1,7 +1,7 @@
 # Template file for 'fiche'
 pkgname=fiche
 version=0.9.1
-revision=2
+revision=3
 build_style=gnu-makefile
 short_desc="Command line pastebin server for sharing terminal output"
 maintainer="Orphaned <orphan@voidlinux.org>"
@@ -19,5 +19,6 @@ make_dirs="/var/log/fiche 0750 _fiche _fiche"
 post_install() {
 	vlicense LICENSE
 	vsv fiche
+	vslinit fiche
 	vbin fiche
 }

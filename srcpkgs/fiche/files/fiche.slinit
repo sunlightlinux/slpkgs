@@ -1,0 +1,8 @@
+# fiche -- command line pastebin server (fiche). Not started by default;
+# enable with: slinitctl enable fiche
+type = process
+command = /usr/bin/fiche -d yourdomain.com -o /var/tmp/fiche -l /var/log/fiche/log
+run-as = _fiche:_fiche
+depends-on: network.target
+restart = true
+log-type = journal
