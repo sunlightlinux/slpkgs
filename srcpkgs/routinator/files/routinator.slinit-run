@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+CONF_FILE=
+OPTS=
+[ -r /etc/conf.d/routinator ] && . /etc/conf.d/routinator
+exec /usr/bin/routinator --config ${CONF_FILE:-/etc/routinator/routinator.conf} server --user=_routinator --group=_routinator $OPTS

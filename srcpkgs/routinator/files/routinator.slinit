@@ -1,0 +1,8 @@
+# routinator -- RPKI validator and RTR server (routinator). Not started
+# by default; enable with: slinitctl enable routinator
+# Options: CONF_FILE and OPTS in /etc/conf.d/routinator.
+type = process
+command = /usr/libexec/slinit/routinator
+depends-on: network.target
+restart = true
+log-type = journal
