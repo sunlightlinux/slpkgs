@@ -2,7 +2,7 @@
 # rebuild php8.2-apcu and php8.2-imagick when updating this package
 pkgname=php8.2
 version=8.2.36
-revision=1
+revision=2
 _php_version=8.2
 build_helper="qemu"
 hostmakedepends="bison pkg-config apache-devel autoconf"
@@ -227,6 +227,7 @@ php8.2-fpm_package() {
 		cd ${wrksrc}/build
 		make INSTALL_ROOT=${PKGDESTDIR} install-fpm
 		vsv "php-fpm${_php_version}"
+		vslinit php-fpm8.2
 	}
 }
 
