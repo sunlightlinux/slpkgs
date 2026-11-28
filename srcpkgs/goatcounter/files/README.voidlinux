@@ -1,4 +1,5 @@
-The system service /etc/sv/goatcounter runs goatcounter as system user _goatcounter.
+The system service goatcounter (runit: /etc/sv/goatcounter; slinit:
+slinitctl enable goatcounter) runs goatcounter as system user _goatcounter.
 
 By default sqlite database is used. The database will be stored in
 /var/db/goatcounter/db.sqlite3.
@@ -11,6 +12,8 @@ $ sudo -u _goatcounter goatcounter db create site \
     -db sqlite+/var/db/goatcounter/db.sqlite3
 
 By default the service listens on 5000 port and does not use TLS. In production
-envirnment you must adjust service config by creating /var/goatcounter/conf
+envirnment you must adjust service config by creating /etc/conf.d/goatcounter
+(under runit: /etc/sv/goatcounter/conf). Under slinit the file is read as
+_goatcounter, so it must be readable by that user.
 
 OPTS=-listen ... -db ...

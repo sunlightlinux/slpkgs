@@ -1,0 +1,9 @@
+# goatcounter -- web analytics server (goatcounter). Not started by default;
+# enable with: slinitctl enable goatcounter
+# Options: OPTS in /etc/conf.d/goatcounter, read as _goatcounter.
+type = process
+command = /usr/libexec/slinit/goatcounter
+run-as = _goatcounter
+depends-on: network.target
+restart = true
+log-type = journal
