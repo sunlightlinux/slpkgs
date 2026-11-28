@@ -1,0 +1,8 @@
+# kea-dhcp6 -- Kea DHCPv6 server (kea). Not started by default;
+# enable with: slinitctl enable kea-dhcp6
+# Options: OPTS and WAIT_IFACE in /etc/conf.d/kea-dhcp6.
+type = process
+command = /usr/libexec/slinit/kea-dhcp6
+depends-on: network.target
+restart = true
+log-type = journal

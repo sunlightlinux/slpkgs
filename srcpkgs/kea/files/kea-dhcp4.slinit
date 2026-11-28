@@ -1,0 +1,8 @@
+# kea-dhcp4 -- Kea DHCPv4 server (kea). Not started by default;
+# enable with: slinitctl enable kea-dhcp4
+# Options: OPTS and WAIT_IFACE in /etc/conf.d/kea-dhcp4.
+type = process
+command = /usr/libexec/slinit/kea-dhcp4
+depends-on: network.target
+restart = true
+log-type = journal

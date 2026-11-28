@@ -1,0 +1,8 @@
+# kea-dhcp-ddns -- Kea dynamic DNS update server (kea). Not started by default;
+# enable with: slinitctl enable kea-dhcp-ddns
+# Options: OPTS in /etc/conf.d/kea-dhcp-ddns.
+type = process
+command = /usr/libexec/slinit/kea-dhcp-ddns
+depends-on: network.target
+restart = true
+log-type = journal
