@@ -1,0 +1,14 @@
+# vaultwarden -- Bitwarden compatible password server (vaultwarden), as
+# user _vaultwarden. Not started by default; enable with:
+#     slinitctl enable vaultwarden
+# Its settings are in /etc/vaultwarden.conf; another file can be named
+# with ENV_FILE in /etc/conf.d/vaultwarden, read as _vaultwarden.
+type = process
+command = /usr/libexec/slinit/vaultwarden
+run-as = _vaultwarden:_vaultwarden
+# vaultwarden keeps its data (DATA_FOLDER, default "data") relative to its
+# working directory; its home is where that data belongs.
+working-dir = /var/lib/vaultwarden
+depends-on: network.target
+restart = true
+log-type = journal

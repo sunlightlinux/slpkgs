@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -u
+# _vaultwarden:_vaultwarden is the service's run-as.
+set -u
+ENV_FILE=
+[ -r /etc/conf.d/vaultwarden ] && . /etc/conf.d/vaultwarden
+ENV_FILE=${ENV_FILE:-/etc/vaultwarden.conf}
+export ENV_FILE
+exec /usr/bin/vaultwarden

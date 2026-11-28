@@ -1,7 +1,7 @@
 # Template file for 'vaultwarden'
 pkgname=vaultwarden
 version=1.37.5
-revision=1
+revision=2
 build_style=cargo
 configure_args="--features sqlite,mysql,postgresql"
 hostmakedepends="pkg-config"
@@ -52,5 +52,6 @@ pre_install() {
 post_install() {
 	vsconf .env.template vaultwarden.conf
 	vsv vaultwarden
+	vslinit vaultwarden
 	vlicense LICENSE.txt
 }
