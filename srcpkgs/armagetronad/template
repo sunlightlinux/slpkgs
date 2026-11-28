@@ -1,7 +1,7 @@
 # Template file for 'armagetronad'
 pkgname=armagetronad
 version=0.2.9.1.1
-revision=1
+revision=2
 build_style=gnu-configure
 conf_files="/etc/games/${pkgname}/*.cfg
  /etc/games/${pkgname}/*.srv"
@@ -46,6 +46,7 @@ do_install() {
 
 post_install() {
 	vsv armagetronad-dedicated
+	vslinit armagetronad-dedicated
 	rm -rf ${DESTDIR}/etc/init.d
 }
 
@@ -56,6 +57,7 @@ armagetronad-dedicated_package() {
 	pkg_install() {
 		vmove /usr/bin/armagetronad-dedicated
 		vmove /etc/sv
+		vmove usr/lib/slinit.d/armagetronad-dedicated
 		vmove /etc/games/armagetronad-dedicated
 		vmove /usr/share/games/armagetronad-dedicated
 		vmove /usr/share/doc/games/armagetronad-dedicated

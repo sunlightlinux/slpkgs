@@ -1,0 +1,8 @@
+# armagetronad-dedicated -- Armagetron Advanced dedicated game server
+# (armagetronad-dedicated). Not started by default; enable with:
+#     slinitctl enable armagetronad-dedicated
+type = process
+command = /usr/bin/armagetronad-dedicated
+depends-on: network.target
+restart = true
+log-type = journal
