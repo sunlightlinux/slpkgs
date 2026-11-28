@@ -1,7 +1,7 @@
 # Template file for 'squid'
 pkgname=squid
 version=7.6
-revision=2
+revision=3
 build_style=gnu-configure
 configure_args="
  --sysconfdir=/etc/squid
@@ -73,5 +73,6 @@ post_install() {
 		${DESTDIR}/usr/libexec/squid/basic_pam_auth \
 		${DESTDIR}/usr/libexec/squid/pinger
 	vsv squid
+	vslinit squid
 	vinstall ${FILESDIR}/cron.daily 0744 etc/cron.daily squid
 }

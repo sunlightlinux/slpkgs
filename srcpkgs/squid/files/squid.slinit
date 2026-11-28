@@ -1,0 +1,10 @@
+# squid -- caching proxy for the Web (squid). Not started by default;
+# enable with: slinitctl enable squid
+type = process
+command = /usr/libexec/slinit/squid
+depends-on: network.target
+restart = true
+log-type = journal
+# On SIGTERM squid waits shutdown_lifetime (30 seconds by default) for
+# clients before it exits; runit never killed it.
+stop-timeout = 60

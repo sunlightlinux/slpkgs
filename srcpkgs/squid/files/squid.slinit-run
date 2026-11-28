@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+/usr/bin/install -o squid -g squid -m 0755 -d /var/run/squid
+/usr/bin/squid -N -s -z
+exec /usr/bin/squid -N -s
