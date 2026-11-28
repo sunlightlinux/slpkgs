@@ -1,7 +1,7 @@
 # Template file for 'rmtfs'
 pkgname=rmtfs
 version=1.0
-revision=1
+revision=2
 build_style=gnu-makefile
 make_use_env=1
 makedepends="qrtr-ns-devel eudev-libudev-devel"
@@ -15,4 +15,5 @@ checksum=45e53d4e3d92717bed3b896c871429abe6cfb55230b39b4228323537167834e7
 post_install() {
 	vlicense LICENSE
 	vsv rmtfs
+	vslinit rmtfs
 }

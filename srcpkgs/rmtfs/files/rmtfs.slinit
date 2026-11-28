@@ -1,0 +1,8 @@
+# rmtfs -- Qualcomm remote filesystem service (rmtfs). Not started by
+# default; enable with: slinitctl enable rmtfs
+# Options: OPTS in /etc/conf.d/rmtfs (default -r -P -s).
+type = process
+command = /usr/libexec/slinit/rmtfs
+depends-on: local.target
+restart = true
+log-type = journal
