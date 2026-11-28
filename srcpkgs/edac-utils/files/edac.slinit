@@ -1,0 +1,6 @@
+# edac -- registers the DIMM labels of /etc/edac/labels.db with the
+# kernel's EDAC drivers (edac-utils). Not started by default; enable with:
+#     slinitctl enable edac
+type = scripted
+command = /usr/bin/edac-ctl --register-labels
+depends-on: local.target
