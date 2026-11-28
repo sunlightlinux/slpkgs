@@ -148,10 +148,29 @@ part in the slinit service.
    environment variable the run script sets (`HOME=...`) is exported in
    the helper, which runs with the service's `run-as` user.
 
-   Anything else (`-U`, `-l`, `-L`, `-m`, `-d`, `-P`, `-/`, `-0`..`-2`):
-   stop and report it rather than guess. So also when a `chpst` argument
-   comes from the conf at run time (`chpst -u "${USER:-_x}"`): `run-as`
-   and `working-dir` are fixed, and a conversion would drop the setting.
+   `-0`, `-1`, `-2` (close stdin, stdout, stderr) become `exec 0<&-`,
+   `exec 1>&-`, `exec 2>&-` in the helper, just before the daemon's `exec`.
+
+   **A user, group or directory taken from the conf at run time**
+   (`chpst -u "${USER:-_x}"`, `chpst -u $U:$G`, `chpst -C "$HOME"`), and a
+   run script that must do root work before dropping to its user (`su -
+   postgres -c initdb`, `ln -sf` in `/var/lib`), get **no `run-as`**. The
+   helper runs as root, reads the conf, does the root steps, `cd`s where
+   `chpst -C` or `cd` went, and ends with setpriv, which matches `chpst -u
+   user:group` (one group, environment kept):
+
+       exec /usr/bin/setpriv --reuid "$USER" --regid "$GROUP" --clear-groups \
+           -- /usr/bin/daemon $OPTS
+
+   `chpst -u user` with no group is `--regid` of the user's primary group
+   (`$(/usr/bin/id -g "$USER")`); `-u user:group:extra` is
+   `--groups extra,...` instead of `--clear-groups`. A run-time
+   `ulimit -n` then needs no `rlimit-nofile`, since the helper is root. A
+   run script that already uses setpriv keeps its line, with the program
+   after `--` given by absolute path.
+
+   Anything else (`-U`, `-l`, `-L`, `-m`, `-d`, `-P`, `-/`): stop and
+   report it rather than guess.
 
 9. **Dependencies:**
    - a daemon that needs the network gets `depends-on: network.target`
@@ -162,10 +181,13 @@ part in the slinit service.
      one that uses the network but copes without it adds
      `waits-for: network.target`;
    - a daemon that sets up the network itself (iwd, wpa_supplicant,
-     NetworkManager, dhcpcd) never depends on or waits for network.target,
-     which would invert the order; a firewall or interface setup that must
-     be in place before the network is configured also gets
-     `before: network` (slinit-services' network service);
+     NetworkManager, connman, dhcpcd, dhcp's dhclient, wireguard) gets
+     `depends-on: pre-network.target` and `before: network.target`, never
+     a dependency on network.target, which would invert the order;
+   - a firewall or interface setup that must be in place before any of
+     those runs (iptables, nftables, ufw, firewalld, ovs-vswitchd, ifstate)
+     gets `before: pre-network.target`, as on Chimera and Artix. A routing
+     daemon (frr, bird) gets `depends-on: local.target` only;
    - `sv check <other>` / `sv start <other>` in `run` becomes
      `depends-on: <other>`, using the other daemon's slinit service name;
    - a daemon that talks D-Bus gets `depends-on: dbus`; one that copes
@@ -245,9 +267,7 @@ part in the slinit service.
     install steps contradict (the service is broken in Void too); a runit
     service dir in `files/` that the template never `vsv`s (it is not
     installed); a script the package puts in `/etc/runit/core-services/`
-    (a boot-time hook, handled by slinit-services, not per package); a
-    `chpst -e` env directory shipped for users to edit (it needs a home
-    outside `/etc/sv`, decided separately). A package marked `broken=` is
+    (a boot-time hook: see rule 21). A package marked `broken=` is
     converted like any other.
 
 16. **Working directory.** runit starts a daemon in `/etc/sv/<service>`;
@@ -256,7 +276,11 @@ part in the slinit service.
     files really are, and say so in the commit; otherwise none is needed.
 
 17. **Every runit service of a package is converted**, in one commit for
-    the package, even if only one was asked for.
+    the package, even if only one was asked for. One that rule 15 reports
+    does not hold back the rest: convert the others and name the skipped
+    one, with the reason, in the commit body. A `vsv` whose name is a
+    variable gets a `vslinit` with the name written out where it can be
+    (`vslinit php-fpm8.4`), else the same variable in the same loop.
 
 18. **Syslog daemons need nothing extra.** slinit as PID 1 serves
     `/dev/log`; a syslog daemon started by its own service takes it over.
@@ -267,6 +291,50 @@ part in the slinit service.
 
         # sshd -- OpenSSH server (openssh). Not started by default;
         # enable with: slinitctl enable sshd
+
+20. **User services.** A runit service for a user's session (it needs
+    `$DISPLAY`, the user's home, or a per-user daemon such as mpd's or
+    pipewire's) also, or only, gets `files/<service>.slinit-user`, which
+    `vslinit` installs as `/usr/lib/slinit.d/user/<service>`, where
+    `slinit --user` (started by turnstile) finds it. The user enables it
+    with `slinitctl --user enable <service>`. Same rules otherwise; no
+    `run-as`, and `depends-on` only on other user services.
+
+21. **Boot-time hooks** (`/etc/runit/core-services/NN-x.sh`). slinit has no
+    such directory, as Chimera and Artix have none. Whatever the hook does
+    becomes, in order of preference: a config file the core already reads
+    (`/usr/lib/modules-load.d/*.conf`, `/usr/lib/sysctl.d`,
+    `/usr/lib/binfmt.d`, `/usr/lib/tmpfiles.d`); or a `type = scripted`
+    service of the package, **enabled** (`vslinit <service> enable`, the
+    hook ran on every boot the package was installed), with
+    `depends-on: local.target` or `before: local.target` as the hook's
+    number in the boot order requires. A hook that duplicates a service
+    the package already has (runit-iptables over iptables) is dropped, and
+    the package says so.
+
+22. **An env directory** (`chpst -e ./env`) shipped for users to edit is
+    installed as files under `/etc/conf.d/<service>.env/` (each in
+    `conf_files`), with `env-dir = /etc/conf.d/<service>.env`. A value the
+    run script writes there at run time is exported by the helper instead.
+
+23. **Small idioms.**
+    - `${OPTS-default}` (no colon) is `${OPTS=default}`: no `OPTS=` line
+      before the conf.
+    - A lone `1>&2` on the `exec` line or `exec 1>&2` is dropped (both
+      streams go to the journal anyway).
+    - A variable the sourced conf itself reads under `set -u` is set empty
+      before the `.` line, as OPTS is.
+    - A code fragment shipped in the runit dir (wpa_supplicant's `auto`)
+      is written into the helper.
+    - A run script that runs the daemon without `exec` is treated as if it
+      had it.
+    - A run script that does its job and exits, so that runit's restart
+      acts as a timer, keeps `restart = true` and says so in the header;
+      slinit stops restarting it after `restart-limit-count`, so the
+      commit says that too.
+    - Display managers keep `waits-for: udev-trigger`, as gdm does.
+    - From slinit 4.2.0 every service gets a default `PATH`; service files
+      still use absolute paths, but tools a helper starts may find theirs.
 
 ## Finding a binary's path
 

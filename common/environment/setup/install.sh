@@ -55,12 +55,22 @@ _vslinit() {
 		msg_red "$pkgver: vslinit: second argument must be 'enable', not '$enable'\n"
 		return 1
 	fi
-	if [ ! -f "$src" ]; then
-		msg_red "$pkgver: vslinit: ${service}.slinit not found in \${FILESDIR}\n"
+	if [ ! -f "$src" ] && [ ! -f "${src}-user" ]; then
+		msg_red "$pkgver: vslinit: neither ${service}.slinit nor ${service}.slinit-user found in \${FILESDIR}\n"
+		return 1
+	fi
+	if [ "$enable" = enable ] && [ ! -f "$src" ]; then
+		msg_red "$pkgver: vslinit: 'enable' needs a system service, ${service}.slinit\n"
 		return 1
 	fi
 
-	vinstall "$src" 644 usr/lib/slinit.d "$service"
+	if [ -f "$src" ]; then
+		vinstall "$src" 644 usr/lib/slinit.d "$service"
+	fi
+	# A user service, for slinit --user (started by turnstile).
+	if [ -f "${src}-user" ]; then
+		vinstall "${src}-user" 644 usr/lib/slinit.d/user "$service"
+	fi
 	if [ -f "$helper" ]; then
 		vinstall "$helper" 755 usr/libexec/slinit "$service"
 	fi
