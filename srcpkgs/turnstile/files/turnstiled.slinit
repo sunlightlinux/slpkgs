@@ -1,0 +1,7 @@
+# turnstiled -- session tracker and user service manager (turnstile).
+# Not started by default; enable with: slinitctl enable turnstiled
+type = process
+command = /usr/bin/turnstiled
+depends-on: local.target
+restart = true
+log-type = journal

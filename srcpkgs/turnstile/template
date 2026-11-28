@@ -1,7 +1,7 @@
 # Template file for 'turnstile'
 pkgname=turnstile
 version=0.1.11
-revision=1
+revision=2
 build_style=meson
 configure_args="-Ddinit=enabled -Drunit=enabled -Ddefault_backend=runit
  -Dmanage_rundir=true"
@@ -18,6 +18,7 @@ make_dirs="/var/lib/turnstiled/linger 0755 root root"
 
 post_install() {
 	vsv turnstiled
+	vslinit turnstiled
 	vsconf "${FILESDIR}/dbus.run"
 	chmod +x "${DESTDIR}/usr/share/examples/turnstile/dbus.run"
 	vsconf "${FILESDIR}/dbus.check"
