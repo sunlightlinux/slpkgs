@@ -1,0 +1,8 @@
+# tailscaled -- the Tailscale VPN daemon (tailscale). Not started by
+# default; enable with: slinitctl enable tailscaled
+# Settings: PORT (default 41641) in /etc/conf.d/tailscaled.
+type = process
+command = /usr/libexec/slinit/tailscaled
+depends-on: network.target
+restart = true
+log-type = journal

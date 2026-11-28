@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+PORT=
+[ -r /etc/conf.d/tailscaled ] && . /etc/conf.d/tailscaled
+
+exec /usr/bin/tailscaled                            \
+        --state=/var/lib/tailscale/tailscaled.state \
+        --socket=/var/run/tailscale/tailscaled.sock \
+        --port "${PORT:-41641}"
