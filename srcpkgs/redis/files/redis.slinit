@@ -1,0 +1,11 @@
+# redis -- key-value store (redis). Not started by default; enable with:
+# slinitctl enable redis
+# The helper discards redis' stdout and keeps stderr, as the runit run
+# script did.
+type = process
+command = /usr/libexec/slinit/redis
+run-as = redis:redis
+pre-start-command = +/usr/bin/install -d -m0750 -o redis -g redis /run/redis
+depends-on: network.target
+restart = true
+log-type = journal

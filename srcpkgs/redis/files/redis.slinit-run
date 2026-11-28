@@ -1,0 +1,4 @@
+#!/bin/sh
+# Void's runit run script: stdout is discarded, stderr kept.
+set -u
+exec /usr/bin/redis-server /etc/redis/redis.conf >/dev/null

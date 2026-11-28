@@ -1,7 +1,7 @@
 # Template file for 'redis'
 pkgname=redis
 version=8.8.2
-revision=1
+revision=2
 build_style=gnu-makefile
 # redis makefile sets gcc to link, Void build points to ld
 # https://github.com/redis/redis/blob/669b2a1316f5b35ecf964281b77c054ff28dc934/tests/modules/Makefile#L32
@@ -47,4 +47,5 @@ do_install() {
 
 	vinstall redis.conf 644 etc/redis
 	vsv redis
+	vslinit redis
 }
