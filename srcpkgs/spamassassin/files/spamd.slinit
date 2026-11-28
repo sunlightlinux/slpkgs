@@ -1,0 +1,8 @@
+# spamd -- SpamAssassin daemon (spamassassin). Not started by default;
+# enable with: slinitctl enable spamd
+# Options: OPTS in /etc/conf.d/spamd.
+type = process
+command = /usr/libexec/slinit/spamd
+depends-on: network.target
+restart = true
+log-type = journal

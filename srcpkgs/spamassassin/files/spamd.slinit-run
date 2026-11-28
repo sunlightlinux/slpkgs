@@ -1,0 +1,6 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/spamd ] && . /etc/conf.d/spamd
+[ -d /var/lib/spamassassin ] || /usr/bin/sa-update
+exec /usr/bin/spamd ${OPTS}

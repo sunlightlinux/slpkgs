@@ -1,2 +1,8 @@
 #!/bin/sh
-sa-update && sv reload spamd > /dev/null
+if sa-update; then
+	if command -v slinitctl >/dev/null 2>&1; then
+		slinitctl signal HUP spamd >/dev/null
+	else
+		sv reload spamd >/dev/null
+	fi
+fi
