@@ -1,0 +1,10 @@
+# minio -- S3 compatible object storage server (minio). Not started by
+# default; enable with: slinitctl enable minio
+# Settings: MINIO_VOLUMES in /etc/default/minio, read by the helper as
+# _minio; credentials in /etc/minio/config.json.
+type = process
+command = /usr/libexec/slinit/minio
+run-as = _minio:_minio
+depends-on: network.target
+restart = true
+log-type = journal

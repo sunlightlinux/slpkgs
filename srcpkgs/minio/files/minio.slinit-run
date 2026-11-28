@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script; it reads the package's own /etc/default/minio.
+set -u
+MINIO_VOLUMES=
+. /etc/default/minio
+: ${MINIO_VOLUMES:="/var/lib/minio/data/"}
+exec /usr/bin/minio -C /etc/minio/ server "$MINIO_VOLUMES"
