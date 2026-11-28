@@ -1,7 +1,7 @@
 # Template file for 'prosody'
 pkgname=prosody
 version=13.0.8
-revision=1
+revision=2
 build_style=configure
 configure_args="
  --ostype=linux
@@ -46,5 +46,6 @@ post_configure() {
 
 post_install() {
 	vsv prosody
+	vslinit prosody
 	vlicense COPYING
 }

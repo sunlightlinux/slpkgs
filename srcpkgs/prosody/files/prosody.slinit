@@ -1,0 +1,9 @@
+# prosody -- XMPP server (prosody). Not started by default; enable with:
+# slinitctl enable prosody
+type = process
+command = /usr/bin/prosody --no-daemonize
+run-as = prosody:prosody
+pre-start-command = +/usr/bin/install -d -o prosody -g prosody /run/prosody
+depends-on: network.target
+restart = true
+log-type = journal
