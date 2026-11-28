@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/inadyn ] && . /etc/conf.d/inadyn
+[ ! -d /run/inadyn ] &&
+	/usr/bin/mkdir -p /run/inadyn &&
+	/usr/bin/chown inadyn:inadyn /run/inadyn ||
+	/usr/bin/rm -f /run/inadyn/inadyn.pid
+exec /usr/bin/inadyn -p inadyn:inadyn -Nn $OPTS

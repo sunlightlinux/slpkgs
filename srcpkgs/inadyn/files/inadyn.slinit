@@ -1,0 +1,8 @@
+# inadyn -- dynamic DNS client (inadyn). Not started by default; enable
+# with: slinitctl enable inadyn
+# Options: OPTS in /etc/conf.d/inadyn.
+type = process
+command = /usr/libexec/slinit/inadyn
+depends-on: network.target
+restart = true
+log-type = journal
