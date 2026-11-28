@@ -1,0 +1,7 @@
+# alsa -- restores the ALSA mixer settings at start and stores them when
+# the service stops (alsa-utils). Not started by default; enable with:
+#     slinitctl enable alsa
+type = scripted
+command = /usr/bin/alsactl restore
+stop-command = /usr/bin/alsactl store
+depends-on: local.target
