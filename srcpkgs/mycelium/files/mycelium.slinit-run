@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+/usr/bin/modprobe tun
+[ -r /etc/conf.d/mycelium ] && . /etc/conf.d/mycelium
+exec /usr/bin/setpriv --ambient-caps +net_admin,+net_raw \
+	--inh-caps +net_admin,+net_raw \
+	--bounding-set -all,+net_admin,+net_raw \
+	/usr/bin/mycelium ${OPTS}

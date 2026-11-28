@@ -1,0 +1,10 @@
+# mycelium -- end-to-end encrypted IPv6 overlay network (mycelium). Not
+# started by default; enable with: slinitctl enable mycelium
+# Options: OPTS in /etc/conf.d/mycelium. The helper loads the tun module
+# and starts it through setpriv with only the net_admin and net_raw
+# capabilities, as the runit run script did.
+type = process
+command = /usr/libexec/slinit/mycelium
+depends-on: network.target
+restart = true
+log-type = journal
