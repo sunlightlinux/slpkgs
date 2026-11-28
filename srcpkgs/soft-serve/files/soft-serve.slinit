@@ -1,0 +1,10 @@
+# soft-serve -- self-hostable Git server (soft-serve). Not started by
+# default; enable with: slinitctl enable soft-serve
+# Environment: one file per variable in /etc/conf.d/soft-serve.env/.
+type = process
+command = /usr/bin/soft serve
+run-as = _softserve:_softserve
+env-dir = /etc/conf.d/soft-serve.env
+depends-on: network.target
+restart = true
+log-type = journal

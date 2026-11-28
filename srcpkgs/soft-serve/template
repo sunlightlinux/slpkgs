@@ -1,7 +1,7 @@
 # Template file for 'soft-serve'
 pkgname=soft-serve
 version=0.12.2
-revision=2
+revision=3
 build_style=go
 build_helper=qemu
 go_import_path="github.com/charmbracelet/soft-serve"
@@ -24,6 +24,9 @@ fi
 system_accounts="_softserve"
 _softserve_homedir="/var/lib/soft-serve"
 make_dirs="/var/lib/soft-serve 0755 _softserve _softserve"
+conf_files="
+ /etc/conf.d/soft-serve.env/SOFT_SERVE_DATA_PATH
+ /etc/conf.d/soft-serve.env/SOFT_SERVE_INITIAL_ADMIN_KEYS"
 
 post_install() {
 	local _soft="${DESTDIR}/usr/bin/soft"
@@ -37,4 +40,7 @@ post_install() {
 
 	vlicense LICENSE
 	vsv soft-serve
+	vslinit soft-serve
+	vinstall ${FILESDIR}/soft-serve/env/SOFT_SERVE_DATA_PATH 644 etc/conf.d/soft-serve.env
+	vinstall ${FILESDIR}/soft-serve/env/SOFT_SERVE_INITIAL_ADMIN_KEYS 644 etc/conf.d/soft-serve.env
 }
