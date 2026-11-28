@@ -1,0 +1,9 @@
+# nrpe -- Nagios Remote Plugin Executor (nrpe), in the foreground
+# (--no-forking). Not started by default; enable with:
+#     slinitctl enable nrpe
+# Needs the network set up, but not a working one: it binds to any address.
+type = process
+command = /usr/bin/nrpe --no-forking --config=/etc/nagios/nrpe.cfg
+depends-on: network.target
+restart = true
+log-type = journal
