@@ -331,7 +331,8 @@ The following functions are defined by `xbps-src` and can be used on any templat
 	`/etc/slinit.d/boot.d`. Use the same `<service>` name as `vsv`, so a
 	daemon is enabled by the same name under either init. A change to a
 	`.slinit` file of a published package needs a revision bump, or
-	installed systems never receive it.
+	installed systems never receive it. How to write the service is in
+	`common/slinit/README.md`.
 
 - *vsed()* `vsed -i <file> -e <regex>`
 
