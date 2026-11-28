@@ -1,0 +1,7 @@
+# dmeventd -- device-mapper event daemon (device-mapper). Not started by
+# default; enable with: slinitctl enable dmeventd
+type = process
+command = /usr/bin/dmeventd -f
+depends-on: local.target
+restart = true
+log-type = journal
