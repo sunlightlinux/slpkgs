@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -u is
+# run-as in the service.
+set -u
+OPTS="--config.file=/etc/snmp_exporter/*.yml"
+[ -r /etc/conf.d/snmp_exporter ] && . /etc/conf.d/snmp_exporter
+exec /usr/bin/snmp_exporter ${OPTS}

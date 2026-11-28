@@ -1,0 +1,10 @@
+# snmp_exporter -- SNMP exporter for Prometheus (snmp_exporter). Not
+# started by default; enable with: slinitctl enable snmp_exporter
+# Options: OPTS in /etc/conf.d/snmp_exporter (default
+# --config.file=/etc/snmp_exporter/*.yml).
+type = process
+command = /usr/libexec/slinit/snmp_exporter
+run-as = _snmp_exporter:_snmp_exporter
+depends-on: network.target
+restart = true
+log-type = journal
