@@ -1,0 +1,8 @@
+# snmpd -- SNMP agent (net-snmp). Not started by default; enable with:
+# slinitctl enable snmpd
+# Options: OPTS in /etc/conf.d/snmpd.
+type = process
+command = /usr/libexec/slinit/snmpd
+depends-on: network.target
+restart = true
+log-type = journal
