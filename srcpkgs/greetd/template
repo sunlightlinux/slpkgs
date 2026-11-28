@@ -1,7 +1,7 @@
 # Template file for 'greetd'
 pkgname=greetd
 version=0.10.3
-revision=2
+revision=3
 build_style=cargo
 conf_files="/etc/greetd/config.toml"
 hostmakedepends="pkg-config scdoc"
@@ -38,5 +38,6 @@ do_install() {
 
 	vinstall ${FILESDIR}/greetd.pam 644 etc/pam.d/ greetd
 	vsv greetd
+	vslinit greetd
 	vdoc "${FILESDIR}/README.voidlinux"
 }

@@ -1,0 +1,7 @@
+# greetd -- minimal login manager daemon (greetd). Not started by
+# default; enable with: slinitctl enable greetd
+type = process
+command = /usr/bin/greetd
+depends-on: local.target
+restart = true
+log-type = journal
