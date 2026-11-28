@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with absolute paths.
+set -u
+exec /usr/bin/setpriv --reuid _shadowsocks --regid _shadowsocks --clear-groups \
+	--ambient-caps -all,+net_bind_service \
+	--inh-caps -all,+net_bind_service \
+	--bounding-set -all,+net_bind_service \
+	--no-new-privs -- /usr/bin/ssservice server -c /etc/shadowsocks-rust/config.json

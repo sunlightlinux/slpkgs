@@ -1,0 +1,11 @@
+# shadowsocks-rust-server -- shadowsocks server, ssservice server
+# (shadowsocks-rust). Not started by default; enable with:
+# slinitctl enable shadowsocks-rust-server
+# It reads /etc/shadowsocks-rust/config.json. The helper drops to
+# _shadowsocks with setpriv, keeping only the net_bind_service capability,
+# as the runit run script does.
+type = process
+command = /usr/libexec/slinit/shadowsocks-rust-server
+depends-on: network.target
+restart = true
+log-type = journal

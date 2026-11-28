@@ -1,7 +1,7 @@
 # Template file for 'shadowsocks-rust'
 pkgname=shadowsocks-rust
 version=1.24.0
-revision=1
+revision=2
 build_style=cargo
 hostmakedepends="pkg-config"
 makedepends="libzstd-devel"
@@ -22,7 +22,9 @@ make_check_args="-- --skip=http_proxy"
 post_install() {
 	vlicense LICENSE
 	vsv shadowsocks-rust-server
+	vslinit shadowsocks-rust-server
 	vsv shadowsocks-rust-client
+	vslinit shadowsocks-rust-client
 	vsconf examples/config.json
 	vsconf examples/config_ext.json
 }

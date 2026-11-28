@@ -1,0 +1,11 @@
+# shadowsocks-rust-client -- shadowsocks local client, ssservice local
+# (shadowsocks-rust). Not started by default; enable with:
+# slinitctl enable shadowsocks-rust-client
+# It reads /etc/shadowsocks-rust/config.json. The helper drops to
+# _shadowsocks with setpriv, keeping only the net_bind_service capability,
+# as the runit run script does.
+type = process
+command = /usr/libexec/slinit/shadowsocks-rust-client
+depends-on: network.target
+restart = true
+log-type = journal
