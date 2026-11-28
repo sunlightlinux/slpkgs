@@ -1,0 +1,9 @@
+# matterbridge -- bridge between chat services (matterbridge). Not
+# started by default; enable with: slinitctl enable matterbridge
+# Options: MATTERBRIDGE_CONFIG in /etc/conf.d/matterbridge (default
+# /etc/matterbridge.toml).
+type = process
+command = /usr/libexec/slinit/matterbridge
+depends-on: network.target
+restart = true
+log-type = journal

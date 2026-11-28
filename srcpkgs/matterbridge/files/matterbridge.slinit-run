@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+MATTERBRIDGE_CONFIG=
+[ -r /etc/conf.d/matterbridge ] && . /etc/conf.d/matterbridge
+exec /usr/bin/matterbridge -conf "${MATTERBRIDGE_CONFIG:-/etc/matterbridge.toml}"
