@@ -1,0 +1,10 @@
+# fake-hwclock -- restores the clock from a saved time at start and saves
+# it when the service stops, for machines without an RTC (fake-hwclock).
+# Not started by default; enable with: slinitctl enable fake-hwclock
+# Options: FORCE in /etc/default/fake-hwclock.
+type = scripted
+command = /usr/libexec/slinit/fake-hwclock
+stop-command = /usr/bin/fake-hwclock save
+start-timeout = 60
+stop-timeout = 60
+depends-on: local.target

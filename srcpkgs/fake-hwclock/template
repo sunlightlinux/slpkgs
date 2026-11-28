@@ -1,7 +1,7 @@
 # Template file for 'fake-hwclock'
 pkgname=fake-hwclock
 version=0.12
-revision=1
+revision=2
 short_desc="Save/restore system clock on machines without working RTC hardware"
 maintainer="Ivan Gonzalez Polanco <ivan14polanco@gmail.com>"
 license="GPL-2.0-only"
@@ -17,4 +17,5 @@ do_install() {
 	vinstall debian/fake-hwclock.cron.hourly 755 etc/cron.hourly fake-hwclock
 	vman fake-hwclock.8
 	vsv fake-hwclock
+	vslinit fake-hwclock
 }

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+FORCE=
+[ -r /etc/default/fake-hwclock ] && . /etc/default/fake-hwclock
+exec /usr/bin/fake-hwclock load $FORCE
