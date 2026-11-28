@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. Runs as
+# the service's run-as user, _tox_bootstrapd.
+set -u
+OPTS=
+[ -r /etc/conf.d/tox-bootstrapd ] && . /etc/conf.d/tox-bootstrapd
+exec /usr/bin/tox-bootstrapd --foreground ${OPTS:-"--config=/etc/tox-bootstrapd.conf"}

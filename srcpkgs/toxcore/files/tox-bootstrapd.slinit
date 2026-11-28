@@ -1,0 +1,9 @@
+# tox-bootstrapd -- Tox DHT bootstrap daemon (toxcore). Not started by
+# default; enable with: slinitctl enable tox-bootstrapd
+# Options: OPTS in /etc/conf.d/tox-bootstrapd.
+type = process
+command = /usr/libexec/slinit/tox-bootstrapd
+run-as = _tox_bootstrapd
+depends-on: network.target
+restart = true
+log-type = journal
