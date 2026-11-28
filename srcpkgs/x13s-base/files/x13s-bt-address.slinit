@@ -1,0 +1,11 @@
+# x13s-bt-address -- sets the Bluetooth MAC address from BLUETOOTH_MAC in
+# /etc/default/x13s at boot, as the X13s cannot store one (x13s-base).
+# Started at every boot while the package is installed, as runit's
+# core-service 90-x13s-bt-address.sh was.
+type = scripted
+command = /usr/libexec/x13s-setup bluetooth
+# Devices coldplugged and /etc mounted, before any daemon (bluetoothd)
+# starts: runit ran it in stage 1, after 08-sysctl.
+depends-on: filesystems
+before: local.target
+start-timeout = 60
