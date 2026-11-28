@@ -1,0 +1,7 @@
+# sshd -- OpenSSH server (openssh). Not started by default; enable with:
+#     slinitctl enable sshd
+# Needs the network set up, but not a working one: it binds to any address.
+type = process
+command = /usr/libexec/slinit/sshd
+depends-on: network.target
+restart = true

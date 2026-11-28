@@ -1,7 +1,7 @@
 # Template file for 'openssh'
 pkgname=openssh
 version=10.6p2
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--datadir=/usr/share/openssh
  --sysconfdir=/etc/ssh --without-selinux --with-privsep-user=nobody
@@ -20,6 +20,7 @@ hostmakedepends="automake"
 makedepends="libedit-devel pam-devel zlib-devel
  $(vopt_if gssapi 'mit-krb5-devel') $(vopt_if ldns 'libldns-devel')
  $(vopt_if ssl 'openssl-devel') $(vopt_if fido2 'libfido2-devel')"
+conflicts="slinit-services<20261108_13"
 short_desc="OpenSSH free Secure Shell (SSH) client and server implementation"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
 license="BSD-2-Clause, ISC"
@@ -84,6 +85,7 @@ post_install() {
 
 	vinstall ${FILESDIR}/sshd.pam 644 etc/pam.d sshd
 	vsv sshd
+	vslinit sshd
 }
 
 openssh-sk-helper_package() {
