@@ -1,7 +1,7 @@
 # Template file for 'vpnd'
 pkgname=vpnd
 version=0.2.0
-revision=1
+revision=2
 depends="bash libnotify"
 conf_files="/etc/vpnd.conf"
 short_desc="Package update notifier daemon for Void Linux"
@@ -17,5 +17,6 @@ do_install() {
 	vcopy "*.png" usr/share/icons/vpnd
 	vconf vpnd.conf
 	vsv vpnd
+	vslinit vpnd
 	vdoc "${FILESDIR}/README.voidlinux"
 }

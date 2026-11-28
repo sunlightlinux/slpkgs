@@ -1,0 +1,8 @@
+# vpnd -- package update notifier daemon (vpnd). Not started by default;
+# enable with: slinitctl enable vpnd
+type = process
+command = /usr/bin/vpnd
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
