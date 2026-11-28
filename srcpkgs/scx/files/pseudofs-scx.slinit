@@ -1,0 +1,10 @@
+# pseudofs-scx -- mounts debugfs on /sys/kernel/debug at boot, which the
+# sched_ext schedulers need (scx). Started at every boot while the
+# package is installed, as runit's core-service 00-pseudofs-scx.sh was.
+type = scripted
+command = /usr/libexec/slinit/pseudofs-scx
+# Once /sys is mounted, before any daemon starts (runit ran it first in
+# stage 1).
+depends-on: early-setup
+before: local.target
+start-timeout = 60

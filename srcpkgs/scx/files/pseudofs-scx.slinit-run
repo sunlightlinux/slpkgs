@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit core-service 00-pseudofs-scx.sh.
+set -u
+/usr/bin/mountpoint -q /sys/kernel/debug ||
+	exec /usr/bin/mount -o nosuid,noexec,nodev -t debugfs debugfs /sys/kernel/debug

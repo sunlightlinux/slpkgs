@@ -1,7 +1,7 @@
 # Template file for 'scx'
 pkgname=scx
 version=1.1.3
-revision=1
+revision=2
 archs="x86_64* aarch64*"
 build_style=cargo
 # test_thread_operations: tries to read procfs dynamically
@@ -49,4 +49,5 @@ do_install() {
 
 post_install() {
 	vinstall "${FILESDIR}"/00-pseudofs-scx.sh 644 /etc/runit/core-services
+	vslinit pseudofs-scx enable
 }
