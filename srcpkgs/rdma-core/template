@@ -1,7 +1,7 @@
 # Template file for 'rdma-core'
 pkgname=rdma-core
 version=65.0
-revision=2
+revision=3
 build_style=cmake
 configure_args="-DENABLE_VALGRIND=OFF
  -DCMAKE_INSTALL_MODPROBEDIR=/usr/lib/modprobe.d
@@ -43,6 +43,7 @@ post_install() {
 	vinstall kernel-boot/dracut/50rdma/module-setup.sh 755 \
 		usr/lib/dracut/modules.d/50rdma
 	vinstall ${FILESDIR}/09-rdma.sh 644 etc/runit/core-services
+	vslinit rdma enable
 	vsv rdma-ndd
 	vslinit rdma-ndd
 

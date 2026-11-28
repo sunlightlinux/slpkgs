@@ -1,0 +1,11 @@
+# rdma -- loads the RDMA kernel modules listed in /etc/rdma/modules
+# (rdma.conf, infiniband.conf, roce.conf, iwarp.conf) at boot
+# (rdma-core). Started at every boot while the package is installed, as
+# runit's core-service 09-rdma.sh was.
+type = scripted
+command = /usr/libexec/slinit/rdma
+# Filesystems mounted, before any daemon starts (runit ran it in stage
+# 1, after 08-sysctl).
+depends-on: filesystems
+before: local.target
+start-timeout = 60

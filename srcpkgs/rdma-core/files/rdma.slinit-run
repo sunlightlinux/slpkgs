@@ -1,0 +1,13 @@
+#!/bin/sh
+# Void's runit core-service 09-rdma.sh: load RDMA kernel modules at boot.
+set -u
+for conf in rdma infiniband roce iwarp; do
+    [ -r "/etc/rdma/modules/${conf}.conf" ] || continue
+    while read -r mod; do
+        case "$mod" in
+            "#"*|"") continue ;;
+        esac
+        /usr/bin/modprobe -q "$mod" 2>/dev/null
+    done < "/etc/rdma/modules/${conf}.conf"
+done
+exit 0
