@@ -1,0 +1,12 @@
+# elogind -- standalone logind (elogind). Not started by default; enable
+# with: slinitctl enable elogind
+# On Sunlight, slinit-logind (the logind service of slinit-services) owns
+# org.freedesktop.login1. elogind claims the same bus name: never run the
+# two together. Enable elogind only with logind disabled; no other service
+# should depend on it.
+type = process
+command = /usr/libexec/elogind/elogind.wrapper
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
