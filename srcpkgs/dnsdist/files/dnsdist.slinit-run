@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -o
+# becomes ulimit -n, run as root as runit ran chpst.
+set -u
+MAX_OPEN_FILES=
+[ -r /etc/conf.d/dnsdist ] && . /etc/conf.d/dnsdist
+ulimit -n ${MAX_OPEN_FILES:-2048}
+exec /usr/bin/dnsdist --uid _dnsdist --gid _dnsdist --supervised --disable-syslog

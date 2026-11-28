@@ -1,0 +1,9 @@
+# dnsdist -- DNS load balancer (dnsdist). Not started by default; enable
+# with: slinitctl enable dnsdist
+# It starts as root and drops to _dnsdist itself. Options: MAX_OPEN_FILES in
+# /etc/conf.d/dnsdist (default 2048).
+type = process
+command = /usr/libexec/slinit/dnsdist
+depends-on: network.target
+restart = true
+log-type = journal
