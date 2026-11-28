@@ -1,0 +1,8 @@
+# hitch -- SSL/TLS proxy (hitch). Needs /etc/hitch.conf, see
+# /usr/share/doc/hitch/README.voidlinux. Not started by default;
+# enable with: slinitctl enable hitch
+type = process
+command = /usr/bin/hitch -u _hitch --config=/etc/hitch.conf
+depends-on: network.target
+restart = true
+log-type = journal
