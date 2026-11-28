@@ -1,7 +1,7 @@
 # Template file for 'vault'
 pkgname=vault
 version=2.2.1
-revision=1
+revision=2
 build_style=go
 go_import_path="github.com/hashicorp/vault"
 go_build_tags="release"
@@ -27,4 +27,5 @@ esac
 post_install() {
 	vlicense LICENSE
 	vsv vault
+	vslinit vault
 }

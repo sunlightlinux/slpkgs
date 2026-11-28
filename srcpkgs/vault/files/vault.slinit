@@ -1,0 +1,10 @@
+# vault -- HashiCorp Vault secrets server (vault), as user _vault. Not
+# started by default; enable with: slinitctl enable vault
+# Options: OPTS in /etc/conf.d/vault (default: server -config=/etc/vault/),
+# read as _vault.
+type = process
+command = /usr/libexec/slinit/vault
+run-as = _vault
+depends-on: network.target
+restart = true
+log-type = journal

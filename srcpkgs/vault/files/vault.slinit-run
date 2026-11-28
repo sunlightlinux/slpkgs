@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -u
+# _vault is the service's run-as.
+set -u
+OPTS=
+[ -r /etc/conf.d/vault ] && . /etc/conf.d/vault
+: ${OPTS:=server -config=/etc/vault/}
+exec /usr/bin/vault ${OPTS}
