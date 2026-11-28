@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d, run as
+# _gizmo (run-as) in /var/lib/gizmo (working-dir). The empty .htpasswd
+# and .htgroup are created as root by the service's pre-start-command.
+set -u
+[ -r /etc/conf.d/gizmo-fms ] && . /etc/conf.d/gizmo-fms
+[ -r fms.json ] || echo '{}' | /usr/bin/tee fms.json > /dev/null
+export USER=_gizmo
+export HOME=/var/lib/gizmo
+export AUTHWARE_BASIC_MECHS=htpasswd
+exec /usr/bin/gizmo fms run

@@ -1,0 +1,13 @@
+# gizmo-fms -- Gizmo field management system (gizmo-fms). Not started by
+# default; enable with: slinitctl enable gizmo-fms
+# Options: shell variables in /etc/conf.d/gizmo-fms, read by the helper
+# as _gizmo. Runs in /var/lib/gizmo, where it keeps its files.
+type = process
+command = /usr/libexec/slinit/gizmo-fms
+run-as = _gizmo:wheel
+supplementary-groups = dialout
+working-dir = /var/lib/gizmo
+pre-start-command = +/usr/bin/touch -a /var/lib/gizmo/.htpasswd /var/lib/gizmo/.htgroup
+depends-on: network.target
+restart = true
+log-type = journal
