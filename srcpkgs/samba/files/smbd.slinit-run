@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/smbd ] && . /etc/conf.d/smbd
+
+/usr/bin/mkdir -p /run/samba
+/usr/bin/mkdir -p /run/lock/samba
+
+exec /usr/bin/smbd -F ${OPTS:--d1}

@@ -1,0 +1,9 @@
+# smbd -- SMB/CIFS file and print server (samba). Not started by
+# default; enable with:
+#     slinitctl enable smbd
+# Options: OPTS in /etc/conf.d/smbd (default: -d1).
+type = process
+command = /usr/libexec/slinit/smbd
+depends-on: network.target
+restart = true
+log-type = journal

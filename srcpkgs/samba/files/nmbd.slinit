@@ -1,0 +1,8 @@
+# nmbd -- NetBIOS name server (samba). Not started by default; enable with:
+#     slinitctl enable nmbd
+# Options: OPTS in /etc/conf.d/nmbd (default: -d1).
+type = process
+command = /usr/libexec/slinit/nmbd
+depends-on: network.target
+restart = true
+log-type = journal

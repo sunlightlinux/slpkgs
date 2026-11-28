@@ -1,0 +1,7 @@
+# ctdbd -- clustered TDB daemon (samba-ctdb), in the foreground (-i). Not
+# started by default; enable with: slinitctl enable ctdbd
+type = process
+command = /usr/bin/ctdbd -i
+depends-on: network.target
+restart = true
+log-type = journal

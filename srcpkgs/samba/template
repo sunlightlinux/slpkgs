@@ -1,7 +1,7 @@
 # Template file for 'samba'
 pkgname=samba
 version=4.20.1
-revision=4
+revision=5
 build_style=waf3
 build_helper="qemu"
 configure_script="buildtools/bin/waf"
@@ -90,7 +90,9 @@ post_install() {
 		${DESTDIR}/usr/lib/krb5/plugins/libkrb5
 
 	vsv nmbd
+	vslinit nmbd
 	vsv smbd
+	vslinit smbd
 
 	# PAM support
 	vinstall ${FILESDIR}/samba.pam 644 etc/pam.d samba
@@ -170,6 +172,7 @@ samba-ctdb_package() {
 		vmove etc/ctdb
 
 		vsv ctdbd
+		vslinit ctdbd
 	}
 }
 
