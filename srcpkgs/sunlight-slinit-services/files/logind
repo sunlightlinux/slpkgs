@@ -1,0 +1,23 @@
+# slinit-logind — native slinit implementation of the systemd/elogind
+# logind D-Bus service. Owns org.freedesktop.login1 on the system bus
+# and exposes Manager + per-Session/User/Seat objects that libelogind
+# consumers (polkit, pam_elogind, lightdm, xfce4-session, gvfs, gnome)
+# talk to via sd_pid_get_session() and PolkitUnixSession subject
+# resolution.
+#
+# Per-session cgroup scopes land at /sys/fs/cgroup/<id> (elogind
+# convention — libelogind's cgroup parser takes the FIRST path
+# component of /proc/PID/cgroup as the session id, so nesting under
+# user.slice/… like systemd does would break sd_pid_get_session).
+# Compat records land at /run/systemd/{sessions,users,seats,machines}
+# in shell-variable format for the same libelogind readers.
+#
+# Replaces the elogind slinit service. This service definition ships
+# in place of /etc/slinit.d/elogind; keep the elogind xbps package
+# installed only for libelogind.so.0 (dynamic dep of polkitd, gdm,
+# pam_elogind, etc.) — the elogind daemon itself must NOT run in
+# parallel or both processes will fight for the login1 bus name.
+type = process
+depends-on: dbus
+command = /usr/bin/slinit-logind
+restart = true

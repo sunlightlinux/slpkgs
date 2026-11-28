@@ -1,0 +1,20 @@
+# boot — the service slinit starts as PID 1 (slinit-services).
+#
+# Optional services are enabled by a link in /etc/slinit.d/boot.d:
+#     slinitctl enable sshd
+# (or slinitctl --offline enable sshd, from a chroot).
+type = internal
+depends-on: misc
+waits-for: network
+waits-for: getty-tty1
+waits-for: getty-ttyS0
+waits-for: qemu-ga
+waits-for: chronyd
+waits-for: journald
+waits-for: acpid
+waits-for: crond
+waits-for: dbus
+waits-for: logind
+waits-for: containerd
+waits-for: docker
+waits-for.d: /etc/slinit.d/boot.d

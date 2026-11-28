@@ -1,0 +1,23 @@
+type = process
+
+# Skip on real hardware — the virtio-serial guest-agent port only
+# exists inside a QEMU/KVM guest configured with:
+#   -device virtio-serial-pci \
+#   -chardev socket,path=/tmp/qga.sock,server=on,wait=off,id=qga0 \
+#   -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0
+# Without that host-side plumbing, the /dev node is absent and
+# this service stays SKIPPED. condition-path-exists is a skip
+# predicate (not an assert), so the boot graph does not fail.
+condition-path-exists = /dev/virtio-ports/org.qemu.guest_agent.0
+
+depends-on: udev-trigger
+
+# -r/--retry-path reconnects if the QEMU host tears down the
+# chardev (e.g. during host qemu restart or live migration).
+# Defaults (-m virtio-serial + default path) apply.
+command = /usr/bin/qemu-ga -r
+
+restart = true
+restart-delay = 2
+restart-limit-count = 5
+restart-limit-interval = 60

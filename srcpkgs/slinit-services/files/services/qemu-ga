@@ -1,0 +1,13 @@
+# qemu-ga -- QEMU guest agent, for a hypervisor such as Proxmox (VM >
+# Options > QEMU Guest Agent provides the virtio channel). Started by
+# boot, and skipped wherever it has nothing to do: on bare metal and on
+# a VM without the channel, and where the qemu-ga package is not
+# installed. Same invocation as Void's runit service: the defaults are
+# virtio-serial on /dev/virtio-ports/org.qemu.guest_agent.0.
+type = process
+command = /usr/bin/qemu-ga
+condition-path-exists = /usr/bin/qemu-ga
+condition-path-exists = /dev/virtio-ports/org.qemu.guest_agent.0
+# The /dev/virtio-ports link is made by udev, so look for it after.
+waits-for: udev-trigger
+restart = true

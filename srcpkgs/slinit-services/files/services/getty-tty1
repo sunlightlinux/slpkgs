@@ -1,0 +1,14 @@
+# getty-tty1 — login on the first virtual console (slinit-services).
+type = process
+command = /usr/bin/agetty --noclear tty1 38400 linux
+# After the others have started, so their status lines do not land on
+# the login prompt.
+start-when-idle = yes
+# A soft reboot keeps the terminal as it was left: a sudo killed mid-session
+# leaves it -opost, agetty keeps that, and /etc/issue comes out without CRs,
+# with the prompt starting where the line above ended.
+pre-start-command = /usr/bin/stty -F /dev/tty1 opost onlcr
+# Its own session, or agetty cannot take the terminal as its controlling one.
+new-session = yes
+depends-on: misc
+restart = true

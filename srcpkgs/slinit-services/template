@@ -1,0 +1,59 @@
+# Template file for 'slinit-services'
+pkgname=slinit-services
+version=20261108
+revision=12
+short_desc="Core boot services for slinit as PID 1"
+maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
+license="Apache-2.0, CC0-1.0"
+homepage="https://github.com/sunlightlinux/slinit"
+depends="slinit>=3.22.0 eudev kmod util-linux coreutils kbd iproute2 dhcpcd virtual?awk"
+conflicts="runit-void sunlight-slinit-services"
+conf_files="/etc/slinit/shutdown-hook"
+make_dirs="/etc/slinit.d/boot.d 0755 root root"
+
+# The equivalent of runit-void for slinit: the services that take a
+# machine from kernel to login prompt. It replaces runit-void rather
+# than sitting beside it. Both would own /usr/bin/init and the shutdown
+# family (halt, poweroff, reboot, shutdown), and xbps only notices that
+# when both arrive in one transaction -- installed one after the other,
+# the later one silently overwrites the earlier, and the next update of
+# either flips them back. conflicts= makes the clash an error instead.
+# A Sunlight base without runit is sunlight-base.
+#
+# It also conflicts with sunlight-slinit-services, for now. That package
+# ships boot, getty-tty1 and getty-ttyS0 in /etc/slinit.d, which shadow
+# these in /usr/lib/slinit.d; its boot does not depend on misc, so the
+# two together would boot without fsck, local mounts or root
+# read-write. Until it enables its services through boot.d instead,
+# xbps refuses the pair.
+#
+# It also takes over runit-void's dracut settings, so the initramfs
+# still gets the resume module and the console keymap for a LUKS
+# passphrase prompt.
+#
+# Service files go to /usr/lib/slinit.d, which slinit searches after
+# /etc/slinit.d: a file of the same name in /etc/slinit.d overrides one
+# here, and package updates never touch the admin's copy.
+#
+# crypt.awk and modules-load, and the order of steps in the boot
+# scripts, come from void-runit (CC0-1.0); the rest is Apache-2.0.
+
+do_install() {
+	local f
+	# Every file there, not a list: a service boot asks for and this left out
+	# stops the machine at its first boot, after an install that succeeded.
+	for f in ${FILESDIR}/services/*; do
+		vinstall ${f} 644 usr/lib/slinit.d
+	done
+	vinstall ${FILESDIR}/dbus/slinit-logind.conf 644 usr/share/dbus-1/system.d
+	for f in early-setup udev-trigger filesystems misc network sshd \
+		modules-load dbus containerd docker; do
+		vinstall ${FILESDIR}/libexec/${f} 755 usr/libexec/slinit-services
+	done
+	vinstall ${FILESDIR}/libexec/crypt.awk 644 usr/libexec/slinit-services
+	vinstall ${FILESDIR}/shutdown-hook 755 etc/slinit
+	vinstall ${FILESDIR}/dracut.conf 644 usr/lib/dracut/dracut.conf.d \
+		10-slinit-services.conf
+	vmkdir usr/bin
+	ln -s slinit ${DESTDIR}/usr/bin/init
+}

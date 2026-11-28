@@ -1,0 +1,48 @@
+#!/bin/sh
+# early-setup — the first thing slinit runs at boot, before udev.
+#
+# Pseudo-filesystems, kernel modules, hostname and loopback: the steps of
+# Void's runit core-services 00-pseudofs, 01-static-devnodes, 02-kmods and
+# part of 05-misc (void-runit, CC0-1.0), as one slinit scripted service.
+# Root is still read-only here; nothing below writes to it.
+set -u
+
+mountpoint -q /proc || mount -o nosuid,noexec,nodev -t proc proc /proc
+mountpoint -q /sys  || mount -o nosuid,noexec,nodev -t sysfs sys /sys
+mountpoint -q /run  || mount -o mode=0755,nosuid,nodev -t tmpfs run /run
+mountpoint -q /dev  || mount -o mode=0755,nosuid -t devtmpfs dev /dev
+mkdir -p -m0755 /run/lvm /run/user /run/lock /run/log /dev/pts /dev/shm
+mountpoint -q /dev/pts || mount -o mode=0620,gid=5,nosuid,noexec -n -t devpts devpts /dev/pts
+mountpoint -q /dev/shm || mount -o mode=1777,nosuid,nodev -n -t tmpfs shm /dev/shm
+mountpoint -q /sys/kernel/security || mount -n -t securityfs securityfs /sys/kernel/security
+
+# efivarfs: grub-install and efibootmgr read and write the firmware's boot
+# entries through it. The directory exists only on a UEFI boot.
+if [ -d /sys/firmware/efi/efivars ]; then
+	mountpoint -q /sys/firmware/efi/efivars ||
+		mount -o nosuid,noexec,nodev -t efivarfs efivarfs /sys/firmware/efi/efivars
+fi
+
+# Unified cgroup v2: slinit's per-service cgroups and slinit-logind's
+# session tracking both need it.
+mountpoint -q /sys/fs/cgroup ||
+	mount -t cgroup2 -o nsdelegate cgroup2 /sys/fs/cgroup
+
+# Modules some device nodes need before udev starts.
+for f in $(kmod static-nodes -f devname 2>/dev/null | cut -d' ' -f1); do
+	modprobe -bq "$f" 2>/dev/null
+done
+
+# /etc/modules-load.d and friends, plus modules-load= on the cmdline.
+# The loader is Void's (void-runit, CC0-1.0), shipped in this package so
+# the boot does not depend on runit-void being installed.
+if [ -e /proc/modules ]; then
+	/usr/libexec/slinit-services/modules-load
+fi
+
+[ -r /etc/hostname ] && read -r HOSTNAME < /etc/hostname
+printf '%s' "${HOSTNAME:-sunlight}" > /proc/sys/kernel/hostname
+
+ip link set up dev lo
+
+exit 0

@@ -1,0 +1,16 @@
+type = process
+command = /usr/bin/agetty 38400 tty1 linux
+depends-on: udev-trigger
+# Start last: after every noisy system service has printed its
+# [OK] line, so the login prompt lands on a clean-ish screen.
+# `after:` is pure ordering — activation still comes from `boot`'s
+# waits-for on this service. Slinit doesn't support "activate but
+# don't gate on completion", so a proper post-boot getty ordering
+# would need `-t boot -t getty-tty1` on the kernel cmdline
+# (requires GRUB edit + reinstall) — this is the surgical
+# alternative that works from rootfs alone.
+after: sshd
+after: docker
+after: network
+after: getty-ttyS0
+restart = true

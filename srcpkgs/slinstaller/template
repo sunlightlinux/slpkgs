@@ -1,0 +1,33 @@
+# Template file for 'slinstaller'
+pkgname=slinstaller
+version=2.3.1
+revision=1
+build_style=go
+go_import_path="github.com/sunlightlinux/slinstaller"
+go_package="${go_import_path}/cmd/slinstaller"
+go_ldflags="-X main.version=${version}"
+# The tools every install shells out to (doc/packaging.md, "Always").
+# Those only one layout needs (cryptsetup, lvm2, mdadm, btrfs-progs, ...)
+# are not forced on every system; the installer names a missing one in
+# its preflight, before it touches a disk.
+depends="parted util-linux dosfstools e2fsprogs xbps coreutils openssl
+ eudev ca-certificates"
+short_desc="Sunlight Linux system installer (reads clr-installer configs)"
+maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
+license="Apache-2.0"
+homepage="https://github.com/sunlightlinux/slinstaller"
+changelog="https://raw.githubusercontent.com/sunlightlinux/slinstaller/main/CHANGELOG.md"
+distfiles="https://github.com/sunlightlinux/slinstaller/archive/refs/tags/v${version}.tar.gz"
+checksum=dadce7fc140c319c9104a7b46a3ede8be72ffffb754a56c2d342ff532bb5e352
+
+# Static, as doc/packaging.md builds it: the binary runs on a live
+# medium and its only libc use (os/user) has a pure-Go fallback.
+export CGO_ENABLED=0
+
+post_install() {
+	vlicense LICENSE
+	vcompletion completions/slinstaller.bash bash
+	vcompletion completions/slinstaller.fish fish
+	vdoc README.md
+	vdoc doc/packaging.md
+}

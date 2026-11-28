@@ -1,0 +1,8 @@
+#!/bin/sh
+# network — DHCP on every interface via dhcpcd, in master mode so it
+# does not depend on interface names. -b backgrounds at once, so the
+# lease is not on the boot's critical path. Best-effort: a machine with
+# no network still boots.
+mkdir -p /var/db/dhcpcd
+dhcpcd -b || true
+exit 0

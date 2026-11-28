@@ -1,0 +1,7 @@
+# dbus -- the system bus (slinit-services).
+type = process
+command = /usr/libexec/slinit-services/dbus
+ready-notification = pipefd:3
+condition-path-exists = /usr/bin/dbus-daemon
+depends-on: early-setup
+restart = true

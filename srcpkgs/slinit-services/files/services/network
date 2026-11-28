@@ -1,0 +1,6 @@
+# network — DHCP on every interface via dhcpcd (slinit-services).
+# Needs root read-write: dhcpcd keeps its leases in /var/db/dhcpcd.
+type = scripted
+command = /usr/libexec/slinit-services/network
+depends-on: filesystems
+restart = false

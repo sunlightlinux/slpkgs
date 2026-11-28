@@ -1,0 +1,39 @@
+# Template file for 'sunlight-base'
+pkgname=sunlight-base
+version=0.1
+revision=6
+metapackage=yes
+short_desc="Sunlight Linux base system meta package"
+maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
+license="Public Domain"
+homepage="https://github.com/sunlightlinux"
+
+# Void's base-system with slinit as init instead of runit: the same
+# packages, minus runit-void, plus slinit-services (which pulls slinit).
+# runit-void cannot stay alongside -- it owns /usr/bin/init and the
+# shutdown family, which slinit-services and slinit own here.
+#
+# The list is base-system's, so keep it in step: when base-system's
+# depends change, change these the same way. Its conditional additions
+# (libc, kernel) are copied as they are.
+depends="
+ base-files>=0.77 ncurses coreutils findutils diffutils libgcc dash bash
+ grep gzip file sed gawk less util-linux which tar man-pages
+ mdocml>=1.13.3 shadow e2fsprogs btrfs-progs xfsprogs f2fs-tools
+ dosfstools procps-ng tzdata pciutils usbutils iana-etc openssh dhcpcd
+ kbd iproute2 iputils iw wpa_supplicant xbps nvi sudo wifi-firmware
+ void-artwork traceroute ethtool kmod acpid eudev removed-packages
+ slinit-services qemu-ga chrony cronie dbus"
+case "$XBPS_TARGET_MACHINE" in
+	*-musl) depends+=" musl";;
+	*) depends+=" glibc-locales";;
+esac
+# Kernel: Sunlight's own linux-next (slkernel 7.3.x) on x86_64, the default
+# for the whole distro; i686/ppc (not built) stay on Void's generic linux.
+# linux-base pulls dracut + firmware: the modular linux-next needs an
+# initramfs to find root, and depending on linux-next alone would skip the
+# linux -> linux-base -> dracut chain the `linux` metapackage provides.
+case "$XBPS_TARGET_MACHINE" in
+	x86_64*) depends+=" linux-next linux-base";;
+	i686*|ppc*) depends+=" linux";;
+esac

@@ -1,0 +1,21 @@
+# getty-ttyS0 — login on the first serial port, when there is one
+# (slinit-services).
+#
+# Gated on the kernel having found a real UART: the 8250 driver
+# registers all four legacy slots whether or not hardware is there, and
+# /sys/class/tty/ttyS0/type reads 0 for an empty one. A skipped service
+# counts as started, so boot does not wait on it.
+type = process
+condition-file-value = !/sys/class/tty/ttyS0/type:0
+command = /usr/bin/agetty --noclear 115200 ttyS0 vt100
+# After the others have started, so their status lines do not land on
+# the login prompt.
+start-when-idle = yes
+# A soft reboot keeps the terminal as it was left: a sudo killed mid-session
+# leaves it -opost, agetty keeps that, and /etc/issue comes out without CRs,
+# with the prompt starting where the line above ended.
+pre-start-command = /usr/bin/stty -F /dev/ttyS0 opost onlcr
+# Its own session, or agetty cannot take the terminal as its controlling one.
+new-session = yes
+depends-on: misc
+restart = false

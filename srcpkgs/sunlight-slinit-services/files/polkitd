@@ -1,0 +1,8 @@
+type = process
+depends-on: dbus
+waits-for: logind
+command = /usr/lib/polkit-1/polkitd --no-debug
+restart = yes
+restart-delay = 2
+restart-limit-count = 5
+restart-limit-interval = 60

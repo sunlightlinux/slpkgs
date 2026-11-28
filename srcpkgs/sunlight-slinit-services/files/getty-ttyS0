@@ -1,0 +1,27 @@
+type = process
+
+# Gate on the kernel actually enumerating a real UART, not on the
+# `console=ttyS0,115200` cmdline (which persists in grub.cfg even
+# on VMs where the serial device isn't wired) and not on
+# /sys/class/tty/ttyS0/type existing (the 8250 driver registers
+# platform-device sysfs entries for all 4 legacy ISA slots
+# regardless of whether hardware is present — /type just contains
+# "0" then). /type value >0 = a real UART slinit should drive; ==0
+# = a phantom slot to skip.
+#
+# Native slinit predicate (v2.2.12+): reads the sysfs file inline
+# and compares the value, ~5µs vs the 5-120ms fork+exec of a
+# pre-start shell. On ceres soak (50 iter) this alone dropped the
+# slow-tail (>400ms userspace) from 34% to ~2%.
+condition-file-value = !/sys/class/tty/ttyS0/type:0
+
+# No respawn — hardware isn't going to appear mid-boot. Under the
+# native predicate a phantom slot is SKIPPED (short-circuits to
+# STARTED so dependents proceed) rather than FAILEDSTART, so the
+# journal stays quiet on the no-UART path.
+restart = false
+
+command = /usr/bin/agetty --noclear 115200 ttyS0 vt100
+options = runs-on-console
+depends-on: udev-trigger
+after: sshd

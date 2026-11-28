@@ -1,7 +1,7 @@
 # Template file for 'sddm'
 pkgname=sddm
 version=0.21.0
-revision=2
+revision=3
 build_style=cmake
 _configure_args="-DBUILD_MAN_PAGES=ON -DNO_SYSTEMD=ON -DUSE_ELOGIND=ON
  -DLOGIN_DEFS_PATH=${XBPS_SRCPKGDIR}/shadow/files/login.defs
@@ -63,6 +63,10 @@ post_install() {
 	DESTDIR="$DESTDIR" cmake --install build5/components
 
 	vsed -i '/tally/d' ${DESTDIR}/etc/pam.d/sddm-autologin
+	# Sunlight: the greeter registers its session with slinit-logind through
+	# pam_slinit.so (slpam), not pam_elogind.so, which needs elogind installed.
+	vsed -i 's/^session\t\toptional pam_elogind.so$/-session\toptional pam_slinit.so/' \
+		${DESTDIR}/etc/pam.d/sddm-greeter
 	vsv sddm
 	vlicense LICENSE.CC-BY-3.0
 }

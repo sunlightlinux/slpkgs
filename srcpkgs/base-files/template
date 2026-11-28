@@ -1,13 +1,13 @@
 # Template file for 'base-files'
 pkgname=base-files
 version=0.146
-revision=1
+revision=3
 bootstrap=yes
 depends="xbps-triggers"
-short_desc="Void Linux base system files"
-maintainer="Enno Boland <orphan@voidlinux.org>"
+short_desc="Sunlight Linux base system files"
+maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
 license="Public Domain"
-homepage="https://www.voidlinux.org"
+homepage="https://github.com/sunlightlinux"
 conf_files="
 	/etc/inputrc
 	/etc/profile
@@ -67,6 +67,10 @@ do_install() {
 	vmkdir etc/colors
 	vmkdir etc/profile.d
 	install -m644 ${FILESDIR}/*.sh ${DESTDIR}/etc/profile.d
+	# The prompt also goes to bashrc.d so interactive non-login shells
+	# (su, sudo -s, a bare `bash`) get it -- root has no ~/.bashrc, so this
+	# is the only place it gets its orange prompt outside a login shell.
+	vinstall ${FILESDIR}/sunlight-prompt.sh 644 etc/bash/bashrc.d
 	install -m644 ${FILESDIR}/DIR_COLORS* ${DESTDIR}/etc/colors
 
 	# modprobe(8) files

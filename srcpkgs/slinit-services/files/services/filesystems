@@ -1,0 +1,12 @@
+# filesystems — keymap and clock, RAID/btrfs/LVM/crypttab, fsck, root
+# read-write, local mounts, swap (slinit-services).
+#
+# No start timeout: fsck of a large disk, or a passphrase prompt for a
+# crypttab volume, can take as long as it takes. runs-on-console gives
+# that prompt somewhere to appear.
+type = scripted
+command = /usr/libexec/slinit-services/filesystems
+depends-on: udev-trigger
+options = runs-on-console
+start-timeout = 0
+restart = false

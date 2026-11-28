@@ -1,0 +1,82 @@
+#!/bin/sh
+# filesystems — console setup, storage assembly, fsck, and every local
+# mount, ending with root read-write and swap on.
+#
+# Void's runit core-services 03-console-setup, 03-filesystems and 04-swap
+# (void-runit, CC0-1.0), as one slinit scripted service. Where Void drops
+# to an emergency shell this exits non-zero instead: the service fails,
+# boot depends on it, and slinit offers its own recovery prompt.
+set -u
+
+fail() {
+	echo "filesystems: $*" >&2
+	exit 1
+}
+
+[ -r /etc/rc.conf ] && . /etc/rc.conf
+
+# --- console (03-console-setup) -------------------------------------------
+TTYS=${TTYS:-12}
+if [ -n "${FONT:-}" ]; then
+	i=0
+	while [ "$i" -le "$TTYS" ]; do
+		setfont ${FONT_MAP:+-m "$FONT_MAP"} ${FONT_UNIMAP:+-u "$FONT_UNIMAP"} \
+			"$FONT" -C "/dev/tty$i"
+		i=$((i + 1))
+	done
+fi
+if [ -n "${KEYMAP:-}" ]; then
+	loadkeys -q -u "$KEYMAP"
+fi
+if [ -n "${HARDWARECLOCK:-}" ]; then
+	TZ=${TIMEZONE:-} hwclock --systz \
+		--"$(echo "$HARDWARECLOCK" | tr A-Z a-z)" --noadjfile ||
+		fail "hwclock --systz failed"
+fi
+
+# --- storage (03-filesystems) ---------------------------------------------
+LIBMOUNT_FORCE_MOUNT2=always mount -o remount,ro / || fail "cannot remount / read-only"
+
+if command -v dmraid >/dev/null; then
+	dmraid -i -ay
+fi
+if command -v mdadm >/dev/null; then
+	mdadm -As
+fi
+if command -v btrfs >/dev/null; then
+	btrfs device scan || fail "btrfs device scan failed"
+fi
+if command -v vgchange >/dev/null; then
+	vgchange --sysinit -a ay || fail "LVM activation failed"
+fi
+if [ -e /etc/crypttab ]; then
+	awk -f /usr/libexec/slinit-services/crypt.awk /etc/crypttab
+	if command -v vgchange >/dev/null; then
+		vgchange --sysinit -a ay || fail "LVM activation on dm-crypt failed"
+	fi
+fi
+
+FASTBOOT=
+FORCEFSCK=
+[ -f /fastboot ] && FASTBOOT=1
+[ -f /forcefsck ] && FORCEFSCK=-f
+for arg in $(cat /proc/cmdline); do
+	case $arg in
+	fastboot) FASTBOOT=1 ;;
+	forcefsck) FORCEFSCK=-f ;;
+	esac
+done
+if [ -z "$FASTBOOT" ]; then
+	fsck -A -T -a -t noopts=_netdev $FORCEFSCK
+	# 0 clean, 1 errors corrected; anything higher needs a human.
+	[ $? -gt 1 ] && fail "fsck found errors it could not correct"
+fi
+
+LIBMOUNT_FORCE_MOUNT2=always mount -o remount,rw / || fail "cannot remount / read-write"
+mount -a -t "nosysfs,nonfs,nonfs4,nosmbfs,nocifs" -O no_netdev ||
+	fail "mounting local filesystems failed"
+
+# --- swap (04-swap) -------------------------------------------------------
+swapon -a || fail "swapon -a failed"
+
+exit 0

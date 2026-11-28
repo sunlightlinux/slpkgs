@@ -1,0 +1,54 @@
+#!/bin/sh
+# misc — the rest of early boot, once local filesystems are mounted:
+# login records, the random seed, sysctl, timezone, and leftovers from the
+# previous boot.
+#
+# Void's runit core-services 05-misc, 08-sysctl and 99-cleanup
+# (void-runit, CC0-1.0). Every step is best-effort, as it is there.
+set -u
+
+[ -r /etc/rc.conf ] && . /etc/rc.conf
+
+# utmp is per boot (on /run); wtmp/btmp/lastlog persist and are only
+# created when missing.
+install -m0664 -o root -g utmp /dev/null /run/utmp
+[ -e /var/log/wtmp ]    || install -m0664 -o root -g utmp /dev/null /var/log/wtmp
+[ -e /var/log/btmp ]    || install -m0600 -o root -g utmp /dev/null /var/log/btmp
+[ -e /var/log/lastlog ] || install -m0600 -o root -g utmp /dev/null /var/log/lastlog
+
+slinit-seedrng || true
+
+# A stable machine ID: slinit's journal and slinit-logind key on it, and
+# without one slinit uses a transient ID that changes every boot. Same
+# format as systemd's (32 lowercase hex digits, no dashes), so an
+# existing file is always kept. slinit reads it before this runs, so
+# the first boot still warns; an installer should write it instead.
+if [ ! -s /etc/machine-id ]; then
+	tr -d '-' < /proc/sys/kernel/random/uuid > /etc/machine-id
+	chmod 0444 /etc/machine-id
+fi
+
+if [ -n "${TIMEZONE:-}" ]; then
+	ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
+fi
+
+# sysctl.d in the usual precedence: a name in an earlier directory hides
+# the same name in a later one; then /etc/sysctl.conf last.
+if command -v sysctl >/dev/null; then
+	mkdir -p /run/slinit-sysctl.d
+	for i in /run/sysctl.d/*.conf /etc/sysctl.d/*.conf \
+		/usr/local/lib/sysctl.d/*.conf /usr/lib/sysctl.d/*.conf; do
+		[ -e "$i" ] && [ ! -e "/run/slinit-sysctl.d/${i##*/}" ] &&
+			ln -s "$i" "/run/slinit-sysctl.d/${i##*/}"
+	done
+	for i in /run/slinit-sysctl.d/*.conf; do
+		[ -e "$i" ] && sysctl -p "$i"
+	done
+	rm -rf -- /run/slinit-sysctl.d
+	[ -e /etc/sysctl.conf ] && sysctl -p /etc/sysctl.conf
+fi
+
+install -dm1777 /tmp/.X11-unix /tmp/.ICE-unix
+rm -f /etc/nologin /forcefsck /forcequotacheck /fastboot
+
+exit 0

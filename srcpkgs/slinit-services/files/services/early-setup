@@ -1,0 +1,5 @@
+# early-setup — pseudo-filesystems, kernel modules, hostname, loopback.
+# Runs before udev, with root still read-only (slinit-services).
+type = scripted
+command = /usr/libexec/slinit-services/early-setup
+restart = false

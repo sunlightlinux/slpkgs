@@ -1,0 +1,201 @@
+# Template file for 'slinit'
+pkgname=slinit
+version=4.0.6
+revision=1
+build_style=go
+go_import_path="github.com/sunlightlinux/slinit"
+go_package="
+ ${go_import_path}/cmd/slinit
+ ${go_import_path}/cmd/slinitctl
+ ${go_import_path}/cmd/slinit-check
+ ${go_import_path}/cmd/slinit-monitor
+ ${go_import_path}/cmd/slinit-runner
+ ${go_import_path}/cmd/slinit-inetd
+ ${go_import_path}/cmd/slinit-shutdown
+ ${go_import_path}/cmd/slinit-mount
+ ${go_import_path}/cmd/slinit-nuke
+ ${go_import_path}/cmd/slinit-killall5
+ ${go_import_path}/cmd/slinit-fstab-decode
+ ${go_import_path}/cmd/slinit-checkpath
+ ${go_import_path}/cmd/slinit-init-maker
+ ${go_import_path}/cmd/slinit-seedrng
+ ${go_import_path}/cmd/slinit-binfmt
+ ${go_import_path}/cmd/slinit-sysctl
+ ${go_import_path}/cmd/slinit-svc-value
+ ${go_import_path}/cmd/slinit-start-stop-daemon
+ ${go_import_path}/cmd/slinit-supervise-daemon
+ ${go_import_path}/cmd/slinit-fstabinfo
+ ${go_import_path}/cmd/slinit-mountinfo
+ ${go_import_path}/cmd/slinit-einfo
+ ${go_import_path}/cmd/slinit-shell-var
+ ${go_import_path}/cmd/slinit-logouthookd
+ ${go_import_path}/cmd/slinit-logind
+ ${go_import_path}/cmd/slinit-tmpfiles
+ ${go_import_path}/cmd/slinit-sysusers
+ ${go_import_path}/cmd/slinit-cgtop
+ ${go_import_path}/cmd/slinit-journalctl
+ ${go_import_path}/cmd/slinit-journald
+ ${go_import_path}/cmd/slinit-journal-migrate
+ ${go_import_path}/cmd/slinit-supports
+ ${go_import_path}/cmd/slinit-hostnamectl
+ ${go_import_path}/cmd/slinit-timedatectl
+ ${go_import_path}/cmd/slinit-localectl
+ ${go_import_path}/cmd/slinit-timedated
+ ${go_import_path}/cmd/slinit-hostnamed
+ ${go_import_path}/cmd/slinit-localed
+ ${go_import_path}/cmd/slinit-machinectl
+ ${go_import_path}/cmd/slinit-nspawn
+ ${go_import_path}/cmd/slinit-getty
+ ${go_import_path}/cmd/slinit-watchdogd
+ ${go_import_path}/cmd/slinit-runit-convert
+ ${go_import_path}/cmd/slinit-openrc-convert
+ ${go_import_path}/cmd/slinit-systemd-convert
+ ${go_import_path}/cmd/slinit-sysvinit-convert
+ ${go_import_path}/cmd/slinit-immortal-convert
+ ${go_import_path}/cmd/rc-service
+ ${go_import_path}/cmd/rc-status
+ ${go_import_path}/cmd/rc-update"
+go_ldflags="-X main.version=v${version}"
+short_desc="Go init system and service manager (dinit-compatible)"
+maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
+license="Apache-2.0"
+homepage="https://github.com/sunlightlinux/slinit"
+changelog="https://github.com/sunlightlinux/slinit/releases"
+distfiles="https://github.com/sunlightlinux/slinit/archive/refs/tags/v${version}.tar.gz"
+checksum=c2a7d965e0f51f3e02ca5b81f52ac95698617149a712a085b32d507926a971f0
+
+# Applets dispatched via basename(argv[0]) — installed as symlinks
+# that the openrc-shims subpackage owns. Kept as shell arrays so
+# post_install and pkg_install stay in sync.
+_einfo_applets="einfo einfon ewarn ewarnn eerror eerrorn ebegin eend ewend
+ veinfo veinfon vewarn vewarnn vebegin veend vewend
+ eindent eoutdent veindent veoutdent
+ esyslog elog ewaitfile eval_ecolors"
+
+_svcvalue_applets="service_get_value get_options service_set_value save_options service_export"
+
+# Standalone binaries that also want to answer to the OpenRC name.
+# The pair on the left of ':' is the OpenRC name; the right is the
+# slinit-prefixed binary the symlink points at.
+_openrc_aliases="start-stop-daemon:slinit-start-stop-daemon
+ supervise-daemon:slinit-supervise-daemon
+ fstabinfo:slinit-fstabinfo
+ mountinfo:slinit-mountinfo
+ shell_var:slinit-shell-var"
+
+post_install() {
+	vlicense LICENSE
+	# libslinit-mlock.so is C, so build_style=go never touches it, and
+	# slinit-runner REFUSES to start a service whose `mlockall =` it
+	# cannot honour — a missing library is a service that does not
+	# start, not one that quietly runs unlocked. It has to be built for
+	# this system's libc, which is what building it here gets us.
+	make -C lib/slinit-mlock CC="${CC:-cc}"
+	make -C lib/slinit-mlock install DESTDIR="${DESTDIR}" PREFIX=/usr
+	# Render + install man pages via project's own Makefile (uses go-md2man
+	# from go.mod tools, sets up the shutdown aliases as symlinks).
+	make -C doc/man install DESTDIR="${DESTDIR}" PREFIX=/usr
+
+	# slinit auto-detects init.d services at boot only when the directory
+	# exists at the moment DirLoader.SetInitDDirs runs. Ship the empty
+	# directory so a fresh install arms the fallback immediately —
+	# without this, admins have to `mkdir /etc/init.d && reboot` before
+	# any ported OpenRC/LSB init script becomes loadable.
+	vmkdir etc/init.d
+	vinstall completions/slinitctl.bash 644 usr/share/bash-completion/completions slinitctl
+	vinstall completions/slinitctl.zsh  644 usr/share/zsh/site-functions       _slinitctl
+	vinstall completions/slinitctl.fish 644 usr/share/fish/vendor_completions.d slinitctl.fish
+	# OCF resource agent (POSIX shell, not Go)
+	vinstall cmd/slinit-resource/slinit-resource 755 usr/lib/ocf/resource.d/slinit slinit-resource
+
+	# einfo(1) multi-applet dispatch: one binary, many symlinks.
+	for _ap in ${_einfo_applets}; do
+		ln -sf slinit-einfo "${DESTDIR}/usr/bin/${_ap}"
+	done
+
+	# service_get_value / service_set_value / service_export dispatch.
+	for _ap in ${_svcvalue_applets}; do
+		ln -sf slinit-svc-value "${DESTDIR}/usr/bin/${_ap}"
+	done
+
+	# OpenRC-named aliases for the standalone helpers.
+	for _pair in ${_openrc_aliases}; do
+		_openrc="${_pair%%:*}"
+		_slinit="${_pair##*:}"
+		ln -sf "${_slinit}" "${DESTDIR}/usr/bin/${_openrc}"
+	done
+
+	# systemd compat: `journalctl` symlink onto slinit-journalctl so
+	# operator muscle memory works out of the box. slinit-journalctl
+	# does no argv[0] dispatch — either name invokes the same flag
+	# parser and behaves identically.
+	ln -sf slinit-journalctl "${DESTDIR}/usr/bin/journalctl"
+
+	# Same pattern for hostnamectl + timedatectl (v2.2.1: native Go
+	# reimplementations of the systemd CLIs, zero D-Bus).
+	ln -sf slinit-hostnamectl "${DESTDIR}/usr/bin/hostnamectl"
+	ln -sf slinit-timedatectl "${DESTDIR}/usr/bin/timedatectl"
+	ln -sf slinit-localectl "${DESTDIR}/usr/bin/localectl"
+
+	# timedate1 / hostname1 / locale1 (v3.19.0): the D-Bus daemons GNOME
+	# Settings, NetworkManager and the login screen call. dbus-daemon
+	# starts them on demand from the activation files; the bus policy
+	# lets anyone call them, and polkit decides who may change what.
+	for _f in data/dbus-1/system.d/*.conf; do
+		vinstall "${_f}" 644 usr/share/dbus-1/system.d
+	done
+	for _f in data/dbus-1/system-services/*.service; do
+		vinstall "${_f}" 644 usr/share/dbus-1/system-services
+	done
+	for _f in data/polkit-1/actions/*.policy; do
+		vinstall "${_f}" 644 usr/share/polkit-1/actions
+	done
+
+	# machinectl + systemd-nspawn (v2.2.4: native Go, zero D-Bus,
+	# backed by pkg/machine registry). systemd's own binary name for
+	# the container launcher is `systemd-nspawn`; use that so
+	# `machinectl start` handoff and operator muscle memory both
+	# work unchanged.
+	ln -sf slinit-machinectl "${DESTDIR}/usr/bin/machinectl"
+	ln -sf slinit-nspawn "${DESTDIR}/usr/bin/systemd-nspawn"
+
+	# Shutdown-family entry points: `halt`, `reboot`, `poweroff`,
+	# `shutdown`. slinit-shutdown dispatches by basename(argv[0])
+	# so one binary + N symlinks covers the whole surface. Only
+	# install into /usr/bin — Void's usrmerge policy has /sbin
+	# as a real symlink to usr/bin at rootfs level (verified on
+	# sunlight-os), so both PATH entries resolve to the same
+	# inode. pkglint enforces the "no /sbin in packages" rule.
+	for _sd in halt reboot poweroff shutdown; do
+		ln -sf slinit-shutdown "${DESTDIR}/usr/bin/${_sd}"
+	done
+}
+
+slinit-openrc-shims_package() {
+	short_desc="OpenRC-compatible CLI shims for slinit"
+	conflicts="openrc"
+	pkg_install() {
+		vmove usr/bin/rc-service
+		vmove usr/bin/rc-status
+		vmove usr/bin/rc-update
+		for f in rc-service rc-status rc-update; do
+			vmove "usr/share/man/man8/${f}.8" 2>/dev/null || true
+		done
+
+		# einfo applet symlinks (installed by main package's post_install).
+		for _ap in ${_einfo_applets}; do
+			vmove "usr/bin/${_ap}"
+		done
+
+		# svc-value applet symlinks.
+		for _ap in ${_svcvalue_applets}; do
+			vmove "usr/bin/${_ap}"
+		done
+
+		# OpenRC-named aliases for the standalone helpers.
+		for _pair in ${_openrc_aliases}; do
+			_openrc="${_pair%%:*}"
+			vmove "usr/bin/${_openrc}"
+		done
+	}
+}

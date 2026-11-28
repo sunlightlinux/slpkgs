@@ -1,0 +1,123 @@
+# Template file for 'sunlight-slinit-services'
+pkgname=sunlight-slinit-services
+version=1.4.3
+revision=1
+depends="slinit>=2.3.1"
+short_desc="Sunlight Linux slinit boot-target + getty + graphical stack service definitions"
+maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
+license="Apache-2.0"
+homepage="https://github.com/sunlightlinux"
+
+# Config files under /etc — protected on upgrade so operator edits
+# (e.g. adding more waits-for on the `boot` target for a new local
+# daemon, adjusting the getty baud/term type, disabling lightdm on
+# a headless install) survive `xbps-install -u`. New versions land
+# as .new-<pkgver> for merge review.
+conf_files="
+	/etc/slinit.d/boot
+	/etc/slinit.d/getty-tty1
+	/etc/slinit.d/getty-ttyS0
+	/etc/slinit.d/logind
+	/etc/slinit.d/polkitd
+	/etc/slinit.d/lightdm
+	/etc/slinit.d/qemu-ga
+"
+
+do_install() {
+	# `boot` — top-level slinit target (activated by `init=/usr/bin/
+	# slinit` with the default `-t boot`). Aggregates every daemon
+	# that must be up before the login prompt appears + the two
+	# getty units + polkitd + lightdm; the console-mute hook
+	# (OnBootReady in slinit) fires when this reaches STARTED.
+	vinstall ${FILESDIR}/boot 644 etc/slinit.d
+
+	# getty-tty1 — agetty on the primary console (VGA/HDMI). Ordered
+	# with `after: sshd/docker/network/getty-ttyS0` so agetty prints
+	# its login prompt only after the loud daemons have reported
+	# their [OK] lines — otherwise the prompt gets shredded by
+	# late-arriving service-progress text on /dev/console.
+	vinstall ${FILESDIR}/getty-tty1 644 etc/slinit.d
+
+	# getty-ttyS0 — agetty on the first ISA serial port. Gated by a
+	# single-shot pre-start check on `/sys/class/tty/ttyS0/type` so
+	# the service is FAILEDSTART-once (no restart loop) when the
+	# kernel enumerates a phantom ISA slot on hardware/VMs without a
+	# real UART. Existence check on /type alone is insufficient — the
+	# 8250 driver registers sysfs entries for all four legacy slots
+	# regardless of whether a device is wired; `/type` value >0 means
+	# a real UART.
+	vinstall ${FILESDIR}/getty-ttyS0 644 etc/slinit.d
+
+	# logind — native slinit implementation of the systemd/elogind
+	# login1 D-Bus service. Owns org.freedesktop.login1 (Manager +
+	# per-Session/User/Seat objects) and writes libelogind-compat
+	# records to /run/systemd/{sessions,users,seats}. Replaces the
+	# elogind daemon; the elogind xbps package is still installed so
+	# libelogind.so.0 stays resolvable for polkitd/gdm/pam_elogind,
+	# but the elogind daemon itself must not run in parallel — its
+	# runit + slinit service definitions are pre-empted by this one
+	# owning the bus name at boot, and the ISO builder MUST NOT ship
+	# a competing /etc/slinit.d/elogind file.
+	vinstall ${FILESDIR}/logind 644 etc/slinit.d
+
+	# org.freedesktop.systemd1.conf — D-Bus policy allowing slinit-
+	# logind's systemd1 compat stub to own the well-known name.
+	# Without a policy file, dbus-daemon denies non-privileged names
+	# on the system bus (root gets `<allow own="*"/>` in modern
+	# builds, but Void's dbus is compiled with `<deny own="*"/>` in
+	# the default context and the policy file has to opt each name
+	# in individually). Mirrors elogind's login1.conf shape: root
+	# owns + sends + receives freely; unprivileged callers may
+	# Introspect / read properties / call every stub method (safe
+	# because the stub is side-effect-free — SetEnvironment stores
+	# in-memory, Start/Stop/Restart return a fake job, all Lists
+	# return []).
+	vinstall ${FILESDIR}/org.freedesktop.systemd1.conf 644 usr/share/dbus-1/system.d
+
+	# org.freedesktop.systemd1.service — session-bus activation
+	# file. When gnome-session-binary (or any other GNOME/GDM 48
+	# component) probes org.freedesktop.systemd1 on the user's
+	# session bus, dbus-daemon --session auto-activates
+	# `/usr/bin/slinit-logind --user`. That instance connects to
+	# the session bus, registers only the systemd1 stub (no login1
+	# — session bus is per-user, no hardware authority), and
+	# blocks until the session bus goes away. Required for
+	# gnome-session-binary's SetEnvironment/GetUnit/StartUnit
+	# handshake to complete against the user manager slot.
+	vinstall ${FILESDIR}/org.freedesktop.systemd1.service 644 usr/share/dbus-1/services
+
+	# polkitd — PolicyKit authority daemon. Owns
+	# org.freedesktop.PolicyKit1 on the system bus so desktop-side
+	# agents (xfce-polkit, gnome-shell polkit agent, etc.) can
+	# authorise privileged actions. On Void the polkit xbps package
+	# installs a dbus-activation .service, but relying on activation
+	# means the first auth attempt has to wait for cold-start;
+	# owning it as a real service on the boot graph makes it up
+	# before the greeter ever paints.
+	# NOTE: on a fresh Void install `/usr/libexec/dbus-daemon-launch-
+	# helper` ships as 0755 root:root, which makes dbus-activation
+	# of any system service (polkit included) fail with "The
+	# permission of the setuid helper is not correct". Fix outside
+	# this package: `chmod 4750 /usr/libexec/dbus-daemon-launch-
+	# helper && chown root:dbus …` (should be baked into slpkgs's
+	# dbus template; tracked separately).
+	vinstall ${FILESDIR}/polkitd 644 etc/slinit.d
+
+	# lightdm — display manager. Gated on /dev/dri/card0 so a
+	# headless install (no GPU) skips it silently instead of
+	# entering a restart loop. Depends on dbus + slinit-logind for
+	# session/seat tracking; needs /run/lightdm created 0711
+	# lightdm:lightdm by a pre-start-command (matches Void's runit
+	# script). Xorg runs on vt7 by default (see /etc/lightdm/
+	# lightdm.conf); text getty on tty1..tty6 remains untouched.
+	vinstall ${FILESDIR}/lightdm 644 etc/slinit.d
+
+	# qemu-ga — QEMU guest agent. Gated on the virtio-serial guest-
+	# agent port so real-hardware installs skip it silently; only
+	# VMs booted with the corresponding host-side virtserialport
+	# actually launch qemu-ga. Provides graceful shutdown, filesystem
+	# freeze/thaw for consistent snapshots, IP reporting, and
+	# exec-hook plumbing to the QEMU host — all no-ops when the
+	# device is absent, so bundling here costs nothing on bare metal.
+	vinstall ${FILESDIR}/qemu-ga 644 etc/slinit.d
+}

@@ -1,0 +1,17 @@
+# docker -- Docker Engine (slinit-services), on the containerd service rather
+# than a second containerd of its own. Skipped where it is not installed.
+# stop-timeout: dockerd gives each container about 10 s when it stops.
+#
+# Its own cgroup, as dockerd judges what the kernel supports from the one it
+# runs in: in the root, which has no memory.swap.max, it dropped --memory-swap
+# with "Your kernel does not support swap limit capabilities". The list is what
+# it judges by, so a controller missing here turns that docker feature off.
+type = process
+command = /usr/libexec/slinit-services/docker
+condition-path-exists = /usr/bin/dockerd
+depends-on: containerd
+waits-for: network
+stop-timeout = 45
+restart = true
+cgroup = /sys/fs/cgroup/docker.service
+delegate = cpu cpuset io memory pids hugetlb

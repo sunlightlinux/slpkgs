@@ -1,0 +1,146 @@
+#!/bin/sh
+#
+# Turnstile slinit backend. Byte-adapted from Chimera Linux's dinit
+# backend (turnstile v0.1.11, BSD-2-Clause) — slinit accepts the same
+# flag set (--user, --ready-fd/-F, --services-dir/-d) and ships
+# `slinitctl` + `slinit-monitor` as dinit-CLI-compatible companions,
+# so the only substitutions are the binary names.
+#
+# Layout matches Chimera exactly:
+#
+#   run   — generates $DINIT_DIR/{boot,system,graphical.monitor,
+#           login.target,graphical.target} on the fly, then exec's
+#           the user service manager
+#   ready — turnstile's second call after run+ready-fd write; asks
+#           the user manager to start login.target (the "login can
+#           proceed now" gate)
+#   stop  — sent SIGTERM to the running user manager on logout
+#   graphical-notify — invoked by graphical.monitor when
+#           WAYLAND_DISPLAY or DISPLAY changes; triggers
+#           graphical.target so gnome-shell etc. can start
+#
+# Copyright 2023 q66 <q66@chimera-linux.org> (original dinit backend)
+# License: BSD-2-Clause
+
+case "$1" in
+    run) ;;
+    ready)
+        if [ -z "$2" -o ! -S "$2" ]; then
+            echo "slinit: invalid control socket '$2'" >&2
+            exit 69
+        fi
+        exec slinitctl --socket-path "$2" start login.target
+        ;;
+    stop)
+        exec kill -s TERM "$2"
+        ;;
+    graphical-notify)
+        if [ -z "$SLINIT_CS_FD" -a -z "$DINIT_CS_FD" ]; then
+            echo "slinit: control socket not given" >&2
+            exit 69
+        fi
+        exec slinitctl trigger graphical.target
+        ;;
+    *)
+        exit 32
+        ;;
+esac
+
+SLINIT_READY_PIPE="$2"
+SLINIT_DIR="$3"
+SLINIT_CONF="$4/slinit.conf"
+
+if [ ! -p "$SLINIT_READY_PIPE" -o ! -d "$SLINIT_DIR" ]; then
+    echo "slinit: invalid input argument(s)" >&2
+    exit 69
+fi
+
+if [ -z "$HOME" -o ! -d "$HOME" ]; then
+    echo "slinit: invalid home directory" >&2
+    exit 70
+fi
+
+shift $#
+
+# Source system profile for /etc/profile.d snippets.
+[ -r /etc/profile ] && . /etc/profile
+
+set -e
+
+[ -r "$SLINIT_CONF" ] && . "$SLINIT_CONF"
+
+# Defaults mirror the dinit backend, retargeted at slinit.d/.
+[ -z "$boot_dir" ] && boot_dir="${HOME}/.config/slinit.d/boot.d"
+[ -z "$system_boot_dir" ] && system_boot_dir="/usr/lib/slinit.d/user/boot.d"
+
+if [ -z "$services_dir1" ]; then
+    services_dir1="${HOME}/.config/slinit.d"
+    services_dir2="/etc/slinit.d/user"
+    services_dir3="/usr/local/lib/slinit.d/user"
+    services_dir4="/usr/lib/slinit.d/user"
+fi
+
+# Convert numbered services_dir* -> a single comma-separated string.
+# Slinit accepts --services-dir once with a comma-separated list;
+# dinit accepts it repeated. This is the one place the two CLIs
+# diverge.
+seqn=1
+sdirs=""
+while :; do
+    eval curserv="\$services_dir$seqn"
+    [ -n "$curserv" ] || break
+    if [ -z "$sdirs" ]; then
+        sdirs="$curserv"
+    else
+        sdirs="$sdirs,$curserv"
+    fi
+    seqn=$(($seqn + 1))
+done
+
+mkdir -p "${boot_dir}" > /dev/null 2>&1 || :
+
+# All dependency directives use ':' (slinit's parser requires it;
+# dinit accepts both ':' and '='). Non-dependency directives keep
+# '=' for readability.
+cat << EOF > "${SLINIT_DIR}/boot"
+type = internal
+depends-on: system
+waits-for.d: ${boot_dir}
+depends-on: login.target
+depends-ms: graphical.monitor
+depends-ms: graphical.target
+EOF
+
+cat << EOF > "${SLINIT_DIR}/system"
+type = internal
+waits-for.d: ${system_boot_dir}
+EOF
+
+# Env-var watch: kick graphical.target when a compositor announces
+# WAYLAND_DISPLAY or DISPLAY.
+cat << EOF > "${SLINIT_DIR}/graphical.monitor"
+type = process
+depends-on: login.target
+options = pass-cs-fd
+command = /usr/bin/slinit-monitor -E -c "$0 graphical-notify" WAYLAND_DISPLAY DISPLAY
+EOF
+
+cat << EOF > "${SLINIT_DIR}/login.target"
+type = internal
+EOF
+
+cat << EOF > "${SLINIT_DIR}/graphical.target"
+type = triggered
+depends-on: graphical.monitor
+depends-on: login.target
+EOF
+
+# SLINIT_DIR gets prepended so its auto-generated files (boot,
+# system, login.target, graphical.monitor, graphical.target) win
+# over any same-named services in the numbered dirs.
+if [ -n "$sdirs" ]; then
+    sdirs_all="$SLINIT_DIR,$sdirs"
+else
+    sdirs_all="$SLINIT_DIR"
+fi
+exec slinit --user --ready-fd 3 --services-dir "$sdirs_all" 3>"$SLINIT_READY_PIPE"

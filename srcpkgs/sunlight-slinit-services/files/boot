@@ -1,0 +1,12 @@
+type = internal
+waits-for: socklog
+waits-for: dbus
+waits-for: logind
+waits-for: crond
+waits-for: getty-tty1
+waits-for: getty-ttyS0
+waits-for: sshd
+waits-for: docker
+waits-for: polkitd
+waits-for: qemu-ga
+waits-for: lightdm

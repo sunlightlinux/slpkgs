@@ -3,9 +3,9 @@ pkgname=dracut
 version=112
 revision=1
 build_style=configure
-configure_args="--prefix=/usr --sysconfdir=/etc --enable-network-legacy"
+configure_args="--prefix=/usr --sysconfdir=/etc --enable-network-legacy --disable-documentation"
 conf_files="/etc/dracut.conf"
-hostmakedepends="pkg-config ruby-asciidoctor"
+hostmakedepends="pkg-config"
 makedepends="libkmod-devel"
 depends="bash coreutils cpio eudev gzip kmod>=3.7 kpartx util-linux"
 short_desc="Low-level tool for generating an initramfs/initrd image"

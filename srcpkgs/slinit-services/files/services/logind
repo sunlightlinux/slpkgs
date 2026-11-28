@@ -1,0 +1,12 @@
+# logind -- slinit's own org.freedesktop.login1 (slinit-services). Its bus
+# policy is /usr/share/dbus-1/system.d/slinit-logind.conf.
+type = process
+command = /usr/bin/slinit-logind
+depends-on: dbus
+restart = true
+# Keep its output for `slinitctl catlog logind`; without this it went to
+# /dev/null, so a crash or a refused device left no trace. A buffer, not a
+# file: logind starts before /var is sure to be writable, and slinit keeps
+# the buffer across restarts, so a dying daemon's last words survive.
+log-type = buffer
+log-buffer-size = 262144

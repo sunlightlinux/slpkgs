@@ -1,0 +1,5 @@
+# udevd — the device manager (slinit-services).
+type = process
+command = /usr/bin/udevd
+depends-on: early-setup
+restart = true

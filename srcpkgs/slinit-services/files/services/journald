@@ -1,0 +1,11 @@
+# journald -- keeps the journal on disk (slinit-services), in
+# /var/log/slinit-journal, so it survives a reboot. Without it the journal is
+# slinit's ring of 4096 events in memory. What it misses while starting or
+# restarting it replays from that ring.
+type = process
+command = /usr/bin/slinit-journald
+depends-on: filesystems
+restart = true
+# Keep running, with the filesystems it needs, until every other service
+# has stopped, so the whole shutdown is recorded (slinit >= 3.22.0).
+options = stops-last

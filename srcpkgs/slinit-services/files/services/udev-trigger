@@ -1,0 +1,6 @@
+# udev-trigger — coldplug every device and wait for udev to settle
+# (slinit-services).
+type = scripted
+command = /usr/libexec/slinit-services/udev-trigger
+depends-on: udevd
+restart = false

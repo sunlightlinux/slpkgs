@@ -1,0 +1,35 @@
+#!/bin/sh
+# slinit shutdown hook. Invoked by pkg/shutdown with one argument:
+#   halt | poweroff | reboot | kexec | soft
+#
+# Exit 0 → slinit treats the cleanup as handled and does NOT run its
+# built-in swapoff/unmountAll. That's what we want even when this hook
+# does nothing — soft-reboot in particular must leave the filesystems
+# (especially /dev) read-write so the re-exec'd slinit can keep talking
+# to the kernel and per-service scripts that touch /dev (socklog's
+# /dev/log, udev nodes, etc.) keep working without a remount-rw dance.
+#
+# Replaces the old `stop-command = …/shutdown.sh` wiring on early-setup,
+# which fired `umount -a -r` on EVERY service stop including the
+# softreboot path — that's where the "/dev remounted ro after softreboot"
+# regression came from.
+
+sync
+
+case "${1:-}" in
+    soft)
+        # Keep filesystems mounted rw; the kernel and the next slinit
+        # instance need them. Nothing else to do.
+        ;;
+    halt|poweroff|reboot|kexec)
+        # Best-effort umount -a -r: anything that fails to unmount gets
+        # remounted read-only so dirty buffers are flushed before the
+        # kernel reboot syscall.
+        umount -a -r 2>/dev/null || true
+        ;;
+    *)
+        # Unknown shutdown type: be conservative — don't unmount, just
+        # sync. slinit's built-in cleanup will run if it needs to.
+        ;;
+esac
+exit 0

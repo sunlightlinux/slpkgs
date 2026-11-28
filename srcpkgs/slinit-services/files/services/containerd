@@ -1,0 +1,7 @@
+# containerd -- container runtime (slinit-services). Skipped where it is not
+# installed.
+type = process
+command = /usr/libexec/slinit-services/containerd
+condition-path-exists = /usr/bin/containerd
+depends-on: misc
+restart = true

@@ -1,0 +1,22 @@
+# Template file for 'slpam'
+pkgname=slpam
+version=1.11.0
+revision=1
+build_style=gnu-makefile
+make_check_target="check test test-audit"
+hostmakedepends="pkg-config"
+makedepends="dbus-devel pam-devel"
+short_desc="PAM module registering login sessions with slinit-logind"
+maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
+license="Apache-2.0, BSD-3-Clause OR GPL-2.0-or-later, ISC, BSD-2-Clause, SSH-short"
+homepage="https://github.com/sunlightlinux/slpam"
+distfiles="https://github.com/sunlightlinux/slpam/archive/refs/tags/v${version}.tar.gz"
+checksum=1b3a86ad1285e511e751bf0e9e31d8378d1241e447a80ffd2d678630268f0ba3
+
+post_install() {
+	vdoc README.md
+	vdoc docs/MIGRATING.md
+	vdoc docs/TROUBLESHOOTING.md
+	# slpam-audit carries code ported from Linux-PAM and OpenSSH.
+	vlicense NOTICE
+}

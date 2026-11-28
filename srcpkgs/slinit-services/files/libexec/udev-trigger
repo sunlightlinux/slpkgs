@@ -1,0 +1,8 @@
+#!/bin/sh
+# udev-trigger — replay the kernel's coldplug events into udevd and wait
+# for the queue to drain, so every device exists before filesystems are
+# touched. The trigger half of Void's 02-udev (void-runit, CC0-1.0);
+# udevd itself is the separate udevd service.
+udevadm trigger --action=add --type=subsystems
+udevadm trigger --action=add --type=devices
+udevadm settle

@@ -1,0 +1,6 @@
+# misc — login records, random seed, sysctl, timezone, cleanup
+# (slinit-services).
+type = scripted
+command = /usr/libexec/slinit-services/misc
+depends-on: filesystems
+restart = false
