@@ -20,7 +20,7 @@ carries both, and the two must describe the same daemon the same way.
 |---|---|---|
 | The service | `files/<service>.slinit` | `/usr/lib/slinit.d/<service>` |
 | A helper script it runs, if any | `files/<service>.slinit-run` | `/usr/libexec/slinit/<service>` (755) |
-| Its stop and finish helpers, if any | `files/<service>.slinit-stop`, `.slinit-finish` | `/usr/libexec/slinit/<service>-stop`, `-finish` (755) |
+| Its stop, finish and readiness-check helpers, if any | `files/<service>.slinit-stop`, `.slinit-finish`, `.slinit-check` | `/usr/libexec/slinit/<service>-stop`, `-finish`, `-check` (755) |
 | Default configuration, if the runit service had a `conf` | `files/<service>.slinit-conf` | `/etc/conf.d/<service>` (644) |
 
 `vslinit <service>` installs every one of these that exists (see
@@ -28,7 +28,8 @@ carries both, and the two must describe the same daemon the same way.
 `/etc/conf.d/<service>` in `conf_files` when there is a `.slinit-conf`,
 and needs no `vinstall` line for any of them. Put the
 `vslinit` line directly after the `vsv` line of the same service, in the
-same function, and bump `revision`. A subpackage that `vmove`s
+same function (also when `vsv` sits in a subpackage's `pkg_install`; no
+`vmove` is needed then), and bump `revision`. A subpackage that `vmove`s
 `etc/sv/<service>` also moves `usr/lib/slinit.d/<service>` (and, with
 `enable`, `usr/lib/slinit.d/boot.d/<service>`).
 
@@ -74,7 +75,9 @@ part in the slinit service.
    `files/<service>/conf`, copy it to `files/<service>.slinit-conf` and add
    `/etc/conf.d/<service>` to `conf_files`; `vslinit` installs it. A
    run script that uses `${OPTS:=default}` but sources no conf has the
-   default written straight into `command`. A package document that tells
+   default written straight into `command`; one that sources a conf and
+   uses `${OPTS:=default}` or `${OPTS:-default}` keeps that expansion in
+   the helper, after `OPTS=` and the `.` line. A package document that tells
    users to edit `/etc/sv/<service>/conf` (a `README.voidlinux`, say) is
    changed to `/etc/conf.d/<service>` in the same commit. Do not use `env-file`: it reads
    `KEY=value` literally, and Void's files are shell (`OPTS="-x"` would
@@ -86,8 +89,9 @@ part in the slinit service.
    exceptions keep what the run script asked for:
    - a run script that discards all output on the daemon's exec line
      (`>/dev/null 2>&1`) gets `log-type = none`, with a comment saying so;
-   - a redirection of one stream only (`2>&1 >/dev/null`) stays on the
-     `exec` line of a helper, since `command` has no shell.
+   - a redirection of one stream only stays on the `exec` line of a
+     helper, since `command` has no shell: `2>&1 >/dev/null`, and also
+     `exec 2>&1` followed by `exec daemon >/dev/null`, which keeps stderr.
 
 7. **Preparing a directory:** `install -d -m 0755 -o u -g g /run/x` becomes
 
@@ -129,7 +133,12 @@ part in the slinit service.
    - a daemon that talks D-Bus gets `depends-on: dbus`.
 
 10. **Runit's other files:** `finish` becomes `finish-command`, `check`
-    becomes `ready-check-command` (through a helper if it is a script), a
+    becomes `ready-check-command` (one command written directly: slinit
+    discards a check's output, so `>/dev/null 2>&1` needs no helper;
+    otherwise `files/<service>.slinit-check`), `control/t` (runit's stop
+    action) becomes `stop-command` (runit never kills after it, slinit does
+    after `stop-timeout`: set a longer one if the daemon's own shutdown can
+    take long), and a
     `down` file means nothing extra (services are not enabled anyway).
     Two runit idioms have a direct slinit form:
     - a `finish` whose only job is `sv d` on exit code N ("do not restart
@@ -154,13 +163,31 @@ part in the slinit service.
     "Checking a service" below). A directive newer than that version fails
     the service's load on every installed system.
 
-13. **Every runit service of a package is converted**, in one commit for
+13. **A dependency on another package's service.** `depends-on: <other>`
+    fails the service's load when `<other>` is not installed (the boot is
+    not affected; the service is never enabled by default). When the
+    package exists to run this daemon, add the other package to its
+    `depends`; when the service sits in a library subpackage, do not, and
+    say so in the commit.
+
+14. **Package scripts that call runit.** A script the package installs
+    that runs `sv up <service>` (or `start`, `restart`, `once`...) calls
+    `slinitctl start <service>` instead when `slinitctl` exists, keeping
+    `sv` for a runit system:
+
+        if command -v slinitctl >/dev/null 2>&1; then
+            slinitctl start statd
+        else
+            sv up statd
+        fi
+
+15. **Every runit service of a package is converted**, in one commit for
     the package, even if only one was asked for.
 
-14. **Syslog daemons need nothing extra.** slinit as PID 1 serves
+16. **Syslog daemons need nothing extra.** slinit as PID 1 serves
     `/dev/log`; a syslog daemon started by its own service takes it over.
 
-15. **A header comment:** what the daemon is, which package ships it (the
+17. **A header comment:** what the daemon is, which package ships it (the
     subpackage that installs the service, when there is one), and
     how to enable it:
 
@@ -222,7 +249,10 @@ packaged slinit, together with slinit-services' services (which define
 `local.target`, `network.target` and the rest):
 
     mkdir -p /tmp/svc && cp srcpkgs/slinit-services/files/services/* /tmp/svc/
-    for f in srcpkgs/*/files/*.slinit; do cp "$f" /tmp/svc/"$(basename "$f" .slinit)"; done
+    for f in srcpkgs/*/files/*.slinit; do
+        [ -L "${f%%/files/*}" ] && continue   # a subpackage's symlinked dir
+        cp "$f" /tmp/svc/"$(basename "$f" .slinit)"
+    done
     slinit-check -d /tmp/svc <service>
 
 A warning that a command's binary, or a `run-as` user, does not exist is
