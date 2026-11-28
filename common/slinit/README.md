@@ -302,13 +302,18 @@ part in the slinit service.
 
 21. **Boot-time hooks** (`/etc/runit/core-services/NN-x.sh`). slinit has no
     such directory, as Chimera and Artix have none. Whatever the hook does
-    becomes, in order of preference: a config file the core already reads
-    (`/usr/lib/modules-load.d/*.conf`, `/usr/lib/sysctl.d`,
-    `/usr/lib/binfmt.d`, `/usr/lib/tmpfiles.d`); or a `type = scripted`
+    becomes, in order of preference: a config file the core already reads,
+    when the core would do exactly what the hook did; or a `type = scripted`
     service of the package, **enabled** (`vslinit <service> enable`, the
-    hook ran on every boot the package was installed), with
-    `depends-on: local.target` or `before: local.target` as the hook's
-    number in the boot order requires. A hook that duplicates a service
+    hook ran on every boot the package was installed), named after the
+    hook without its `NN-` prefix. Order it by the hook's number in
+    runit's stage 1: `depends-on: early-setup` for 00-04 (before local
+    filesystems), `depends-on: filesystems` for the rest, each with
+    `before: local.target`; a hook that configures the network takes rule
+    9's pre-network.target ordering instead. The core reads only
+    `modules-load.d` and `sysctl.d`, not `tmpfiles.d` or `binfmt.d`. A
+    best-effort hook (a modprobe loop) may end its helper with `exit 0`,
+    as a runit hook never failed the boot; say so in the commit. A hook that duplicates a service
     the package already has (runit-iptables over iptables) is dropped, and
     the package says so.
 
