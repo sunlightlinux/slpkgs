@@ -1,0 +1,8 @@
+# stubby -- DNS privacy stub resolver (stubby). Not started by default;
+# enable with: slinitctl enable stubby
+type = process
+command = /usr/bin/stubby
+run-as = _stubby:_stubby
+depends-on: network.target
+restart = true
+log-type = journal
