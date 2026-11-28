@@ -1,7 +1,7 @@
 # Template file for 'ngircd'
 pkgname=ngircd
 version=27
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--enable-ipv6 --with-openssl --without-ident ac_cv_func_getaddrinfo=yes --with-pam --with-iconv"
 hostmakedepends="pkg-config"
@@ -21,4 +21,5 @@ post_configure() {
 }
 post_install() {
 	vsv ngircd
+	vslinit ngircd
 }
