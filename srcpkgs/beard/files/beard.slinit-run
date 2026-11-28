@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/beard ] && . /etc/conf.d/beard
+exec /usr/bin/beard -H ${BEARD_HIBERNATE:=/usr/bin/zzz} $OPTS

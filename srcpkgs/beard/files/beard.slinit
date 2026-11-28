@@ -1,0 +1,9 @@
+# beard -- hibernates the machine when the battery runs low (beard).
+# Not started by default; enable with: slinitctl enable beard
+# Options: OPTS and BEARD_HIBERNATE (default: /usr/bin/zzz) in
+# /etc/conf.d/beard.
+type = process
+command = /usr/libexec/slinit/beard
+depends-on: local.target
+restart = true
+log-type = journal
