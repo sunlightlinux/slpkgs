@@ -1,7 +1,7 @@
 # Template file for 'ddclient'
 pkgname=ddclient
 version=4.0.0
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--sysconfdir=/etc"
 hostmakedepends="automake curl"
@@ -33,4 +33,5 @@ post_install() {
 	vsconf sample-etc_dhcpc_dhcpcd-eth0.exe
 	vsconf sample-etc_ppp_ip-up.local
 	vsv ddclient
+	vslinit ddclient
 }
