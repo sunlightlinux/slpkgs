@@ -1,7 +1,7 @@
 # Template file for 'qrtr-ns'
 pkgname=qrtr-ns
 version=1.0
-revision=1
+revision=2
 build_style=gnu-makefile
 short_desc="Userspace reference for net/qrtr in the Linux kernel"
 maintainer="Orphaned <orphan@voidlinux.org>"
@@ -13,6 +13,7 @@ checksum=dc5db4872ff0d3c43b5c6d115fadc94f393c9c8c89b4246e327853b466d6c49f
 post_install() {
 	vlicense LICENSE
 	vsv qrtr-ns
+	vslinit qrtr-ns
 }
 
 qrtr-ns-devel_package() {

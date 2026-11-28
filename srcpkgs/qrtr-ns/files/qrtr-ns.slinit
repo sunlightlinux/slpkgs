@@ -1,0 +1,8 @@
+# qrtr-ns -- Qualcomm IPC router name service (qrtr-ns). Not started by
+# default; enable with: slinitctl enable qrtr-ns
+# Options: OPTS in /etc/conf.d/qrtr-ns (default -f 1).
+type = process
+command = /usr/libexec/slinit/qrtr-ns
+depends-on: local.target
+restart = true
+log-type = journal
