@@ -1,7 +1,7 @@
 # Template file for 'snapper'
 pkgname=snapper
 version=0.13.1
-revision=3
+revision=4
 build_style=gnu-configure
 configure_args="--disable-zypp --disable-systemd --with-conf=/etc/conf.d"
 conf_files="/etc/conf.d/snapper"
@@ -45,6 +45,7 @@ pre_configure() {
 post_install() {
 	vinstall data/sysconfig.snapper 644 etc/conf.d snapper
 	vsv snapperd
+	vslinit snapperd
 }
 
 libsnapper_package() {

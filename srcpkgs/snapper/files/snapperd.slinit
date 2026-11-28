@@ -1,0 +1,8 @@
+# snapperd -- snapper's D-Bus service daemon (snapper). Not started by
+# default; enable with: slinitctl enable snapperd
+type = process
+command = /usr/bin/snapperd
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
