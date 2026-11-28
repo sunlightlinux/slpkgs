@@ -1,0 +1,11 @@
+# drbd -- brings the DRBD resources of /etc/drbd.conf up and down
+# (drbd-utils). Not started by default; enable with: slinitctl enable drbd
+# Do not enable it when a cluster manager such as Pacemaker runs DRBD.
+type = scripted
+command = /usr/libexec/drbd start
+stop-command = /usr/libexec/drbd stop
+depends-on: network.target
+# Starting waits for the peers (drbdadm wait-con-int, bounded only by
+# DRBD's own wfc-timeout), as runit never timed it out.
+start-timeout = 0
+stop-timeout = 120
