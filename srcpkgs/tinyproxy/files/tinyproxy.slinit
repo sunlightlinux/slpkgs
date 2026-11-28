@@ -1,0 +1,9 @@
+# tinyproxy -- small HTTP/SSL proxy daemon (tinyproxy). Not started by
+# default; enable with: slinitctl enable tinyproxy
+# Options: OPTS in /etc/conf.d/tinyproxy. Its stdout is closed, as
+# chpst -1 did.
+type = process
+command = /usr/libexec/slinit/tinyproxy
+depends-on: network.target
+restart = true
+log-type = journal

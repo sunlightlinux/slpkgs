@@ -1,7 +1,7 @@
 # Template file for 'tinyproxy'
 pkgname=tinyproxy
 version=1.11.3
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--enable-transparent --localstatedir=/var tinyproxy_cv_regex_broken=no"
 hostmakedepends="asciidoc"
@@ -22,4 +22,5 @@ post_install() {
 		-e 's/^User .*/User _tinyproxy/' \
 		-e 's/^Group .*/Group _tinyproxy/'
 	vsv tinyproxy
+	vslinit tinyproxy
 }
