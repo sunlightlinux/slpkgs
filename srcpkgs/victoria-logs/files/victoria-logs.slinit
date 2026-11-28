@@ -1,0 +1,13 @@
+# victoria-logs -- VictoriaLogs log database
+# (victoria-logs), as user _vlogs in its home
+# /var/lib/victoria-logs. Not started by default; enable with:
+#     slinitctl enable victoria-logs
+# Options: OPTS in /etc/conf.d/victoria-logs, read as _vlogs;
+# HOME there changes the directory it runs in.
+type = process
+command = /usr/libexec/slinit/victoria-logs
+run-as = _vlogs
+rlimit-nofile = 65535:65535
+depends-on: network.target
+restart = true
+log-type = journal

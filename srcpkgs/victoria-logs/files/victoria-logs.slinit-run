@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. chpst -u
+# _vlogs is the service's run-as and prlimit --nofile=65535:65535 its
+# rlimit-nofile; chpst -C "$HOME" is a cd, as HOME may come from the conf.
+set -u
+OPTS=
+HOME=
+[ -f /etc/conf.d/victoria-logs ] && . /etc/conf.d/victoria-logs
+: ${HOME:=/var/lib/victoria-logs/}
+cd "$HOME" || exit 1
+exec /usr/bin/victoria-logs ${OPTS}
