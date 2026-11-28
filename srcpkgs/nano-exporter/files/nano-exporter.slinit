@@ -1,0 +1,9 @@
+# nano-exporter -- small Prometheus exporter for machine metrics
+# (nano-exporter). Not started by default; enable with:
+#     slinitctl enable nano-exporter
+# Options: OPTS in /etc/conf.d/nano-exporter.
+type = process
+command = /usr/libexec/slinit/nano-exporter
+depends-on: network.target
+restart = true
+log-type = journal

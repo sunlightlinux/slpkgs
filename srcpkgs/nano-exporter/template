@@ -1,7 +1,7 @@
 # Template file for 'nano-exporter'
 pkgname=nano-exporter
 version=2.1.0
-revision=1
+revision=2
 build_style=gnu-makefile
 short_desc="Small prometheus exporter for machine metrics"
 maintainer="Leah Neukirchen <leah@vuxu.org>"
@@ -12,5 +12,6 @@ checksum=041ad098ece62e70f72ce9b4863d58ca0a9528ab8bd766e23d751d08516f30e1
 
 do_install() {
 	vsv nano-exporter
+	vslinit nano-exporter
 	vbin nano-exporter
 }
