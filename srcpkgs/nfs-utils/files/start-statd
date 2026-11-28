@@ -1,3 +1,7 @@
 #!/bin/sh
 # nfsmount calls this script when mounting a filesystem with locking enabled.
-sv up statd
+if command -v slinitctl >/dev/null 2>&1; then
+	slinitctl start statd
+else
+	sv up statd
+fi
