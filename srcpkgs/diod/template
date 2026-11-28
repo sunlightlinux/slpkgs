@@ -1,7 +1,7 @@
 # Template file for 'diod'
 pkgname=diod
 version=1.0.24
-revision=3
+revision=4
 build_style=gnu-configure
 conf_files="/etc/diod.conf"
 hostmakedepends="autoconf"
@@ -15,6 +15,7 @@ checksum=f41d2b91c1a712132f5457d9d1c3caca985f069bdc8ef27bf4c148ac1d9f8c9f
 
 post_install() {
 	vsv diod
+	vslinit diod
 	rm -rf ${DESTDIR}/etc/systemd
 	vsconf ${DESTDIR}/etc/auto.diod
 	rm -f ${DESTDIR}/etc/auto.diod

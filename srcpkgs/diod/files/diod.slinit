@@ -1,0 +1,8 @@
+# diod -- 9P file server (diod), in the foreground (-f), configured by
+# /etc/diod.conf. Not started by default; enable with:
+#     slinitctl enable diod
+type = process
+command = /usr/bin/diod -f
+depends-on: network.target
+restart = true
+log-type = journal
