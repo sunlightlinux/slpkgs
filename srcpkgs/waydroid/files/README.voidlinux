@@ -1,6 +1,7 @@
 To finish Waydroid installation run:
 
 	# ln -s /etc/sv/waydroid-container /var/service
+	(with slinit: # slinitctl enable waydroid-container)
 	# waydroid init
 
 Additionally ensure /proc/pressure/cpu exists, otherwise add 'psi=1' to your

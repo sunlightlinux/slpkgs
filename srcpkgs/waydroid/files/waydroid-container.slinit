@@ -1,0 +1,10 @@
+# waydroid-container -- the Waydroid container manager (waydroid). Not
+# started by default; enable with: slinitctl enable waydroid-container
+# On exit it stops the Waydroid session and the container.
+type = process
+command = /usr/bin/waydroid container start
+finish-command = /usr/libexec/slinit/waydroid-container-finish
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal

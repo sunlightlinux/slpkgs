@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit finish script: stop the session, then the container.
+set -u
+/usr/bin/waydroid session stop
+/usr/bin/waydroid container stop
