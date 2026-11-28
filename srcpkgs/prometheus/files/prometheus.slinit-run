@@ -1,0 +1,16 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. It runs as
+# _prometheus (run-as), as the daemon did under chpst.
+set -u
+MAX_OPEN_FILES=
+WRKDIR=
+ARGS=
+[ -f /etc/conf.d/prometheus ] && . /etc/conf.d/prometheus
+
+ulimit -n ${MAX_OPEN_FILES:-8192}
+
+: ${WRKDIR:=/var/lib/prometheus}
+
+cd "${WRKDIR}"
+
+exec /usr/bin/prometheus --config.file=/etc/prometheus/prometheus.yml $ARGS

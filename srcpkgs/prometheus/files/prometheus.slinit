@@ -1,0 +1,12 @@
+# prometheus -- monitoring system and time series database (prometheus).
+# Not started by default; enable with: slinitctl enable prometheus
+# Options: ARGS, MAX_OPEN_FILES and WRKDIR in /etc/conf.d/prometheus.
+type = process
+command = /usr/libexec/slinit/prometheus
+run-as = _prometheus
+# The helper sets the open-files limit from MAX_OPEN_FILES (default 8192)
+# as _prometheus, which cannot raise the hard limit; this leaves it room.
+rlimit-nofile = 8192:1048576
+depends-on: network.target
+restart = true
+log-type = journal
