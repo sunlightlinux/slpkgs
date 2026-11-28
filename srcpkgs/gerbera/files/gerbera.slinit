@@ -1,0 +1,9 @@
+# gerbera -- UPnP media server (gerbera). Not started by default; enable
+# with: slinitctl enable gerbera
+# The helper, run as gerbera, writes a default config on first start.
+type = process
+command = /usr/libexec/slinit/gerbera
+run-as = gerbera:gerbera
+depends-on: network.target
+restart = true
+log-type = journal

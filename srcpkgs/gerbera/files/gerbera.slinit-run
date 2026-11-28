@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, run as gerbera (run-as): on first start it
+# creates a default config, then runs gerbera.
+set -u
+if [ ! -d /var/lib/gerbera/.config ]; then
+	/usr/bin/mkdir -p /var/lib/gerbera/.config/gerbera
+	HOME=/var/lib/gerbera /usr/bin/gerbera --create-config > /var/lib/gerbera/.config/gerbera/config.xml
+fi
+
+exec /usr/bin/gerbera --home /var/lib/gerbera
