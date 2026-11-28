@@ -1,7 +1,7 @@
 # Template file for 'noip2'
 pkgname=noip2
 version=2.1.9r1
-revision=4
+revision=5
 short_desc="No-ip Dynamic DNS Update Client"
 maintainer="rogi <rogi@skylittlesystem.org>"
 license="GPL-2.0-or-later"
@@ -15,4 +15,5 @@ do_build() {
 do_install() {
 	vbin noip2
 	vsv noip2
+	vslinit noip2
 }
