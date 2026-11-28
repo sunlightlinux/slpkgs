@@ -1,0 +1,9 @@
+# ipp-usb -- IPP over USB for printers and scanners (ipp-usb). Mode:
+# OPTS in /etc/conf.d/ipp-usb (default standalone). Not started by
+# default; enable with: slinitctl enable ipp-usb
+type = process
+command = /usr/libexec/slinit/ipp-usb
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal

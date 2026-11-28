@@ -1,5 +1,17 @@
-Void-specific instructions:
-============================
+Sunlight Linux (slinit):
+========================
+
+ipp-usb's slinit service reads its options from /etc/conf.d/ipp-usb, and
+is not started until it is enabled:
+
+slinitctl enable ipp-usb
+
+For the on-demand mode below, the options line goes in /etc/conf.d/ipp-usb
+instead of /etc/sv/ipp-usb/conf; the runit-only steps (the down file, the
+/var/service link) do not apply.
+
+Void-specific instructions (runit):
+===================================
 
 By default, ipp-usb constantly runs in the background. It can also run on
 demand by utilizing udev rules to detect usb printers. You can enable
