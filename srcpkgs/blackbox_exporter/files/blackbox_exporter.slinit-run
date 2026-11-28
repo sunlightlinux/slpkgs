@@ -1,0 +1,17 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d and chpst -u
+# replaced by setpriv.
+set -u
+CONF_FILE=
+USER=
+ARGS=
+# Add $ARGS for more arguments to blackbox_exporter
+# $CONF_FILE is the location of the configuration file.
+
+[ -r /etc/conf.d/blackbox_exporter ] && . /etc/conf.d/blackbox_exporter || exit 1;
+[ -z "$CONF_FILE" ] && exit 2;
+
+: ${USER:=_bbox_exporter}
+
+exec /usr/bin/setpriv --reuid "$USER" --regid "$(/usr/bin/id -g "$USER")" \
+	--clear-groups -- /usr/bin/blackbox_exporter --config.file "${CONF_FILE}" ${ARGS}

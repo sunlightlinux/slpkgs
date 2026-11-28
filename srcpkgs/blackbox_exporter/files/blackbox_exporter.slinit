@@ -1,0 +1,13 @@
+# blackbox_exporter -- probes endpoints over HTTP, DNS, TCP and ICMP for
+# Prometheus (blackbox_exporter). Not started by default; enable with:
+#     slinitctl enable blackbox_exporter
+# Needs CONF_FILE (its configuration file, e.g. a copy of
+# /usr/share/examples/blackbox_exporter/example.yml) set in
+# /etc/conf.d/blackbox_exporter, which the package does not ship; without
+# it the helper exits, as the runit run script did. Also USER and ARGS
+# there. The helper runs as root and drops to USER through setpriv.
+type = process
+command = /usr/libexec/slinit/blackbox_exporter
+depends-on: network.target
+restart = true
+log-type = journal
