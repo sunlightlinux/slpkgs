@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -eu
+OPTS=
+[ -r /etc/conf.d/circadian ] && . /etc/conf.d/circadian
+exec /usr/bin/circadian ${OPTS}

@@ -1,0 +1,8 @@
+# circadian -- suspend-on-idle daemon (circadian). Not started by default;
+# enable with: slinitctl enable circadian
+# Options: OPTS in /etc/conf.d/circadian.
+type = process
+command = /usr/libexec/slinit/circadian
+depends-on: local.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'circadian'
 pkgname=circadian
 version=0.8.4
-revision=2
+revision=3
 build_style=cargo
 short_desc="Suspend-On-Idle Daemon"
 maintainer="Andrew Benson <abenson+void@gmail.com>"
@@ -16,5 +16,6 @@ post_patch() {
 
 post_install() {
 	vsv circadian
+	vslinit circadian
 	vsconf resources/circadian.conf.in circadian.conf
 }
