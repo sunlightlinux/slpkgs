@@ -1,0 +1,8 @@
+# sndiod -- sndio audio and MIDI server (sndio). Not started by default;
+# enable with: slinitctl enable sndiod
+# Options: OPTS in /etc/conf.d/sndiod.
+type = process
+command = /usr/libexec/slinit/sndiod
+depends-on: local.target
+restart = true
+log-type = journal

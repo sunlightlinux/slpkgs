@@ -1,7 +1,7 @@
 # Template file for 'sndio'
 pkgname=sndio
 version=1.10.0
-revision=1
+revision=2
 build_style=configure
 configure_args="--prefix=/usr"
 makedepends="alsa-lib-devel"
@@ -17,6 +17,7 @@ checksum=bebd3bfd01c50c9376cf3e7814b9379bed9e17d0393b5113b7eb7a3d0d038c54
 
 post_install() {
 	vsv sndiod
+	vslinit sndiod
 	sed -n '/Copyright/,/PERFORMANCE/p' <sndiod/sndiod.c >LICENSE
 }
 
