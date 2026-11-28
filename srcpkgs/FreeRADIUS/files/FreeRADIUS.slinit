@@ -1,0 +1,8 @@
+# FreeRADIUS -- RADIUS server radiusd (FreeRADIUS). Not started by default;
+# enable with: slinitctl enable FreeRADIUS
+type = process
+command = /usr/bin/radiusd -f
+run-as = _freeradius:_freeradius
+depends-on: network.target
+restart = true
+log-type = journal
