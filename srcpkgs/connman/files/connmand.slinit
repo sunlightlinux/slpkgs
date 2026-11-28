@@ -1,0 +1,11 @@
+# connmand -- the ConnMan connection manager (connman), in the
+# foreground (-n). Not started by default; enable with:
+#     slinitctl enable connmand
+# Options: OPTS in /etc/conf.d/connmand. It sets up the network itself,
+# so it does not wait for network.target.
+type = process
+command = /usr/libexec/slinit/connmand
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
