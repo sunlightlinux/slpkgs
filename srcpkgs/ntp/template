@@ -1,7 +1,7 @@
 # Template file for 'ntp'
 pkgname=ntp
 version=4.2.8p18
-revision=8
+revision=9
 build_style=gnu-configure
 configure_args="--with-crypto --enable-linuxcap --enable-ipv6 --enable-ntp-signd
  --enable-all-clocks ol_cv_pthread_select_yields=yes"
@@ -42,6 +42,7 @@ post_install() {
 		${DESTDIR}/usr/share/man/man8/isc-ntpd.8
 	vconf ${FILESDIR}/ntp.conf
 	vsv isc-ntpd
+	vslinit isc-ntpd
 	rm -r ${DESTDIR}/usr/share/doc
 	vlicense COPYRIGHT
 }

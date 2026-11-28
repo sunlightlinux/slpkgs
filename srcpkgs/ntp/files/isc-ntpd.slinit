@@ -1,0 +1,10 @@
+# isc-ntpd -- NTP daemon from ntp.org (ntp), keeps the clock right. Not
+# started by default; enable with: slinitctl enable isc-ntpd
+type = process
+command = /usr/bin/isc-ntpd -g -u ntpd:ntpd -n
+depends-on: local.target
+waits-for: network.target
+restart = true
+# Void's runit run script discards its output (>/dev/null 2>&1); isc-ntpd
+# logs through syslog, which reaches the journal anyway.
+log-type = none
