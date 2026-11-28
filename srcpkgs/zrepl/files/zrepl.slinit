@@ -1,0 +1,10 @@
+# zrepl -- ZFS backup and replication daemon (zrepl), with the
+# configuration /etc/zrepl/zrepl.yml. Not started by default; enable with:
+#     slinitctl enable zrepl
+type = process
+command = /usr/bin/zrepl --config /etc/zrepl/zrepl.yml daemon
+pre-start-command = /usr/bin/install -d -m0700 /var/run/zrepl
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
