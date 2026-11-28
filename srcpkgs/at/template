@@ -1,7 +1,7 @@
 # Template file for 'at'
 pkgname=at
 version=3.2.5
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--with-jobdir=/var/spool/atd --with-atspool=/var/spool/atd
  --sbindir=/usr/bin --with-daemon_username=at --with-daemon_groupname=at
@@ -26,5 +26,6 @@ do_install() {
 	sed -i '/chown/d' Makefile
 	make install DESTDIR="$DESTDIR" docdir=/usr/share/doc
 	vsv at
+	vslinit at
 	rm -f ${DESTDIR}/var/spool/atd/.SEQ
 }

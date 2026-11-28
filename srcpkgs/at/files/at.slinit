@@ -1,0 +1,7 @@
+# at -- the atd daemon, runs jobs queued by at(1) and batch(1) (at).
+# Not started by default; enable with: slinitctl enable at
+type = process
+command = /usr/bin/atd -f
+depends-on: local.target
+restart = true
+log-type = journal
