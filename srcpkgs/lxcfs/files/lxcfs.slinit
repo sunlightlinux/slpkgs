@@ -1,0 +1,9 @@
+# lxcfs -- FUSE filesystem for LXC, mounted on /var/lib/lxcfs (lxcfs).
+# Not started by default; enable with: slinitctl enable lxcfs
+type = process
+command = /usr/bin/lxcfs -f /var/lib/lxcfs
+depends-on: local.target
+# As runit's finish: unmount when lxcfs exits (fusermount is from fuse).
+finish-command = /usr/bin/fusermount -u /var/lib/lxcfs
+restart = true
+log-type = journal

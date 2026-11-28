@@ -1,7 +1,7 @@
 # Template file for 'lxcfs'
 pkgname=lxcfs
 version=7.0.0
-revision=1
+revision=2
 build_style=meson
 configure_args="-Dinit-script="
 hostmakedepends="pkg-config python3-Jinja2 help2man"
@@ -18,4 +18,5 @@ make_dirs="/var/lib/lxcfs 0755 root root"
 
 post_install() {
 	vsv lxcfs
+	vslinit lxcfs
 }
