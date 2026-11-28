@@ -1,0 +1,12 @@
+# nftables -- loads the firewall rules from /etc/nftables.conf (nftables).
+# Not started by default; enable with: slinitctl enable nftables
+# Stopping it flushes the ruleset. It must be in place before the network
+# is used, so it does not depend on or wait for network.target.
+type = scripted
+command = /usr/libexec/slinit/nftables
+stop-command = /usr/bin/nft flush ruleset
+start-timeout = 60
+stop-timeout = 60
+depends-on: local.target
+# Ordered before the network setup when both start.
+before: network

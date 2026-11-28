@@ -1,0 +1,4 @@
+#!/bin/sh
+set -u
+[ ! -r /etc/nftables.conf ] && exit 0
+exec /usr/bin/nft -f /etc/nftables.conf
