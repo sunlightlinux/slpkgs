@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/vsftpd-ipv6 ] && . /etc/conf.d/vsftpd-ipv6
+exec /usr/bin/vsftpd -obackground=no -olisten=no -olisten_ipv6=yes ${OPTS}

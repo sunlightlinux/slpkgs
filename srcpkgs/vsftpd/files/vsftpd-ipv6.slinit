@@ -1,0 +1,10 @@
+# vsftpd-ipv6 -- FTP server (vsftpd), listening on IPv6 (and on IPv4 where
+# the system maps it). Not started by default; enable with:
+#     slinitctl enable vsftpd-ipv6
+# Options: OPTS in /etc/conf.d/vsftpd-ipv6.
+type = process
+command = /usr/libexec/slinit/vsftpd-ipv6
+depends-on: local.target
+depends-on: network.target
+restart = true
+log-type = journal
