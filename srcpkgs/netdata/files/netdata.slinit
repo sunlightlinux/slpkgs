@@ -1,0 +1,8 @@
+# netdata -- real-time performance monitoring (netdata). Not started by
+# default; enable with: slinitctl enable netdata
+type = process
+command = /usr/bin/netdata -D
+run-as = _netdata:_netdata
+depends-on: network.target
+restart = true
+log-type = journal
