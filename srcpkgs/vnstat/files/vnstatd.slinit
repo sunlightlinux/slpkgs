@@ -1,0 +1,8 @@
+# vnstatd -- network traffic accounting daemon (vnstat). Not started by
+# default; enable with: slinitctl enable vnstatd
+type = process
+command = /usr/bin/vnstatd -n
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
