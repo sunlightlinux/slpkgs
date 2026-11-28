@@ -1,7 +1,7 @@
 # Template file for 'rdma-core'
 pkgname=rdma-core
 version=65.0
-revision=1
+revision=2
 build_style=cmake
 configure_args="-DENABLE_VALGRIND=OFF
  -DCMAKE_INSTALL_MODPROBEDIR=/usr/lib/modprobe.d
@@ -44,6 +44,7 @@ post_install() {
 		usr/lib/dracut/modules.d/50rdma
 	vinstall ${FILESDIR}/09-rdma.sh 644 etc/runit/core-services
 	vsv rdma-ndd
+	vslinit rdma-ndd
 
 	vlicense COPYING.BSD_FB
 	vlicense COPYING.BSD_MIT

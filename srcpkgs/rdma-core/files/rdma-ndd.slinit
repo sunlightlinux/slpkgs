@@ -1,0 +1,7 @@
+# rdma-ndd -- keeps RDMA node descriptions up to date (rdma-core). Not
+# started by default; enable with: slinitctl enable rdma-ndd
+type = process
+command = /usr/bin/rdma-ndd --systemd
+depends-on: local.target
+restart = true
+log-type = journal
