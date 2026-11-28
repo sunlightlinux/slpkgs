@@ -1,0 +1,8 @@
+# rsyslogd -- the rsyslog system logger (rsyslog), in the foreground (-n).
+# Not started by default; enable with: slinitctl enable rsyslogd
+# It takes /dev/log over from slinit, which serves it until then.
+type = process
+command = /usr/bin/rsyslogd -n
+depends-on: local.target
+restart = true
+log-type = journal
