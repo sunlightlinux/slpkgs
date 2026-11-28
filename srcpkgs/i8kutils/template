@@ -1,7 +1,7 @@
 # Template file for 'i8kutils'
 pkgname=i8kutils
 version=1.43
-revision=3
+revision=4
 archs="x86_64* i686*"
 build_style=gnu-makefile
 depends="acpi tcl"
@@ -23,4 +23,5 @@ do_install() {
 	vinstall i8kmon.conf 644 etc
 	vdoc README.i8kutils
 	vsv i8kmon
+	vslinit i8kmon
 }

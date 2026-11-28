@@ -1,0 +1,8 @@
+# i8kmon -- Dell laptop fan and temperature monitor (i8kutils). Not
+# started by default; enable with: slinitctl enable i8kmon
+# Options: OPTS in /etc/conf.d/i8kmon (default --nouserconfig).
+type = process
+command = /usr/libexec/slinit/i8kmon
+depends-on: local.target
+restart = true
+log-type = journal
