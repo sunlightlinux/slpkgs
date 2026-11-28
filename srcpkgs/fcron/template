@@ -1,7 +1,7 @@
 # Template file for 'fcron'
 pkgname=fcron
 version=3.4.1
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="
 	--sysconfdir=/etc/fcron
@@ -74,4 +74,5 @@ post_install() {
 	vinstall $FILESDIR/systab.orig 640 var/spool/fcron
 
 	vsv fcron
+	vslinit fcron
 }
