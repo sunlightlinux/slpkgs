@@ -1,4 +1,6 @@
 #!/bin/sh
-if sv status squid | grep -q '^run'; then
+if command -v slinitctl >/dev/null 2>&1; then
+	slinitctl is-started squid >/dev/null 2>&1 && squid -k rotate
+elif sv status squid | grep -q '^run'; then
 	squid -k rotate
 fi
