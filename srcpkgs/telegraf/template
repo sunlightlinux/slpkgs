@@ -1,7 +1,7 @@
 # Template file for 'telegraf'
 pkgname=telegraf
 version=1.39.3
-revision=2
+revision=3
 build_style=go
 go_import_path=github.com/influxdata/telegraf
 go_package="${go_import_path}/cmd/telegraf"
@@ -13,6 +13,7 @@ homepage="https://www.influxdata.com/time-series-platform/telegraf/"
 distfiles="https://github.com/influxdata/${pkgname}/archive/v${version}.tar.gz"
 checksum=13b4186fac9a9d29858c532b73efc41e0a1ac8ce93a615b59d5a6e589e71ab2f
 system_accounts="_telegraf"
+conf_files="/etc/conf.d/telegraf"
 
 if [ "$XBPS_TARGET_WORDSIZE" = 32 ]; then
 	broken="influxdata droppped support for 32 bit"
@@ -28,4 +29,5 @@ esac
 post_install() {
 	vlicense LICENSE
 	vsv ${pkgname}
+	vslinit telegraf
 }

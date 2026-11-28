@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; chpst -u is
+# run-as in the service.
+set -u
+TELEGRAF_CONF=
+TELEGRAF_CONFDIR=
+TELEGRAF_CONF_LINE=
+TELEGRAF_CONFDIR_LINE=
+[ -r /etc/conf.d/telegraf ] && . /etc/conf.d/telegraf
+
+exec /usr/bin/telegraf "$TELEGRAF_CONF_LINE" "$TELEGRAF_CONFDIR_LINE"

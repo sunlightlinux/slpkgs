@@ -1,0 +1,9 @@
+# telegraf -- plugin-driven agent for collecting and reporting metrics
+# (telegraf). Not started by default; enable with: slinitctl enable telegraf
+# Settings: TELEGRAF_CONF and TELEGRAF_CONFDIR in /etc/conf.d/telegraf.
+type = process
+command = /usr/libexec/slinit/telegraf
+run-as = _telegraf:_telegraf
+depends-on: network.target
+restart = true
+log-type = journal
