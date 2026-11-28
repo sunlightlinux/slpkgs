@@ -1,7 +1,11 @@
 #!/bin/sh
-# Void's runit service runs dockerd with the same limits and the loop module.
-modprobe -q loop 2>/dev/null
-modprobe -q br_netfilter 2>/dev/null
+# The limits and modules of Void's runit service. Options: OPTS in
+# /etc/conf.d/docker (Void's runit conf moved there).
+set -u
+OPTS=
+[ -r /etc/conf.d/docker ] && . /etc/conf.d/docker
+/usr/bin/modprobe -q loop 2>/dev/null
+/usr/bin/modprobe -q br_netfilter 2>/dev/null
 ulimit -n 1048576 2>/dev/null
 ulimit -u 1048576 2>/dev/null
-exec dockerd --containerd=/run/containerd/containerd.sock
+exec /usr/bin/dockerd --containerd=/run/containerd/containerd.sock ${OPTS}

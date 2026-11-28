@@ -16,3 +16,4 @@ stop-timeout = 45
 restart = true
 cgroup = /sys/fs/cgroup/docker.service
 delegate = cpu cpuset io memory pids hugetlb
+log-type = journal
