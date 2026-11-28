@@ -1,0 +1,10 @@
+# virtproxyd -- libvirt proxy daemon for remote clients (libvirt).
+# Not started by default; enable with: slinitctl enable virtproxyd
+# Options: OPTS in /etc/conf.d/virtproxyd.
+type = process
+command = /usr/libexec/slinit/virtproxyd
+depends-on: dbus
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

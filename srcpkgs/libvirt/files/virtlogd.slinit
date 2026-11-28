@@ -1,0 +1,9 @@
+# virtlogd -- libvirt log manager daemon (libvirt).
+# Not started by default; enable with: slinitctl enable virtlogd
+# Options: OPTS in /etc/conf.d/virtlogd.
+type = process
+command = /usr/libexec/slinit/virtlogd
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal

@@ -1,0 +1,10 @@
+# libvirtd -- legacy monolithic libvirt daemon (libvirt).
+# Not started by default; enable with: slinitctl enable libvirtd
+# Options: OPTS in /etc/conf.d/libvirtd.
+type = process
+command = /usr/libexec/slinit/libvirtd
+depends-on: dbus
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

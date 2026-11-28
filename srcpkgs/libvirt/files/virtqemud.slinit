@@ -1,0 +1,9 @@
+# virtqemud -- libvirt QEMU driver daemon (libvirt).
+# Not started by default; enable with: slinitctl enable virtqemud
+# Options: OPTS in /etc/conf.d/virtqemud.
+type = process
+command = /usr/libexec/slinit/virtqemud
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal

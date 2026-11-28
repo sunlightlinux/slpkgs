@@ -1,0 +1,9 @@
+# virtnetworkd -- libvirt virtual network driver daemon (libvirt).
+# Not started by default; enable with: slinitctl enable virtnetworkd
+# Options: OPTS in /etc/conf.d/virtnetworkd.
+type = process
+command = /usr/libexec/slinit/virtnetworkd
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal

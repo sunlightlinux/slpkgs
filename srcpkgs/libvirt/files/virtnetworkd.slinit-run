@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; its
+# sv check dbus is the service's depends-on: dbus.
+set -u
+OPTS=
+[ -r /etc/conf.d/virtnetworkd ] && . /etc/conf.d/virtnetworkd
+exec /usr/bin/virtnetworkd $OPTS

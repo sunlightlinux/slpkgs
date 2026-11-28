@@ -1,0 +1,9 @@
+# virtvboxd -- libvirt VirtualBox driver daemon (libvirt).
+# Not started by default; enable with: slinitctl enable virtvboxd
+# Options: OPTS in /etc/conf.d/virtvboxd.
+type = process
+command = /usr/libexec/slinit/virtvboxd
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal

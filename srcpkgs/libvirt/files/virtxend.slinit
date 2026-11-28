@@ -1,0 +1,10 @@
+# virtxend -- libvirt Xen driver daemon (libvirt).
+# Not started by default; enable with: slinitctl enable virtxend
+# Options: OPTS in /etc/conf.d/virtxend.
+# Built only for x86_64, where Xen is available.
+type = process
+command = /usr/libexec/slinit/virtxend
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal

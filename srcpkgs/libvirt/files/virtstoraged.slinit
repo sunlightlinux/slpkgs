@@ -1,0 +1,9 @@
+# virtstoraged -- libvirt storage driver daemon (libvirt).
+# Not started by default; enable with: slinitctl enable virtstoraged
+# Options: OPTS in /etc/conf.d/virtstoraged.
+type = process
+command = /usr/libexec/slinit/virtstoraged
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal

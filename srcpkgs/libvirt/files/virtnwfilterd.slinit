@@ -1,0 +1,9 @@
+# virtnwfilterd -- libvirt network filter driver daemon (libvirt).
+# Not started by default; enable with: slinitctl enable virtnwfilterd
+# Options: OPTS in /etc/conf.d/virtnwfilterd.
+type = process
+command = /usr/libexec/slinit/virtnwfilterd
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal

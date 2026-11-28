@@ -1,0 +1,9 @@
+# virtlockd -- libvirt lock manager daemon (libvirt).
+# Not started by default; enable with: slinitctl enable virtlockd
+# Options: OPTS in /etc/conf.d/virtlockd.
+type = process
+command = /usr/libexec/slinit/virtlockd
+depends-on: dbus
+depends-on: local.target
+restart = true
+log-type = journal
