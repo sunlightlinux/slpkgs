@@ -1,0 +1,7 @@
+# strongswan -- charon, the strongSwan IKE daemon (strongswan). Not
+# started by default; enable with: slinitctl enable strongswan
+type = process
+command = /usr/libexec/ipsec/charon
+depends-on: network.target
+restart = true
+log-type = journal
