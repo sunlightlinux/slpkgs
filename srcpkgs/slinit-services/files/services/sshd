@@ -1,6 +1,0 @@
-# sshd — OpenSSH server (slinit-services). Not enabled by default;
-# enable with: slinitctl enable sshd
-type = process
-command = /usr/libexec/slinit-services/sshd
-depends-on: network
-restart = true

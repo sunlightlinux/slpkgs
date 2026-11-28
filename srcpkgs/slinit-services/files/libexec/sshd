@@ -1,5 +1,0 @@
-#!/bin/sh
-# sshd — generate host keys on first start, then run sshd in the
-# foreground (-D), logging to stderr (-e), so slinit supervises it.
-[ -f /etc/ssh/ssh_host_ed25519_key ] || ssh-keygen -A
-exec /usr/bin/sshd -D -e

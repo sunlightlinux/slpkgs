@@ -1,8 +1,0 @@
-# crond -- runs crontabs (slinit-services). Same invocation as Void's runit
-# service, with mail off, as no mail transport is installed. Skipped where
-# cronie is not installed.
-type = process
-command = /usr/bin/cronie-crond -n -s -m off
-condition-path-exists = /usr/bin/cronie-crond
-depends-on: misc
-restart = true

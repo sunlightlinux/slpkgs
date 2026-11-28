@@ -1,0 +1,8 @@
+# network.target — the network setup has run (slinit-services). A daemon
+# that needs the network says `depends-on: network.target` or, if it
+# copes without it, `waits-for: network.target`, rather than naming
+# the service that configures it. Reached even when that service fails
+# (no cable, no DHCP server), so it does not take its dependents down.
+type = internal
+depends-on: local.target
+waits-for: network

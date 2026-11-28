@@ -1,20 +1,16 @@
 # boot — the service slinit starts as PID 1 (slinit-services).
 #
-# Optional services are enabled by a link in /etc/slinit.d/boot.d:
-#     slinitctl enable sshd
-# (or slinitctl --offline enable sshd, from a chroot).
+# Two levels, as in Chimera Linux's dinit-chimera:
+#   system  the distribution's set: the core services named there, and
+#           every service a package enabled by default with
+#           `vslinit <name> enable` (links in /usr/lib/slinit.d/boot.d);
+#   boot    system, plus what the admin enabled (links in
+#           /etc/slinit.d/boot.d):
+#               slinitctl enable docker
+#           or, from a chroot: slinitctl --offline enable docker
+#
+# An entry in either directory whose service is not installed is skipped
+# with a message, so removing a package never stops the boot.
 type = internal
-depends-on: misc
-waits-for: network
-waits-for: getty-tty1
-waits-for: getty-ttyS0
-waits-for: qemu-ga
-waits-for: chronyd
-waits-for: journald
-waits-for: acpid
-waits-for: crond
-waits-for: dbus
-waits-for: logind
-waits-for: containerd
-waits-for: docker
+depends-on: system
 waits-for.d: /etc/slinit.d/boot.d

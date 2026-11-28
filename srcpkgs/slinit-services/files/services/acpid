@@ -1,9 +1,0 @@
-# acpid -- acts on the power button (slinit-services). Without it a power
-# button, or a hypervisor's shutdown request without a guest agent, does
-# nothing: measured, a VM was still running 25 s after system_powerdown.
-# Same invocation as Void's runit service. Skipped where acpid is not installed.
-type = process
-command = /usr/bin/acpid -f -l
-condition-path-exists = /usr/bin/acpid
-depends-on: misc
-restart = true

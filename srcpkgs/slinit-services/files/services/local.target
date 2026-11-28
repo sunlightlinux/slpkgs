@@ -1,0 +1,5 @@
+# local.target — local filesystems mounted, root read-write, and the
+# misc setup done (slinit-services). Depend on this rather than on misc
+# or filesystems by name, so the steps behind it can change.
+type = internal
+depends-on: misc

@@ -1,12 +1,12 @@
 # Template file for 'slinit-services'
 pkgname=slinit-services
 version=20261108
-revision=12
+revision=13
 short_desc="Core boot services for slinit as PID 1"
 maintainer="Ionut Nechita <ionut_n2001@yahoo.com>"
 license="Apache-2.0, CC0-1.0"
 homepage="https://github.com/sunlightlinux/slinit"
-depends="slinit>=3.22.0 eudev kmod util-linux coreutils kbd iproute2 dhcpcd virtual?awk"
+depends="slinit>=3.22.0 eudev kmod util-linux coreutils kbd iproute2 dhcpcd virtual?awk dbus"
 conflicts="runit-void sunlight-slinit-services"
 conf_files="/etc/slinit/shutdown-hook"
 make_dirs="/etc/slinit.d/boot.d 0755 root root"
@@ -31,6 +31,12 @@ make_dirs="/etc/slinit.d/boot.d 0755 root root"
 # still gets the resume module and the console keymap for a LUKS
 # passphrase prompt.
 #
+# Daemons from other packages are not here: each package ships its own
+# service with vslinit (dbus, chrony, cronie, acpid, openssh, moby,
+# containerd, qemu-ga, ...), and the ones on by default enable themselves
+# through /usr/lib/slinit.d/boot.d, which the "system" service reads.
+# dbus is a dependency because logind, which is here, needs the bus.
+#
 # Service files go to /usr/lib/slinit.d, which slinit searches after
 # /etc/slinit.d: a file of the same name in /etc/slinit.d overrides one
 # here, and package updates never touch the admin's copy.
@@ -46,8 +52,8 @@ do_install() {
 		vinstall ${f} 644 usr/lib/slinit.d
 	done
 	vinstall ${FILESDIR}/dbus/slinit-logind.conf 644 usr/share/dbus-1/system.d
-	for f in early-setup udev-trigger filesystems misc network sshd \
-		modules-load dbus containerd docker; do
+	for f in early-setup udev-trigger filesystems misc network \
+		modules-load; do
 		vinstall ${FILESDIR}/libexec/${f} 755 usr/libexec/slinit-services
 	done
 	vinstall ${FILESDIR}/libexec/crypt.awk 644 usr/libexec/slinit-services

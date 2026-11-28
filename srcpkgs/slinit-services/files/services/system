@@ -1,0 +1,14 @@
+# system — the distribution's default set (slinit-services). See boot.
+#
+# The core services are named here; slinit-services ships all of them.
+# Daemons from other packages are not: a waits-for on a service that is
+# not installed would stop boot from loading. They join through
+# /usr/lib/slinit.d/boot.d instead, where a missing one is skipped.
+type = internal
+depends-on: local.target
+waits-for: network.target
+waits-for: getty-tty1
+waits-for: getty-ttyS0
+waits-for: journald
+waits-for: logind
+waits-for.d: /usr/lib/slinit.d/boot.d
