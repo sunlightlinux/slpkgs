@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/geomyidae ] && . /etc/conf.d/geomyidae
+
+user=_geomyidae
+group=_geomyidae
+
+exec /usr/bin/geomyidae -d -u $user -g $group $OPTS

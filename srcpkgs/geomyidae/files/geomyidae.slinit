@@ -1,0 +1,8 @@
+# geomyidae -- gopher server (geomyidae). Not started by default; enable
+# with: slinitctl enable geomyidae
+# Options: OPTS in /etc/conf.d/geomyidae.
+type = process
+command = /usr/libexec/slinit/geomyidae
+depends-on: network.target
+restart = true
+log-type = journal
