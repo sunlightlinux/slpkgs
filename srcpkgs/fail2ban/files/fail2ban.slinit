@@ -1,0 +1,8 @@
+# fail2ban -- bans hosts that fail to authenticate (fail2ban). Not started
+# by default; enable with: slinitctl enable fail2ban
+type = process
+command = /usr/bin/fail2ban-server -f
+pre-start-command = /usr/bin/mkdir -p /var/run/fail2ban
+depends-on: local.target
+restart = true
+log-type = journal
