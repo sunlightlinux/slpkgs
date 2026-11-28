@@ -1,0 +1,8 @@
+# ardor -- the Ardor blockchain node (ardor). Not started by default;
+# enable with: slinitctl enable ardor
+# Its standard output is discarded; standard error goes to the journal.
+type = process
+command = /usr/libexec/slinit/ardor
+depends-on: network.target
+restart = true
+log-type = journal

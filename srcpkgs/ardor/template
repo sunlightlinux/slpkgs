@@ -1,7 +1,7 @@
 # Template file for 'ardor'
 pkgname=ardor
 version=2.2.6
-revision=1
+revision=2
 hostmakedepends="unzip"
 depends="virtual?java-runtime"
 short_desc="Client for the Ardor Platform"
@@ -21,7 +21,9 @@ do_install() {
 	vbin ardor-tor
 
 	vsv ardor
+	vslinit ardor
 	vsv ardor-tor
+	vslinit ardor-tor
 
 	vlicense LICENSE.txt
 

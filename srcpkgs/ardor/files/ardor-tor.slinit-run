@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+# Standard output is discarded, as the runit run script did; standard
+# error goes to the journal.
+exec /usr/bin/ardor-tor >/dev/null

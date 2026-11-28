@@ -1,0 +1,9 @@
+# ardor-tor -- the Ardor blockchain node, connecting through Tor
+# (ardor). Not started by default; enable with:
+#     slinitctl enable ardor-tor
+# Its standard output is discarded; standard error goes to the journal.
+type = process
+command = /usr/libexec/slinit/ardor-tor
+depends-on: network.target
+restart = true
+log-type = journal
