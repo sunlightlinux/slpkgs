@@ -1,0 +1,8 @@
+# sssd -- System Security Services Daemon (sssd). Not started by default;
+# enable with: slinitctl enable sssd
+type = process
+command = /usr/bin/sssd -i
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
