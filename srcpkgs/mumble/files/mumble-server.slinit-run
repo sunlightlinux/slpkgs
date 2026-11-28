@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+CONFIG_FILE=
+OPTS=
+[ -r /etc/conf.d/mumble-server ] && . /etc/conf.d/mumble-server
+exec /usr/bin/mumble-server -fg -ini ${CONFIG_FILE:-/etc/murmur.ini} ${OPTS}

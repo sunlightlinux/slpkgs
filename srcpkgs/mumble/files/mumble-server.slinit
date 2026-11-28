@@ -1,0 +1,9 @@
+# mumble-server -- Mumble voice chat server (murmur). Not started by
+# default; enable with: slinitctl enable mumble-server
+# Options: CONFIG_FILE and OPTS in /etc/conf.d/mumble-server.
+type = process
+command = /usr/libexec/slinit/mumble-server
+run-as = _murmur:_murmur
+depends-on: network.target
+restart = true
+log-type = journal
