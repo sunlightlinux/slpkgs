@@ -1,7 +1,7 @@
 # Template file for 'mdadm'
 pkgname=mdadm
 version=4.4
-revision=1
+revision=2
 hostmakedepends="pkg-config"
 makedepends="eudev-libudev-devel"
 short_desc="Tool for managing/monitoring Linux md device arrays"
@@ -22,5 +22,6 @@ do_build() {
 do_install() {
 	make BINDIR=/usr/bin STRIP= PREFIX=/usr DESTDIR=${DESTDIR} install
 	vsv mdadm
+	vslinit mdadm
 	vsconf documentation/mdadm.conf-example mdadm.conf
 }
