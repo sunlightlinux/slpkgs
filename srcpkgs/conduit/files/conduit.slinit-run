@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+MAX_OPEN_FILES=
+CONDUIT_CONFIG=
+[ -r /etc/conf.d/conduit ] && . /etc/conf.d/conduit
+ulimit -n ${MAX_OPEN_FILES:-8192}
+export CONDUIT_CONFIG=${CONDUIT_CONFIG:-/etc/conduit/conduit.toml}
+exec /usr/bin/conduit

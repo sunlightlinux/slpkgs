@@ -1,0 +1,12 @@
+# conduit -- Matrix homeserver (conduit). Not started by default; enable
+# with: slinitctl enable conduit
+# Options: CONDUIT_CONFIG and MAX_OPEN_FILES in /etc/conf.d/conduit. The hard
+# open-files limit is raised here so the helper, running as _conduit, can set
+# MAX_OPEN_FILES as the runit service did as root before chpst.
+type = process
+command = /usr/libexec/slinit/conduit
+run-as = _conduit:_conduit
+rlimit-nofile = 8192:1048576
+depends-on: network.target
+restart = true
+log-type = journal

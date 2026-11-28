@@ -1,7 +1,7 @@
 # Template file for 'conduit'
 pkgname=conduit
 version=0.10.17
-revision=1
+revision=2
 build_style=cargo
 hostmakedepends="clang pkg-config"
 makedepends="libzstd-devel sqlite-devel"
@@ -33,4 +33,5 @@ esac
 post_install() {
 	vsconf conduit-example.toml conduit.toml
 	vsv conduit
+	vslinit conduit
 }
