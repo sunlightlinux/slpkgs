@@ -1,0 +1,7 @@
+# krb5kdc -- MIT Kerberos 5 key distribution center (mit-krb5). Not
+# started by default; enable with: slinitctl enable krb5kdc
+type = process
+command = /usr/bin/krb5kdc -n
+depends-on: network.target
+restart = true
+log-type = journal
