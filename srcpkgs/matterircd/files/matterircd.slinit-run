@@ -1,0 +1,7 @@
+#!/bin/sh
+# matterircd -- run the IRC gateway in the foreground.
+# Configuration file: CONFIG in /etc/conf.d/matterircd.
+set -u
+CONFIG=
+[ -r /etc/conf.d/matterircd ] && . /etc/conf.d/matterircd
+exec /usr/bin/matterircd --conf "${CONFIG:-/etc/matterircd/matterircd.toml}"
