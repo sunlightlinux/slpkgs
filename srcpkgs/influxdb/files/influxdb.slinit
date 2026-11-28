@@ -1,0 +1,8 @@
+# influxdb -- time series database (influxdb). Not started by default;
+# enable with: slinitctl enable influxdb
+type = process
+command = /usr/bin/influxd -config /etc/influxdb/influxdb.conf
+run-as = _influxdb:_influxdb
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'influxdb'
 pkgname=influxdb
 version=1.8.3
-revision=5
+revision=6
 build_style=go
 go_import_path=github.com/influxdata/influxdb
 go_package="${go_import_path}/cmd/influx
@@ -31,6 +31,7 @@ post_build() {
 post_install() {
 	vlicense LICENSE
 	vsv ${pkgname}
+	vslinit influxdb
 	vinstall etc/config.sample.toml 644 etc/${pkgname} ${pkgname}.conf
 
 	make -C man DESTDIR="${DESTDIR}/usr" install
