@@ -1,0 +1,9 @@
+# boltd -- Thunderbolt 3 device manager (bolt). Not started by default;
+# enable with: slinitctl enable boltd
+type = process
+command = /usr/libexec/boltd
+depends-on: local.target
+depends-on: dbus
+restart = true
+# Void's runit run script discards boltd's output (>/dev/null 2>&1).
+log-type = none
