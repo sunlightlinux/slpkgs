@@ -3,10 +3,12 @@
 # default (vslinit enable), and skipped wherever it has nothing to do: on bare
 # metal and on a VM without the channel. Same invocation as Void's runit
 # service: the defaults are virtio-serial on
-# /dev/virtio-ports/org.qemu.guest_agent.0.
+# /dev/virtio-ports/org.qemu.guest_agent.0. Options: OPTS in
+# /etc/conf.d/qemu-ga.
 type = process
-command = /usr/bin/qemu-ga
+command = /usr/libexec/slinit/qemu-ga
 condition-path-exists = /dev/virtio-ports/org.qemu.guest_agent.0
 # The /dev/virtio-ports link is made by udev, so look for it after.
 waits-for: udev-trigger
 restart = true
+log-type = journal
