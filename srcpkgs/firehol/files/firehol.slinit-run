@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit run script: nothing to load without a firehol.conf.
+set -u
+[ ! -e /etc/firehol/firehol.conf ] && exit 0
+exec /usr/bin/firehol start

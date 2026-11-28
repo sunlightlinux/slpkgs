@@ -1,0 +1,7 @@
+# firehol -- loads the firewall of /etc/firehol/firehol.conf at start and
+# clears it when the service stops (firehol). Not started by default;
+# enable with: slinitctl enable firehol
+type = scripted
+command = /usr/libexec/slinit/firehol
+stop-command = /usr/bin/firehol stop
+depends-on: local.target
