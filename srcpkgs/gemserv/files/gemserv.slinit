@@ -1,0 +1,10 @@
+# gemserv -- Gemini server (gemserv). Not started by default; enable with:
+#     slinitctl enable gemserv
+# Configuration file: CONF in /etc/conf.d/gemserv (default:
+# /etc/gemserv.conf).
+type = process
+command = /usr/libexec/slinit/gemserv
+run-as = _gemserv
+depends-on: network.target
+restart = true
+log-type = journal

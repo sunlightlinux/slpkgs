@@ -1,0 +1,7 @@
+#!/bin/sh
+# gemserv -- run the Gemini server in the foreground.
+# Configuration file: CONF in /etc/conf.d/gemserv.
+set -u
+CONF=
+[ -r /etc/conf.d/gemserv ] && . /etc/conf.d/gemserv
+exec /usr/bin/gemserv ${CONF:-/etc/gemserv.conf}
