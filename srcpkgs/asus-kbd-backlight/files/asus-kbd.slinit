@@ -1,0 +1,6 @@
+# asus-kbd -- lets members of the users group change the ASUS keyboard
+# backlight (asus-kbd-backlight). Not started by default; enable with:
+#     slinitctl enable asus-kbd
+type = scripted
+command = /usr/bin/asus-kbd-backlight allowusers
+depends-on: local.target

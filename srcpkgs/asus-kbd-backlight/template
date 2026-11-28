@@ -1,7 +1,7 @@
 # Template file for 'asus-kbd-backlight'
 pkgname=asus-kbd-backlight
 version=1.2
-revision=2
+revision=3
 create_wrksrc=yes
 depends="bash"
 short_desc="Helper for adjusting keyboard backlight brightness in Asus Zenbook"
@@ -16,4 +16,5 @@ do_check() {
 do_install() {
 	vbin $FILESDIR/asus-kbd-backlight
 	vsv asus-kbd
+	vslinit asus-kbd
 }
