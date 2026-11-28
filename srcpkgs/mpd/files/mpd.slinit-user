@@ -1,0 +1,8 @@
+# mpd -- Music Player Daemon for one user (mpd). A user service; not
+# started by default; enable with: slinitctl --user enable mpd
+# Reads the user's ~/.config/mpd/mpd.conf (or ~/.mpdconf); without one
+# it falls back to /etc/mpd.conf, which is set up for the system service.
+type = process
+command = /usr/bin/mpd --no-daemon
+restart = true
+log-type = journal
