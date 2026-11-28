@@ -1,0 +1,35 @@
+#!/bin/sh
+# kdump -- the logic of runit-kdump's 07-kdump.sh, for slinit.
+if [ -e /proc/vmcore ] && ! /usr/bin/grep -q nokdump /proc/cmdline; then
+	DIR="/var/crash/$(/usr/bin/date +%Y%m%d-%H%M%S)"
+	echo "Found kernel crash dump, saving vmcore to $DIR..."
+	/usr/bin/mkdir -p "$DIR"
+	/usr/bin/makedumpfile -l --message-level 1 -d 31 /proc/vmcore "$DIR"/vmcore.incomplete &&
+		/usr/bin/mv "$DIR"/vmcore.incomplete "$DIR"/vmcore
+	echo "Found kernel crash dump, saving dmesg to $DIR..."
+	/usr/bin/vmcore-dmesg /proc/vmcore >"$DIR"/vmcore-dmesg.txt.incomplete &&
+		/usr/bin/mv "$DIR"/vmcore-dmesg.txt.incomplete "$DIR"/vmcore-dmesg.txt
+	/usr/bin/sync
+	echo "Crash dump done, triggering reboot."
+	/usr/bin/slinitctl shutdown reboot
+	# Hold the boot here until the reboot stops this service.
+	exec /usr/bin/sleep infinity
+fi
+
+if [ "$(/usr/bin/cat /sys/kernel/kexec_crash_size)" = 0 ]; then
+	echo "Loading crash kernel skipped, booted without crashkernel=NNN."
+	exit 0
+fi
+
+KVER="$(/usr/bin/uname -r)"
+if [ -f /boot/initramfs-${KVER}kdump.img ]; then
+	INITRD=/boot/initramfs-${KVER}kdump.img
+else
+	INITRD=/boot/initramfs-${KVER}.img
+fi
+
+APPEND="irqpoll nr_cpus=1 maxcpus=1 reset_devices udev.children-max=2 panic=10 cgroup_disable=memory mce=off numa=off"
+
+echo "Loading crash kernel..."
+exec /usr/bin/kexec --load-panic /boot/vmlinuz-${KVER} \
+	--initrd="$INITRD" --reuse-cmdline --append="$APPEND"

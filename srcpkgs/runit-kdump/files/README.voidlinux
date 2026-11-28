@@ -6,3 +6,8 @@ runit stage 1 to /var/crash.
 
 You can place a custom initrd used for crash dumping as
 /boot/initramfs-${KERNELVERSION}kdump.img.
+
+On Sunlight (slinit as PID 1) the same work is done by the kdump slinit
+service, which the package enables: it saves the dump before local.target
+and then reboots with `slinitctl shutdown reboot`. Disable it with
+`slinitctl disable kdump`; boot with nokdump to skip one dump.

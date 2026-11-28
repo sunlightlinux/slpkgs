@@ -1,0 +1,15 @@
+# kdump -- saves a kernel crash dump to /var/crash, or loads the crash
+# kernel for the next one (runit-kdump). Started by default: the runit
+# boot hook it replaces ran on every boot while the package was
+# installed. Booted without crashkernel=NNN, it loads nothing and says so.
+#
+# In the crash kernel (/proc/vmcore exists) it saves the dump, asks slinit
+# to reboot, and stays starting, so local.target and everything after it
+# never start in the crash kernel; runit's stage 1 did the same with
+# exit 100. Boot with nokdump to skip the dump.
+type = scripted
+command = /usr/libexec/slinit/kdump
+depends-on: filesystems
+before: local.target
+start-timeout = 0
+restart = false
