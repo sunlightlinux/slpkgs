@@ -1,0 +1,9 @@
+# nextdns -- NextDNS DNS-over-HTTPS proxy (nextdns). Not started by
+# default; enable with: slinitctl enable nextdns
+# Options: OPTS in /etc/conf.d/nextdns (default
+# -config-file /etc/nextdns.conf).
+type = process
+command = /usr/libexec/slinit/nextdns
+depends-on: network.target
+restart = true
+log-type = journal
