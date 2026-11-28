@@ -1,0 +1,10 @@
+# zabbix-proxy -- Zabbix monitoring proxy (zabbix-proxy), as user
+# _zabbix_proxy, in the foreground (-f). Not started by default;
+# enable with: slinitctl enable zabbix-proxy
+type = process
+command = /usr/bin/zabbix_proxy -f -c /etc/zabbix_proxy.conf
+run-as = _zabbix_proxy:_zabbix_proxy
+pre-start-command = +/usr/bin/install -d -m0750 -o _zabbix_proxy -g _zabbix_proxy /run/zabbix-proxy
+depends-on: network.target
+restart = true
+log-type = journal

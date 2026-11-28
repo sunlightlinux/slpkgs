@@ -1,0 +1,11 @@
+# zabbix-server -- Zabbix monitoring server (zabbix), as user
+# _zabbix_server, in the foreground (-f). Not started by default;
+# enable with: slinitctl enable zabbix-server
+type = process
+command = /usr/bin/zabbix_server -f -c /etc/zabbix_server.conf
+run-as = _zabbix_server:_zabbix_server
+pre-start-command = +/usr/bin/install -d -m0750 -o _zabbix_server -g _zabbix_server /run/zabbix-server
+depends-on: network.target
+depends-on: mysqld
+restart = true
+log-type = journal

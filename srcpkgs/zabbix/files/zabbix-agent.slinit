@@ -1,0 +1,10 @@
+# zabbix-agent -- Zabbix monitoring agent (zabbix-agent), as user
+# _zabbix_agent, in the foreground (-f). Not started by default;
+# enable with: slinitctl enable zabbix-agent
+type = process
+command = /usr/bin/zabbix_agentd -f -c /etc/zabbix_agentd.conf
+run-as = _zabbix_agent:_zabbix_agent
+pre-start-command = +/usr/bin/install -d -m0750 -o _zabbix_agent -g _zabbix_agent /run/zabbix-agentd
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'zabbix'
 pkgname=zabbix
 version=7.4.6
-revision=2
+revision=3
 build_style=gnu-configure
 configure_args="--with-gnutls --with-libcurl --with-libxml2=yes --with-net-snmp
  --with-mysql --enable-server --enable-ipv6 --with-ssh2 --enable-agent
@@ -35,6 +35,7 @@ pre_configure() {
 
 post_install() {
 	vsv zabbix-server
+	vslinit zabbix-server
 
 	vinstall database/mysql/schema.sql 755 usr/share/zabbix/mysql
 	vinstall database/mysql/data.sql 755 usr/share/zabbix/mysql
@@ -66,6 +67,7 @@ zabbix-agent_package() {
 		vmove usr/share/man/man8/zabbix_agentd.8
 		vmove etc/zabbix_agentd.conf
 		vsv zabbix-agent
+		vslinit zabbix-agent
 	}
 }
 
@@ -92,6 +94,7 @@ zabbix-proxy_package() {
 		vmove usr/share/man/man8/zabbix_proxy.8
 		vmove etc/zabbix_proxy.conf
 		vsv zabbix-proxy
+		vslinit zabbix-proxy
 	}
 }
 
