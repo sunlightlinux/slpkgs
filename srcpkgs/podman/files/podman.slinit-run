@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/podman ] && . /etc/conf.d/podman
+exec /usr/bin/podman --log-level info system service ${OPTS:---time=0}

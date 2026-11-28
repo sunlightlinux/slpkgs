@@ -1,0 +1,10 @@
+# podman -- Podman API service on /run/podman/podman.sock (podman). Not
+# started by default; enable with: slinitctl enable podman
+# Options: OPTS in /etc/conf.d/podman (default --time=0, never exit when
+# idle).
+type = process
+command = /usr/libexec/slinit/podman
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
