@@ -1,0 +1,8 @@
+# ldm -- lightweight device mounter (ldm). Not started by default; enable
+# with: slinitctl enable ldm
+# Options: OPTS in /etc/conf.d/ldm.
+type = process
+command = /usr/libexec/slinit/ldm
+depends-on: local.target
+restart = true
+log-type = journal

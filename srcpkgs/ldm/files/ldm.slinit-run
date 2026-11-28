@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -s /etc/conf.d/ldm ] && . /etc/conf.d/ldm
+exec /usr/bin/ldm ${OPTS:=-u nobody}
