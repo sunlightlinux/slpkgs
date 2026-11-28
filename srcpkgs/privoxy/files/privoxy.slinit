@@ -1,0 +1,8 @@
+# privoxy -- non-caching filtering web proxy (privoxy). Not started by
+# default; enable with: slinitctl enable privoxy
+type = process
+command = /usr/bin/privoxy --no-daemon /etc/privoxy/config
+run-as = privoxy:privoxy
+depends-on: network.target
+restart = true
+log-type = journal

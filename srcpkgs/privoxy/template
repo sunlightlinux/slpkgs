@@ -1,7 +1,7 @@
 # Template file for 'privoxy'
 pkgname=privoxy
 version=4.1.0
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="
  --sysconfdir=/etc/privoxy
@@ -39,6 +39,7 @@ pre_configure() {
 
 post_install() {
 	vsv privoxy
+	vslinit privoxy
 
 	# privoxy writes logs to stdout with --no-daemon
 	rm -r ${DESTDIR}/var/log/privoxy
