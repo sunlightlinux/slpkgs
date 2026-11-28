@@ -1,0 +1,22 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d and chpst -u
+# replaced by setpriv.
+set -u
+RUNIT_COLLECTOR=
+LISTEN_ADDR=
+USE_LOCAL_USER=
+USER=
+ARGS=
+# Add $ARGS for more arguments to node_exporter
+[ -r /etc/conf.d/node_exporter ] && . /etc/conf.d/node_exporter
+
+: ${RUNIT_COLLECTOR:='--collector.runit --collector.runit.servicedir /var/service'}
+[ -n "${LISTEN_ADDR}" ] && LISTEN_ADDR="--web.listen-address ${LISTEN_ADDR}"
+
+# Not by default since the runit collector needs root, no magic group for runit access.
+[ -n "${USE_LOCAL_USER}" ] && : ${USER:=_node_exporter}
+if [ -n "${USER}" ]; then
+	exec /usr/bin/setpriv --reuid "${USER}" --regid "$(/usr/bin/id -g "${USER}")" \
+		--clear-groups -- /usr/bin/node_exporter ${RUNIT_COLLECTOR} ${LISTEN_ADDR} ${ARGS}
+fi
+exec /usr/bin/node_exporter ${RUNIT_COLLECTOR} ${LISTEN_ADDR} ${ARGS}

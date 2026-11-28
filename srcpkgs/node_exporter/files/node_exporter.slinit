@@ -1,0 +1,14 @@
+# node_exporter -- exports machine metrics to Prometheus (node_exporter).
+# Not started by default; enable with: slinitctl enable node_exporter
+# Options: RUNIT_COLLECTOR, LISTEN_ADDR, USE_LOCAL_USER, USER and ARGS in
+# /etc/conf.d/node_exporter. Runs as root unless USER (or USE_LOCAL_USER,
+# for _node_exporter) is set there; then the helper drops to that user
+# through setpriv. The default flags enable the runit collector on
+# /var/service, as the runit run script did; it reports nothing under
+# slinit, and RUNIT_COLLECTOR="--no-collector.runit" in
+# /etc/conf.d/node_exporter drops it.
+type = process
+command = /usr/libexec/slinit/node_exporter
+depends-on: network.target
+restart = true
+log-type = journal
