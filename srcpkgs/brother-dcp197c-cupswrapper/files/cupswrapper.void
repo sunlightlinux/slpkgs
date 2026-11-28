@@ -53,14 +53,14 @@ if [ "$1" = '-e' ]; then
   rm -f $ppd_file_name
   rm -f $brotherlpdwrapper
 
-  sv restart cups
+  if command -v slinitctl >/dev/null 2>&1; then slinitctl restart cupsd; else sv restart cups; fi
   exit 0
 fi
 
 if [ "$1" = "-r" ]; then
   lpadmin -x ${cups_printer_name}
 
-  sv restart cups
+  if command -v slinitctl >/dev/null 2>&1; then slinitctl restart cupsd; else sv restart cups; fi
   exit 0
 fi
 
@@ -259,7 +259,7 @@ chmod a+w /opt/brother/${device_model}/${printer_model}/inf
 
 sleep 2s
 
-sv restart cups
+if command -v slinitctl >/dev/null 2>&1; then slinitctl restart cupsd; else sv restart cups; fi
 
 port2=`lpinfo -v | grep -i 'usb://Brother/${device_name}' | head -1`
 
