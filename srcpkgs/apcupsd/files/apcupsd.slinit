@@ -1,0 +1,8 @@
+# apcupsd -- APC UPS monitoring daemon (apcupsd). Not started by default;
+# enable with: slinitctl enable apcupsd
+# Options: OPTS in /etc/conf.d/apcupsd.
+type = process
+command = /usr/libexec/slinit/apcupsd
+depends-on: network.target
+restart = true
+log-type = journal

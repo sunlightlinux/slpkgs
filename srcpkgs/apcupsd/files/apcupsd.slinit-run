@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d: clears a
+# stale powerfail flag, then runs apcupsd in the foreground.
+set -u
+PWRFAILDIR="$( /usr/bin/awk '$1 == "PWRFAILDIR" {print $2; exit}' /etc/apcupsd/apcupsd.conf )"
+PWRFAILDIR="${PWRFAILDIR:-/etc/apcupsd}"
+/usr/bin/rm -f "${PWRFAILDIR}/powerfail"
+
+OPTS=
+[ -r /etc/conf.d/apcupsd ] && . /etc/conf.d/apcupsd
+exec /usr/bin/apcupsd -b ${OPTS}
