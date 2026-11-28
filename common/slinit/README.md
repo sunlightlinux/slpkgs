@@ -122,7 +122,13 @@ part in the slinit service.
    | `-n N` | `nice = N` |
    | `prlimit --nofile=N`, `ulimit -n N` | `rlimit-nofile = N` |
 
-   Other limits (`-p`, `ulimit -u`) stay as `ulimit` in a helper. An
+   Other limits (`-p`, `ulimit -u`) stay as `ulimit` in a helper.
+   A limit taken from the conf at run time (`ulimit -n ${MAX_OPEN_FILES:-N}`,
+   `chpst -o $MAX_OPEN_FILES`) stays as `ulimit -n` in the helper. If the
+   service has `run-as`, the helper cannot raise the hard limit, so the
+   service also sets `rlimit-nofile = N:1048576` (the default as the soft
+   limit, room under the hard one); a daemon that starts as root and drops
+   privileges itself needs no `rlimit-nofile`. An
    environment variable the run script sets (`HOME=...`) is exported in
    the helper, which runs with the service's `run-as` user.
 
