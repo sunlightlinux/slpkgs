@@ -1,0 +1,10 @@
+# gokapi -- self-hosted file sharing server (Gokapi). Not started by
+# default; enable with: slinitctl enable gokapi
+# Options: USER, GROUP and HOME in /etc/conf.d/gokapi. The helper runs as
+# root, as the user is read from that file, changes to HOME and drops to
+# that user and group through setpriv.
+type = process
+command = /usr/libexec/slinit/gokapi
+depends-on: network.target
+restart = true
+log-type = journal
