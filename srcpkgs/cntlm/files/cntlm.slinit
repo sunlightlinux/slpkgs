@@ -1,0 +1,8 @@
+# cntlm -- NTLM authenticating HTTP proxy (cntlm), in the foreground
+# (-f), configured by /etc/cntlm.conf. Not started by default; enable
+# with: slinitctl enable cntlm
+type = process
+command = /usr/bin/cntlm -f
+depends-on: network.target
+restart = true
+log-type = journal
