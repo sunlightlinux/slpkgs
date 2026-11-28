@@ -1,0 +1,8 @@
+# icinga2 -- monitoring system (icinga2). Not started by default;
+# enable with: slinitctl enable icinga2
+type = process
+command = /usr/bin/icinga2 daemon
+pre-start-command = +/usr/bin/install -oicinga -gicinga -d /run/icinga2
+depends-on: network.target
+restart = true
+log-type = journal
