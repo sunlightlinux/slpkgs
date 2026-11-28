@@ -1,7 +1,7 @@
 # Template file for 'varnish'
 pkgname=varnish
 version=7.3.0
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--cache-file=config.void --disable-static $(vopt_enable pcrejit pcre-jit)"
 hostmakedepends="pkg-config python3 python3-docutils python3-Sphinx"
@@ -49,6 +49,7 @@ esac
 post_install() {
 	vinstall etc/example.vcl 644 etc/varnish default.vcl
 	vsv varnishd
+	vslinit varnishd
 	vlicense LICENSE
 }
 

@@ -1,0 +1,10 @@
+# varnishd -- Varnish caching HTTP reverse proxy (varnish), in the
+# foreground (-F). Not started by default; enable with:
+#     slinitctl enable varnishd
+# Options: VARNISH_ADDR, VARNISH_MGMT_ADDR, VARNISH_CONFIG, VARNISH_STORAGE,
+# VARNISH_JAIL and VARNISH_OPTIONS in /etc/conf.d/varnishd.
+type = process
+command = /usr/libexec/slinit/varnishd
+depends-on: network.target
+restart = true
+log-type = journal
