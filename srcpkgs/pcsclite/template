@@ -1,7 +1,7 @@
 # Template file for 'pcsclite'
 pkgname=pcsclite
 version=2.5.3
-revision=1
+revision=2
 build_style=meson
 configure_args="-Dlibudev=true -Dlibsystemd=false -Dpolkit=false"
 hostmakedepends="pkg-config python3 flex perl"
@@ -16,6 +16,7 @@ checksum=e8809f610357fef05c18fe2b7d43379d61ebb72db3d0c0d4b10299ccab30d593
 
 post_install() {
 	vsv pcscd
+	vslinit pcscd
 	vlicense COPYING
 	vdoc "${FILESDIR}/README.voidlinux"
 }
