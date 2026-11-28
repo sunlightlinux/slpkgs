@@ -1,0 +1,9 @@
+# wpa_actiond -- runs an action on wpa_supplicant connection events
+# (wpa_actiond). Settings: ACTION_FILE, WPA_INTERFACE and OPTS in
+# /etc/conf.d/wpa_actiond. Not started by default; enable with:
+# slinitctl enable wpa_actiond
+type = process
+command = /usr/libexec/slinit/wpa_actiond
+depends-on: local.target
+restart = true
+log-type = journal

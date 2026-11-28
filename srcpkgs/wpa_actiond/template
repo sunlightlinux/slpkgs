@@ -1,7 +1,7 @@
 # Template file for 'wpa_actiond'
 pkgname=wpa_actiond
 version=1.4
-revision=2
+revision=3
 build_style=gnu-makefile
 depends="wpa_supplicant"
 short_desc="Daemon that connects to wpa_supplicant and handles connection events"
@@ -15,4 +15,5 @@ do_install() {
 	vbin wpa_actiond
 	vbin ${FILESDIR}/wpa_log
 	vsv wpa_actiond
+	vslinit wpa_actiond
 }

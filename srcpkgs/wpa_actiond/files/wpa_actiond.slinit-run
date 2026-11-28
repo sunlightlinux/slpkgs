@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+ACTION_FILE=
+WPA_INTERFACE=
+OPTS=
+[ -r /etc/conf.d/wpa_actiond ] && . /etc/conf.d/wpa_actiond
+exec /usr/bin/wpa_actiond -a ${ACTION_FILE:=/usr/bin/wpa_log} -i ${WPA_INTERFACE:=wlan0} ${OPTS:=-n}
