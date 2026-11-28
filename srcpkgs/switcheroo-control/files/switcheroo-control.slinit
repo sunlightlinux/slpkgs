@@ -1,0 +1,9 @@
+# switcheroo-control -- D-Bus service for dual-GPU systems
+# (switcheroo-control). Not started by default; enable with:
+#     slinitctl enable switcheroo-control
+type = process
+command = /usr/libexec/switcheroo-control
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
