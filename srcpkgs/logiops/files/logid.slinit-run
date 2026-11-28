@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/logid ] && . /etc/conf.d/logid
+/usr/bin/modprobe -q hid_logitech_hidpp || exit 1
+exec /usr/bin/logid ${OPTS}

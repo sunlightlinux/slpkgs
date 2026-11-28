@@ -1,0 +1,8 @@
+# logid -- userspace driver for Logitech HID++ devices (logiops). Not
+# started by default; enable with: slinitctl enable logid
+# Options: OPTS in /etc/conf.d/logid.
+type = process
+command = /usr/libexec/slinit/logid
+depends-on: local.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'logiops'
 pkgname=logiops
 version=0.3.5
-revision=2
+revision=3
 _ipcgull_rev=cd0f9a8cefb5b2545e163fceb249fdbcbaf666aa
 build_style=cmake
 hostmakedepends="pkg-config"
@@ -26,4 +26,5 @@ post_extract() {
 post_install() {
 	vsconf logid.example.cfg logid.cfg
 	vsv logid
+	vslinit logid
 }
