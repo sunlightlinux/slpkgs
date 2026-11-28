@@ -1,0 +1,8 @@
+# v2ray -- platform for building network proxies (v2ray). Not started
+# by default; enable with: slinitctl enable v2ray
+type = process
+command = /usr/bin/v2ray run -config=/etc/v2ray/config.json
+run-as = _v2ray
+depends-on: network.target
+restart = true
+log-type = journal
