@@ -1,7 +1,7 @@
 # Template file for 'dictd'
 pkgname=dictd
 version=1.13.3
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--enable-dictorg --sysconfdir=/etc/dict"
 conf_files="/etc/dict/dictd.conf /etc/dict/site.info"
@@ -20,6 +20,7 @@ post_install() {
 	vinstall ${FILESDIR}/site.info 644 etc/dict
 	vinstall ${FILESDIR}/dictd.xinetd 644 etc/xinetd.d dictd
 	vsv dictd
+	vslinit dictd
 	for f in examples/*; do vsconf $f; done
 }
 

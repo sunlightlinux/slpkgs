@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/dictd ] && . /etc/conf.d/dictd
+exec /usr/bin/dictd --debug nodetach ${OPTS:=--locale en_US.UTF-8 -s} 2>/dev/null

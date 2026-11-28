@@ -1,0 +1,10 @@
+# dictd -- DICT protocol dictionary server (dictd). Not started by
+# default; enable with: slinitctl enable dictd
+# Options: OPTS in /etc/conf.d/dictd. As under runit, its standard error
+# is discarded and its standard output goes to the journal.
+type = process
+command = /usr/libexec/slinit/dictd
+run-as = dictd:dictd
+depends-on: network.target
+restart = true
+log-type = journal
