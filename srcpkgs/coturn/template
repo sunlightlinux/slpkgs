@@ -1,7 +1,7 @@
 # Template file for 'coturn'
 pkgname=coturn
 version=4.19.1
-revision=1
+revision=2
 build_style=configure
 configure_args="
  --prefix=/usr
@@ -31,6 +31,7 @@ post_configure() {
 post_install() {
 	vlicense LICENSE
 	vsv coturnserver
+	vslinit coturnserver
 	vsconf examples/etc/turnserver.conf
 	mv "${DESTDIR}/etc/"{turnserver.conf.default,turnserver.conf}
 }

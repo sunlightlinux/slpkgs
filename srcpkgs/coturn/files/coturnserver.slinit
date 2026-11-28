@@ -1,0 +1,8 @@
+# coturnserver -- TURN and STUN server turnserver (coturn). Not started by
+# default; enable with: slinitctl enable coturnserver
+type = process
+command = /usr/bin/turnserver -c /etc/turnserver.conf
+run-as = _coturn:_coturn
+depends-on: network.target
+restart = true
+log-type = journal
