@@ -1,0 +1,7 @@
+# busybox-syslogd -- syslog daemon from BusyBox (busybox-huge). Not started
+# by default; enable with: slinitctl enable busybox-syslogd
+type = process
+command = /usr/bin/busybox syslogd -n
+depends-on: local.target
+restart = true
+log-type = journal

@@ -1,0 +1,9 @@
+# busybox-ntpd -- NTP client from BusyBox (busybox, busybox-huge). Not
+# started by default; enable with: slinitctl enable busybox-ntpd
+# Sets the clock as chronyd does: run one of them, not both.
+type = process
+command = /usr/bin/busybox ntpd -nN -p pool.ntp.org
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
