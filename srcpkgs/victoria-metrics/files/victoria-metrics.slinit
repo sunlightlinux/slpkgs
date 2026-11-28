@@ -1,0 +1,13 @@
+# victoria-metrics -- VictoriaMetrics time series database
+# (victoria-metrics), as user _vmetrics in its home
+# /var/lib/victoria-metrics. Not started by default; enable with:
+#     slinitctl enable victoria-metrics
+# Options: OPTS in /etc/conf.d/victoria-metrics, read as _vmetrics;
+# HOME there changes the directory it runs in.
+type = process
+command = /usr/libexec/slinit/victoria-metrics
+run-as = _vmetrics
+rlimit-nofile = 65535:65535
+depends-on: network.target
+restart = true
+log-type = journal

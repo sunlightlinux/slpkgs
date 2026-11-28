@@ -1,7 +1,7 @@
 # Template file for 'victoria-metrics'
 pkgname=victoria-metrics
 version=1.156.0
-revision=1
+revision=2
 build_style=go
 go_import_path="github.com/VictoriaMetrics/VictoriaMetrics"
 go_package="
@@ -42,4 +42,5 @@ do_check() {
 
 post_install() {
 	vsv victoria-metrics
+	vslinit victoria-metrics
 }

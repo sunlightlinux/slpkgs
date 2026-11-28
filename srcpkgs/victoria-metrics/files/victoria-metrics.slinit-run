@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d. chpst -u
+# _vmetrics is the service's run-as and prlimit --nofile=65535:65535 its
+# rlimit-nofile; chpst -C "$HOME" is a cd, as HOME may come from the conf.
+set -u
+OPTS=
+HOME=
+[ -f /etc/conf.d/victoria-metrics ] && . /etc/conf.d/victoria-metrics
+: ${HOME:=/var/lib/victoria-metrics/}
+cd "$HOME" || exit 1
+exec /usr/bin/victoria-metrics ${OPTS}
