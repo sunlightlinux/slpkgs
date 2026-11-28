@@ -1,7 +1,7 @@
 # Template file for 'libcgroup'
 pkgname=libcgroup
 version=3.0.0
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--sbindir=/usr/bin --enable-pam-module-dir=/usr/lib/security --enable-tests=no"
 hostmakedepends="flex"
@@ -31,6 +31,7 @@ libcgroup-utils_package() {
 		vconf samples/config/cgrules.conf
 		vconf samples/config/cgconfig.conf
 		vsv cgred
+		vslinit cgred
 	}
 }
 libcgroup-devel_package() {

@@ -1,0 +1,9 @@
+# cgred -- moves processes into control groups by the rules in
+# /etc/cgrules.conf (libcgroup-utils). Not started by default; enable
+# with: slinitctl enable cgred
+# Options: OPTS and PARSEOPTS in /etc/conf.d/cgred.
+type = process
+command = /usr/libexec/slinit/cgred
+depends-on: local.target
+restart = true
+log-type = journal

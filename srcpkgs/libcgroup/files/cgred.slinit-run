@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+# Default logs to syslog with facility DAEMON
+# man cgrulesengd for options list and descriptions.
+set -u
+PARSEOPTS=
+OPTS=
+[ -r /etc/conf.d/cgred ] && . /etc/conf.d/cgred
+/usr/bin/cgconfigparser ${PARSEOPTS:=-l /etc/cgconfig.conf}
+exec /usr/bin/cgrulesengd ${OPTS:=-s} -g cgred --nodaemon
