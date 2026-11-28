@@ -1,0 +1,8 @@
+# watchdog -- software watchdog daemon (watchdog). Options: OPTS in
+# /etc/conf.d/watchdog. Not started by default; enable with:
+# slinitctl enable watchdog
+type = process
+command = /usr/libexec/slinit/watchdog
+depends-on: local.target
+restart = true
+log-type = journal
