@@ -1,0 +1,8 @@
+# dotoold -- daemon that simulates input for dotoolc (dotool). Not started
+# by default; enable with: slinitctl enable dotoold
+type = process
+command = /usr/bin/dotoold
+run-as = _dotoold:input
+depends-on: local.target
+restart = true
+log-type = journal

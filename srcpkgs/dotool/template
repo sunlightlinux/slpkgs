@@ -1,7 +1,7 @@
 # Template file for 'dotool'
 pkgname=dotool
 version=1.6
-revision=2
+revision=3
 build_style=go
 go_import_path="git.sr.ht/~geb/dotool"
 go_ldflags="-X main.Version=${version}"
@@ -21,6 +21,7 @@ post_install() {
 	cp -v dotoolc dotoold "${DESTDIR}/usr/bin"
 	vinstall 80-dotool.rules 644 usr/lib/udev/rules.d
 	vsv dotoold
+	vslinit dotoold
 	scdoc < doc/dotool.1.scd > dotool.1
 	vman dotool.1
 }
