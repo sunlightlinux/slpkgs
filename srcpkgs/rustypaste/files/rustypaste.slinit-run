@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+CONFIG=
+[ -r /etc/conf.d/rustypaste ] && . /etc/conf.d/rustypaste
+export CONFIG=${CONFIG:-/etc/rustypaste/config.toml}
+cd /var/lib/rustypaste
+exec /usr/bin/rustypaste

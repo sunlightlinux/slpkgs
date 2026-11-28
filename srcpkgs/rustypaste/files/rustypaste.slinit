@@ -1,0 +1,10 @@
+# rustypaste -- file upload/pastebin service (rustypaste). Not started by
+# default; enable with: slinitctl enable rustypaste
+# Options: CONFIG in /etc/conf.d/rustypaste, read as the _rustypaste user
+# (default /etc/rustypaste/config.toml).
+type = process
+command = /usr/libexec/slinit/rustypaste
+run-as = _rustypaste:_rustypaste
+depends-on: network.target
+restart = true
+log-type = journal
