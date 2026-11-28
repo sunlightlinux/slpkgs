@@ -1,0 +1,11 @@
+# i2pd -- I2P router (i2pd). Not started by default; enable with:
+# slinitctl enable i2pd
+# Options: MAX_OPEN_FILES in /etc/conf.d/i2pd (default 16384), read by
+# the helper as _i2pd; rlimit-nofile leaves it room under the hard limit.
+type = process
+command = /usr/libexec/slinit/i2pd
+run-as = _i2pd:_i2pd
+rlimit-nofile = 16384:1048576
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,0 +1,10 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d, run as
+# _i2pd (run-as).
+set -u
+MAX_OPEN_FILES=
+[ -r /etc/conf.d/i2pd ] && . /etc/conf.d/i2pd
+ulimit -n ${MAX_OPEN_FILES:-16384}
+exec /usr/bin/i2pd --service \
+	--conf=/etc/i2pd/i2pd.conf \
+	--tunconf=/etc/i2pd/tunnels.conf
