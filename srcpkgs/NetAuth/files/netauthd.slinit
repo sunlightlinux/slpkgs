@@ -1,0 +1,12 @@
+# netauthd -- NetAuth network authentication and identity server
+# (NetAuth-server). Not started by default; enable with:
+#     slinitctl enable netauthd
+# Settings: /etc/conf.d/netauthd, if present, is sourced before netauthd
+# starts.
+type = process
+command = /usr/libexec/slinit/netauthd
+run-as = _netauth:_netauth
+working-dir = /var/lib/netauth
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'NetAuth'
 pkgname=NetAuth
 version=0.6.4
-revision=2
+revision=3
 build_style=go
 build_helper="qemu"
 go_import_path="github.com/netauth/netauth"
@@ -27,6 +27,7 @@ post_install() {
 	done
 	vlicense LICENSE
 	vsv netauthd
+	vslinit netauthd
 }
 
 NetAuth-server_package() {
@@ -42,5 +43,7 @@ NetAuth-server_package() {
 	pkg_install() {
 		vmove usr/bin/netauthd
 		vmove etc/sv/netauthd
+		vmove usr/lib/slinit.d/netauthd
+		vmove usr/libexec/slinit/netauthd
 	}
 }
