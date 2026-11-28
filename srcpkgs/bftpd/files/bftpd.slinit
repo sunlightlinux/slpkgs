@@ -1,0 +1,7 @@
+# bftpd -- simple FTP server (bftpd), in the foreground (-D). Not
+# started by default; enable with: slinitctl enable bftpd
+type = process
+command = /usr/bin/bftpd -D
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'bftpd'
 pkgname=bftpd
 version=6.1
-revision=3
+revision=4
 build_style=gnu-configure
 configure_args="--enable-libz"
 hostmakedepends="automake"
@@ -27,4 +27,5 @@ pre_configure() {
 
 post_install() {
 	vsv bftpd
+	vslinit bftpd
 }
