@@ -1,0 +1,9 @@
+# anubis -- proof-of-work reverse proxy against crawlers (anubis). Not
+# started by default; enable with: slinitctl enable anubis
+# Settings: shell variables in /etc/conf.d/anubis.
+type = process
+command = /usr/libexec/slinit/anubis
+run-as = _anubis:_anubis
+depends-on: network.target
+restart = true
+log-type = journal
