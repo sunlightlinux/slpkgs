@@ -1,0 +1,8 @@
+# opendkim -- DKIM signing and verifying milter (opendkim). Not started
+# by default; enable with: slinitctl enable opendkim
+# Options: OPTS in /etc/conf.d/opendkim.
+type = process
+command = /usr/libexec/slinit/opendkim
+depends-on: network.target
+restart = true
+log-type = journal
