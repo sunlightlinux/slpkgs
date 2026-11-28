@@ -1,7 +1,7 @@
 # Template file for 'zcfan'
 pkgname=zcfan
 version=1.4.0
-revision=1
+revision=2
 build_style=gnu-makefile
 short_desc="Zero-configuration fan control for ThinkPad"
 maintainer="Worf <me@worf.win>"
@@ -12,6 +12,7 @@ checksum=33e4944303c778581b6471c79e1273a5668917542e412c8125f028133b684718
 
 post_install() {
 	vsv zcfan
+	vslinit zcfan
 	vlicense LICENSE
 	vdoc ${FILESDIR}/README.voidlinux
 }

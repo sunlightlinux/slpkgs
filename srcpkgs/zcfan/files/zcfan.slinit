@@ -1,0 +1,7 @@
+# zcfan -- zero-configuration fan control for ThinkPad (zcfan). Not
+# started by default; enable with: slinitctl enable zcfan
+type = process
+command = /usr/bin/zcfan
+depends-on: local.target
+restart = true
+log-type = journal
