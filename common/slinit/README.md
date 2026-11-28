@@ -72,7 +72,12 @@ under either init. Never invent another one.
 
 6. **Output goes to the journal: `log-type = journal`** on every
    `type = process` service. Drop runit's `exec 2>&1` and the `log/`
-   service; `slinit-journalctl -u <service>` replaces `vlogger`.
+   service; `slinit-journalctl -u <service>` replaces `vlogger`. Two
+   exceptions keep what the run script asked for:
+   - a run script that discards all output on the daemon's exec line
+     (`>/dev/null 2>&1`) gets `log-type = none`, with a comment saying so;
+   - a redirection of one stream only (`2>&1 >/dev/null`) stays on the
+     `exec` line of a helper, since `command` has no shell.
 
 7. **Preparing a directory:** `install -d -m 0755 -o u -g g /run/x` becomes
 
@@ -95,10 +100,15 @@ under either init. Never invent another one.
    and report it rather than guess.
 
 9. **Dependencies:**
-   - every daemon gets `depends-on: local.target` (filesystems mounted,
-     root read-write), unless it must run earlier in boot;
-   - a daemon that needs the network gets `depends-on: network.target`, one
-     that copes without it `waits-for: network.target`;
+   - a daemon that needs the network gets `depends-on: network.target`
+     alone: network.target already depends on local.target;
+   - every other daemon gets `depends-on: local.target` (filesystems
+     mounted, root read-write), unless it must run earlier in boot, and
+     one that uses the network but copes without it adds
+     `waits-for: network.target`;
+   - a daemon that sets up the network itself (iwd, wpa_supplicant,
+     NetworkManager, dhcpcd) never depends on or waits for network.target,
+     which would invert the order;
    - `sv check <other>` / `sv start <other>` in `run` becomes
      `depends-on: <other>`, using the other daemon's slinit service name;
    - a daemon that talks D-Bus gets `depends-on: dbus`.
@@ -106,6 +116,16 @@ under either init. Never invent another one.
 10. **Runit's other files:** `finish` becomes `finish-command`, `check`
     becomes `ready-check-command` (through a helper if it is a script), a
     `down` file means nothing extra (services are not enabled anyway).
+    Two runit idioms have a direct slinit form:
+    - a `finish` whose only job is `sv d` on exit code N ("do not restart
+      when it exits N") is `normal-exit = N`, which suppresses the restart
+      even with `restart = true`;
+    - a one-shot kept "up" with `exec chpst -b <name> pause`, whose
+      `finish` undoes it, is `type = scripted`: the setup steps are its
+      `command` (a helper if more than one), the `finish` logic its
+      `stop-command` (a second helper, `files/<service>.slinit-stop`,
+      installed with `vinstall ... 755 usr/libexec/slinit <service>-stop`),
+      and `chpst -b`, which only names the process, is dropped.
 
 11. **`restart = true`** for a daemon, as runit always restarts one.
 
@@ -114,11 +134,24 @@ under either init. Never invent another one.
     "Checking a service" below). A directive newer than that version fails
     the service's load on every installed system.
 
-13. **A header comment:** what the daemon is, which package ships it, and
+13. **Every runit service of a package is converted**, in one commit for
+    the package, even if only one was asked for.
+
+14. **Syslog daemons need nothing extra.** slinit as PID 1 serves
+    `/dev/log`; a syslog daemon started by its own service takes it over.
+
+15. **A header comment:** what the daemon is, which package ships it, and
     how to enable it:
 
         # sshd -- OpenSSH server (openssh). Not started by default;
         # enable with: slinitctl enable sshd
+
+## Finding a binary's path
+
+`vbin` installs to `/usr/bin`. The tree's gnu-configure defaults
+(`common/environment/configure/gnu-configure-args.sh`) and meson helper
+(`common/build-helper/meson.sh`) put sbin programs in `/usr/bin` too.
+When a template does neither, read its install steps; do not guess.
 
 ## What a conversion looks like
 
@@ -167,8 +200,11 @@ packaged slinit, together with slinit-services' services (which define
     for f in srcpkgs/*/files/*.slinit; do cp "$f" /tmp/svc/"$(basename "$f" .slinit)"; done
     slinit-check -d /tmp/svc <service>
 
-A warning that the command's binary does not exist is expected on a machine
-without the package; every other warning or error is a failure. Then build
+A warning that a command's binary does not exist is expected on a machine
+without the package, for the service and for slinit-services' own helpers;
+every other warning or error is a failure. Two services of the same name in
+different packages would overwrite each other in that directory; check
+each in its own if a name repeats. Helpers are committed with mode 755. Then build
 the package (`./xbps-src pkg <package>`) and check with `xbps-query -f` that
 `/usr/lib/slinit.d/<service>` is in it.
 
