@@ -1,7 +1,7 @@
 # Template file for 'bind'
 pkgname=bind
 version=9.20.29
-revision=1
+revision=2
 _fullver="${version}${_patchver:+-${_patchver}}"
 build_style=gnu-configure
 configure_args="--disable-static --enable-largefile
@@ -45,6 +45,7 @@ pre_configure() {
 
 post_install() {
 	vsv named
+	vslinit named
 	vinstall ${FILESDIR}/named.logrotate 600 etc/logrotate.d named
 	vinstall ${FILESDIR}/named.conf 640 etc/named
 

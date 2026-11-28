@@ -1,0 +1,7 @@
+# named -- the BIND DNS server (bind), in the foreground (-g). Not
+# started by default; enable with: slinitctl enable named
+type = process
+command = /usr/libexec/slinit/named
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script.
+set -u
+mkdir -p /var/run/named || exit 1
+chown named:named /var/run/named || exit 1
+exec /usr/bin/named -u named -g -c /etc/named/named.conf
