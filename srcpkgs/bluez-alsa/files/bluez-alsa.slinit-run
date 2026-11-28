@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/bluez-alsa ] && . /etc/conf.d/bluez-alsa
+exec /usr/bin/bluealsa $OPTS

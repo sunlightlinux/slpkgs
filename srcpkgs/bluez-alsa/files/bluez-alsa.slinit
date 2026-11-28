@@ -1,0 +1,12 @@
+# bluez-alsa -- Bluetooth audio ALSA backend, the bluealsa daemon
+# (bluez-alsa). Not started by default; enable with:
+#     slinitctl enable bluez-alsa
+# Options: OPTS in /etc/conf.d/bluez-alsa.
+type = process
+command = /usr/libexec/slinit/bluez-alsa
+run-as = _bluez_alsa:audio
+pre-start-command = +/usr/bin/install -d -m0755 -o _bluez_alsa -g audio /run/bluealsa
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
