@@ -4,3 +4,4 @@ type = process
 command = /usr/libexec/slinit/containerd
 depends-on: local.target
 restart = true
+log-type = journal

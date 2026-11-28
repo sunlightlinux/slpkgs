@@ -1,3 +1,4 @@
 #!/bin/sh
-modprobe -q overlay 2>/dev/null
-exec containerd
+set -u
+/usr/bin/modprobe -q overlay 2>/dev/null
+exec /usr/bin/containerd
