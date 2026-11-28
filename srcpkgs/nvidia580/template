@@ -4,7 +4,7 @@ _desc="NVIDIA drivers for linux"
 
 pkgname=nvidia580
 version=580.196.07
-revision=1
+revision=2
 maintainer="Andrew Benson <abenson+void@gmail.com>"
 license="custom:NVIDIA Proprietary"
 homepage="https://www.nvidia.com/en-us/drivers/unix/"
@@ -207,6 +207,7 @@ do_install() {
 	# nvidia-powerd
 	vbin nvidia-powerd
 	vsv nvidia-powerd
+	vslinit nvidia-powerd
 	mkdir -p usr/share/dbus-1/system.d
 	vinstall nvidia-dbus.conf 644 usr/share/dbus-1/system.d
 	vbin systemd/nvidia-sleep.sh
@@ -318,7 +319,12 @@ nvidia580-libs_package() {
 	nostrip_files="gsp.bin"
 	conflicts="nvidia470-libs>=0 nvidia390-libs>=0"
 	pkg_install() {
+		# The slinit service of nvidia-powerd stays in the main package,
+		# with the daemon: set it aside while usr/lib moves here.
+		mv ${DESTDIR}/usr/lib/slinit.d ${wrksrc}/slinit.d.keep
 		vmove usr/lib
+		mkdir -p ${DESTDIR}/usr/lib
+		mv ${wrksrc}/slinit.d.keep ${DESTDIR}/usr/lib/slinit.d
 	}
 }
 

@@ -1,0 +1,8 @@
+# nvidia-powerd -- NVIDIA Dynamic Boost power daemon (nvidia580). Not started by
+# default; enable with: slinitctl enable nvidia-powerd
+type = process
+command = /usr/bin/nvidia-powerd
+depends-on: local.target
+depends-on: dbus
+restart = true
+log-type = journal
