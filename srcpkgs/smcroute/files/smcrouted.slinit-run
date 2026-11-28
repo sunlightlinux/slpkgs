@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/smcrouted ] && . /etc/conf.d/smcrouted
+# use `-N` without a conf file to not grab all interfaces by default
+exec /usr/bin/smcrouted -n -s ${OPTS:--N}

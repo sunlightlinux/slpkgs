@@ -1,0 +1,8 @@
+# smcrouted -- static multicast routing daemon (smcroute). Not started by
+# default; enable with: slinitctl enable smcrouted
+# Options: OPTS in /etc/conf.d/smcrouted (default -N).
+type = process
+command = /usr/libexec/slinit/smcrouted
+depends-on: network.target
+restart = true
+log-type = journal
