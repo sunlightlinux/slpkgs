@@ -1,7 +1,7 @@
 # Template file for 'readsb'
 pkgname=readsb
 version=3.16.21
-revision=2
+revision=3
 build_style=gnu-makefile
 build_helper="qemu"
 make_use_env=yes
@@ -47,5 +47,6 @@ do_install() {
 	vinstall debian/readsb.service 644 usr/lib/systemd/system
 	vinstall debian/readsb.default 644 etc/default readsb
 	vsv readsb
+	vslinit readsb
 	vlicense LICENSE
 }

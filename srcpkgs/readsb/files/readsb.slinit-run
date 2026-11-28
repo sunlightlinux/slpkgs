@@ -1,0 +1,19 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d; the
+# package's own /etc/default/readsb is read as before.
+set -u
+RECEIVER_OPTIONS=
+DECODER_OPTIONS=
+NET_OPTIONS=
+JSON_OPTIONS=
+OPTS=
+[ -r /etc/default/readsb ] && . /etc/default/readsb
+[ -r /etc/conf.d/readsb ] && . /etc/conf.d/readsb
+
+/usr/bin/install -d -m 0755 -o _readsb -g _readsb /run/readsb
+exec /usr/bin/setpriv --reuid _readsb --regid _readsb --init-groups \
+	--ambient-caps -all,+sys_nice \
+	--inh-caps -all,+sys_nice \
+	--bounding-set -all,+sys_nice \
+	--no-new-privs -- \
+	/usr/bin/readsb ${OPTS:- ${RECEIVER_OPTIONS} ${DECODER_OPTIONS} ${NET_OPTIONS} ${JSON_OPTIONS} --write-json /run/readsb --quiet}

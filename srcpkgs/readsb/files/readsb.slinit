@@ -1,0 +1,10 @@
+# readsb -- ADS-B decoder (readsb). Not started by default; enable with:
+#     slinitctl enable readsb
+# Options: /etc/default/readsb, or OPTS in /etc/conf.d/readsb to replace
+# them all. The helper starts it through setpriv as _readsb with only the
+# sys_nice capability, as the runit run script did.
+type = process
+command = /usr/libexec/slinit/readsb
+depends-on: network.target
+restart = true
+log-type = journal
