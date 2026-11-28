@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d and chpst -u
+# replaced by setpriv.
+set -u
+TASKDDATA=
+TASKDUSER=
+[ -r /etc/conf.d/taskd ] && . /etc/conf.d/taskd
+: ${TASKDDATA:=/var/lib/taskd}
+: ${TASKDUSER:=taskd}
+exec /usr/bin/setpriv --reuid "${TASKDUSER}" --regid "$(/usr/bin/id -g "${TASKDUSER}")" \
+	--clear-groups -- /usr/bin/taskd server --data ${TASKDDATA}

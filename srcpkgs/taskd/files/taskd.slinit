@@ -1,0 +1,10 @@
+# taskd -- Taskwarrior sync server (taskd). Not started by default; enable
+# with: slinitctl enable taskd
+# Options: TASKDDATA and TASKDUSER in /etc/conf.d/taskd. The helper runs
+# as root, as the user is read from that file, and drops to it through
+# setpriv.
+type = process
+command = /usr/libexec/slinit/taskd
+depends-on: network.target
+restart = true
+log-type = journal
