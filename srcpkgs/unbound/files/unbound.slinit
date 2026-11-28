@@ -1,0 +1,8 @@
+# unbound -- validating, recursive, caching DNS resolver (unbound).
+# Not started by default; enable with: slinitctl enable unbound
+type = process
+command = /usr/bin/unbound -dp
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
