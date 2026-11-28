@@ -1,7 +1,7 @@
 # Template file for 'espeakup'
 pkgname=espeakup
 version=0.80
-revision=2
+revision=3
 build_style="gnu-makefile"
 makedepends="libespeak-ng-devel"
 short_desc="Lightweight connector for espeak and speakup"
@@ -13,4 +13,5 @@ checksum="4de284e30b6bdb0f9dee9c8ea02d13a3d20a61415b812338446b8b381e997ef4"
 
 post_install() {
 	vsv espeakup
+	vslinit espeakup
 }
