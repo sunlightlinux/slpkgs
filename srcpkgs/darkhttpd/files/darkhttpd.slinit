@@ -1,0 +1,10 @@
+# darkhttpd -- small static web server (darkhttpd). Not started by
+# default; enable with: slinitctl enable darkhttpd
+# Settings: WWWDIR and OPTS in /etc/conf.d/darkhttpd. As under runit, its
+# standard output goes to /var/log/darkhttpd/darkhttpd.log and its
+# errors to the journal.
+type = process
+command = /usr/libexec/slinit/darkhttpd
+depends-on: network.target
+restart = true
+log-type = journal

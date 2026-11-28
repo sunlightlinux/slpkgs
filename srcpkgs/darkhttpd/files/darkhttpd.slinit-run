@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+WWWDIR=
+OPTS=
+[ -r /etc/conf.d/darkhttpd ] && . /etc/conf.d/darkhttpd
+: ${WWWDIR:=/srv/www/darkhttpd}
+exec /usr/bin/darkhttpd "${WWWDIR}" --chroot --uid _darkhttpd --gid _darkhttpd $OPTS 2>&1 >>/var/log/darkhttpd/darkhttpd.log
