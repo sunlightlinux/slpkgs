@@ -1,0 +1,8 @@
+# devmon -- automounts removable devices with udevil (udevil). Not started
+# by default; enable with: slinitctl enable devmon
+# Options: OPTS in /etc/conf.d/devmon.
+type = process
+command = /usr/libexec/slinit/devmon
+depends-on: local.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'udevil'
 pkgname=udevil
 version=0.4.4
-revision=6
+revision=7
 build_style=gnu-configure
 configure_args="--disable-systemd
  ac_cv_path_INTLTOOL_UPDATE=/usr/bin/false
@@ -28,4 +28,5 @@ post_patch() {
 
 post_install() {
 	vsv devmon
+	vslinit devmon
 }
