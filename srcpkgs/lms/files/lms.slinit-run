@@ -1,0 +1,12 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d and
+# chpst -u -C replaced by cd and setpriv.
+set -u
+LMSUSER=
+WORKDIR=
+OPTS=
+[ -r /etc/conf.d/lms ] && . /etc/conf.d/lms
+cd "${WORKDIR:-/var/lms}" || exit 1
+exec /usr/bin/setpriv --reuid "${LMSUSER:-_lms}" \
+	--regid "$(/usr/bin/id -g "${LMSUSER:-_lms}")" --clear-groups \
+	-- /usr/bin/lms ${OPTS}
