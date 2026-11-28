@@ -1,7 +1,7 @@
 # Template file for 'socklog-ucspi'
 pkgname=socklog-ucspi
 version=20221228
-revision=1
+revision=2
 metapackage=yes
 depends="socklog ipsvd"
 short_desc="UCSPI-TCP services for socklog"
@@ -11,4 +11,5 @@ homepage="http://smarden.org/socklog"
 
 do_install() {
 	vsv socklog-ucspi-tcp
+	vslinit socklog-ucspi-tcp
 }

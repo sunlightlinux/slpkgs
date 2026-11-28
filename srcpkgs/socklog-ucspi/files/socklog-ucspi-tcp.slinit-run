@@ -1,0 +1,6 @@
+#!/bin/sh
+set -u
+HOST=
+PORT=
+[ -r /etc/conf.d/socklog-ucspi-tcp ] && . /etc/conf.d/socklog-ucspi-tcp
+exec /usr/bin/tcpsvd -vllogserver -u nobody ${HOST:-0} ${PORT:-10116} /usr/bin/socklog ucspi TCPREMOTEIP

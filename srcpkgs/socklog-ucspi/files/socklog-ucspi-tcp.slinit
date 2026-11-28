@@ -1,0 +1,11 @@
+# socklog-ucspi-tcp -- receives log lines over TCP and writes them to its
+# output, through tcpsvd and socklog (socklog-ucspi). Not started by
+# default; enable with: slinitctl enable socklog-ucspi-tcp
+# Address and port: HOST and PORT in /etc/conf.d/socklog-ucspi-tcp
+# (default 0, all addresses, and 10116). Read it with
+# slinit-journalctl -u socklog-ucspi-tcp.
+type = process
+command = /usr/libexec/slinit/socklog-ucspi-tcp
+depends-on: network.target
+restart = true
+log-type = journal
