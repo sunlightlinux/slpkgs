@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/xl2tpd ] && . /etc/conf.d/xl2tpd
+[ -d /var/run/xl2tpd ] || /usr/bin/mkdir /var/run/xl2tpd
+exec /usr/bin/xl2tpd -D ${OPTS:=-c /etc/xl2tpd/xl2tpd.conf}
