@@ -1,0 +1,7 @@
+# fwknopd -- Single Packet Authorization server (fwknopd). Not started
+# by default; enable with: slinitctl enable fwknopd
+type = process
+command = /usr/bin/fwknopd -f
+depends-on: network.target
+restart = true
+log-type = journal
