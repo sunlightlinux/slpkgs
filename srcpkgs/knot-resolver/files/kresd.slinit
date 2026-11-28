@@ -1,0 +1,8 @@
+# kresd -- caching DNS resolver (knot-resolver). Not started by default;
+# enable with: slinitctl enable kresd
+# Options: OPTS in /etc/conf.d/kresd.
+type = process
+command = /usr/libexec/slinit/kresd
+depends-on: network.target
+restart = true
+log-type = journal

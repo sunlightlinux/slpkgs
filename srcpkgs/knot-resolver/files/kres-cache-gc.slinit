@@ -1,0 +1,8 @@
+# kres-cache-gc -- garbage collector for the kresd cache (knot-resolver).
+# Not started by default; enable with: slinitctl enable kres-cache-gc
+# Options: OPTS in /etc/conf.d/kres-cache-gc.
+type = process
+command = /usr/libexec/slinit/kres-cache-gc
+depends-on: local.target
+restart = true
+log-type = journal

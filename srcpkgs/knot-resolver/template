@@ -1,7 +1,7 @@
 # Template file for 'knot-resolver'
 pkgname=knot-resolver
 version=6.2.0
-revision=2
+revision=3
 build_style=meson
 configure_args="
  -Dinstall_kresd_conf=enabled
@@ -36,7 +36,9 @@ post_install() {
 	vinstall etc/root.hints 644 var/lib/knot-resolver
 	vinstall etc/root.keys 644 var/lib/knot-resolver
 	vsv kresd
+	vslinit kresd
 	vsv kres-cache-gc
+	vslinit kres-cache-gc
 }
 
 knot-resolver-devel_package() {

@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/kresd ] && . /etc/conf.d/kresd
+/usr/bin/install -d -m0755 -o _knot_resolver -g _knot_resolver /run/knot-resolver
+exec /usr/bin/kresd ${OPTS:- --noninteractive -c /etc/knot-resolver/kresd.conf /run/knot-resolver}
