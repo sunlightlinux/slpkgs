@@ -1,7 +1,7 @@
 # Template file for 'suricata'
 pkgname=suricata
 version=8.0.6
-revision=1
+revision=2
 build_style=gnu-configure
 build_helper=rust
 configure_args="--disable-gccmarch-native $(vopt_enable lua) $(vopt_enable hiredis)
@@ -51,6 +51,7 @@ post_build() {
 
 post_install() {
 	vsv $pkgname
+	vslinit suricata
 	vinstall suricata.yaml 644 etc/suricata
 	vinstall etc/classification.config 644 etc/suricata
 	vinstall etc/reference.config 644 etc/suricata

@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+INTERFACE=
+OPTS=
+[ -r /etc/conf.d/suricata ] && . /etc/conf.d/suricata
+/usr/bin/mkdir -p /var/log/suricata /var/lib/suricata
+/usr/bin/chown -R suricata:suricata /var/lib/suricata /var/log/suricata
+exec /usr/bin/suricata -i ${INTERFACE:=eth0} ${OPTS}

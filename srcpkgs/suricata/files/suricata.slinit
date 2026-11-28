@@ -1,0 +1,8 @@
+# suricata -- network IDS, IPS and NSM engine (suricata). Not started by
+# default; enable with: slinitctl enable suricata
+# Settings: INTERFACE (default eth0) and OPTS in /etc/conf.d/suricata.
+type = process
+command = /usr/libexec/slinit/suricata
+depends-on: network.target
+restart = true
+log-type = journal
