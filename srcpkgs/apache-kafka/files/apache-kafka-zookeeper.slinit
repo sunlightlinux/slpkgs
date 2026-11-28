@@ -1,0 +1,10 @@
+# apache-kafka-zookeeper -- the ZooKeeper server bundled with Kafka
+# (apache-kafka). Not started by default; enable with:
+#     slinitctl enable apache-kafka-zookeeper
+# Configuration: PROPERTIES_FILE in /etc/conf.d/apache-kafka-zookeeper
+# (default: /usr/lib/kafka/config/zookeeper.properties).
+type = process
+command = /usr/libexec/slinit/apache-kafka-zookeeper
+depends-on: network.target
+restart = true
+log-type = journal

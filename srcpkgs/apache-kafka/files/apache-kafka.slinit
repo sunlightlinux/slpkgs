@@ -1,0 +1,9 @@
+# apache-kafka -- the Kafka broker (apache-kafka). Not started by
+# default; enable with: slinitctl enable apache-kafka
+# Configuration: PROPERTIES_FILE in /etc/conf.d/apache-kafka (default:
+# /usr/lib/kafka/config/server.properties).
+type = process
+command = /usr/libexec/slinit/apache-kafka
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+PROPERTIES_FILE=
+[ -r /etc/conf.d/apache-kafka-zookeeper ] && . /etc/conf.d/apache-kafka-zookeeper
+exec /usr/lib/kafka/bin/zookeeper-server-start.sh ${PROPERTIES_FILE:-/usr/lib/kafka/config/zookeeper.properties}

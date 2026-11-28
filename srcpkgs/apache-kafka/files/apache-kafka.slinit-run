@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+PROPERTIES_FILE=
+[ -r /etc/conf.d/apache-kafka ] && . /etc/conf.d/apache-kafka
+exec /usr/lib/kafka/bin/server-server-start.sh ${PROPERTIES_FILE:-/usr/lib/kafka/config/server.properties}
