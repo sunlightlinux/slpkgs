@@ -1,0 +1,7 @@
+# ulogd -- userspace logging daemon for netfilter (ulogd). Not started
+# by default; enable with: slinitctl enable ulogd
+type = process
+command = /usr/bin/ulogd -u _ulogd
+depends-on: local.target
+restart = true
+log-type = journal

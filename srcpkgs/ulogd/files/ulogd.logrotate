@@ -4,6 +4,10 @@
     notifempty
     sharedscripts
     postrotate
-	sv hup ulogd
+	if command -v slinitctl >/dev/null 2>&1; then
+	    slinitctl signal HUP ulogd
+	else
+	    sv hup ulogd
+	fi
     endscript
 }

@@ -1,7 +1,7 @@
 # Template file for 'ulogd'
 pkgname=ulogd
 version=2.0.7
-revision=3
+revision=4
 build_style=gnu-configure
 configure_args="--sbindir=/usr/bin"
 hostmakedepends="pkg-config automake"
@@ -24,4 +24,5 @@ post_install() {
 	vinstall ulogd.conf 644 etc
 	vinstall ${FILESDIR}/ulogd.logrotate 644 etc/logrotate.d ulogd
 	vsv ulogd
+	vslinit ulogd
 }
