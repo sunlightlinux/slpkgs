@@ -1,0 +1,8 @@
+# grafana -- analytics and monitoring web server (grafana). Not started
+# by default; enable with: slinitctl enable grafana
+type = process
+command = /usr/bin/grafana server -homepath /usr/share/grafana/ -config /etc/grafana/grafana.ini
+run-as = _grafana:_grafana
+depends-on: network.target
+restart = true
+log-type = journal
