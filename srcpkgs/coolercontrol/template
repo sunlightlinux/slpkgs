@@ -1,7 +1,7 @@
 # Template file for 'coolercontrol'
 pkgname=coolercontrol
 version=5.0.1
-revision=1
+revision=2
 build_style=cmake
 build_wrksrc=coolercontrol
 build_helper="rust"
@@ -34,6 +34,7 @@ coolercontrold_package() {
 	short_desc="Background daemon for coolercontrol"
 	pkg_install() {
 		vsv coolercontrold
+		vslinit coolercontrold
 		vman ../packaging/man/coolercontrold.8
 		vmove usr/bin/coolercontrold
 	}

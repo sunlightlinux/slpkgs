@@ -1,0 +1,8 @@
+# coolercontrold -- monitors and controls cooling devices (coolercontrold).
+# Not started by default; enable with: slinitctl enable coolercontrold
+# Options: OPTS in /etc/conf.d/coolercontrold.
+type = process
+command = /usr/libexec/slinit/coolercontrold
+depends-on: local.target
+restart = true
+log-type = journal

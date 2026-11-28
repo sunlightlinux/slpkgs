@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/coolercontrold ] && . /etc/conf.d/coolercontrold
+exec /usr/bin/coolercontrold ${OPTS}
