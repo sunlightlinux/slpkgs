@@ -1,7 +1,7 @@
 # Template file for 'smartmontools'
 pkgname=smartmontools
 version=7.5
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--sysconfdir=/etc/smartd --with-libcap-ng=yes"
 makedepends="libcap-ng-devel"
@@ -16,4 +16,5 @@ checksum=690b83ca331378da9ea0d9d61008c4b22dde391387b9bbad7f29387f2595f76e
 
 post_install() {
 	vsv smartd
+	vslinit smartd
 }

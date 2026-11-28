@@ -1,0 +1,10 @@
+# smartd -- watches disks' SMART health (smartmontools), in the foreground
+# (-n). Not started by default; enable with: slinitctl enable smartd
+# smartd exits 17 when it finds no device to watch; normal-exit keeps it
+# from being restarted then, as runit's finish script took it down.
+type = process
+command = /usr/bin/smartd -n
+depends-on: local.target
+restart = true
+normal-exit = 17
+log-type = journal
