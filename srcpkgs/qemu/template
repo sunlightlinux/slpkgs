@@ -2,7 +2,7 @@
 # This package should be updated together with qemu-user
 pkgname=qemu
 version=11.1.3
-revision=2
+revision=3
 archs="~i686* ~arm*"
 build_style=configure
 metapackage=yes
@@ -163,6 +163,7 @@ post_install() {
 	# qemu-bridge-helper must be setuid for non privileged users.
 	chmod u+s ${DESTDIR}/usr/libexec/qemu-bridge-helper
 	vsv qemu-ga
+	vslinit qemu-ga enable
 }
 
 qemu-common_package() {
@@ -175,10 +176,13 @@ qemu-common_package() {
 }
 
 qemu-ga_package() {
+	conflicts="slinit-services<20261108_13"
 	short_desc+=" - guest agent"
 	pkg_install() {
 		vmove usr/bin/qemu-ga
 		vmove etc/sv/qemu-ga
+		vmove usr/lib/slinit.d/qemu-ga
+		vmove usr/lib/slinit.d/boot.d/qemu-ga
 		vmove usr/share/man/man7/qemu-ga-ref.7
 		vmove usr/share/man/man8/qemu-ga.8
 	}
