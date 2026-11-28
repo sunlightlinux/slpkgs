@@ -1,0 +1,9 @@
+#!/bin/sh
+# Void's runit run script hardcodes uid/gid 22 for /run/dbus; the dbus user is
+# resolved by name here, as those ids belong to someone else on this system.
+set -u
+install -m755 -o dbus -g dbus -d /run/dbus
+[ -s /etc/machine-id ] || dbus-uuidgen --ensure=/etc/machine-id
+mkdir -p /var/lib/dbus
+[ -e /var/lib/dbus/machine-id ] || ln -sf /etc/machine-id /var/lib/dbus/machine-id
+exec dbus-daemon --system --nofork --nopidfile --print-address=3

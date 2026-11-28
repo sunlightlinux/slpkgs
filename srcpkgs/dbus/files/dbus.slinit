@@ -1,0 +1,6 @@
+# dbus -- the system bus (dbus). Started by default (vslinit enable).
+type = process
+command = /usr/libexec/slinit/dbus
+ready-notification = pipefd:3
+depends-on: early-setup
+restart = true

@@ -1,7 +1,7 @@
 # Template file for 'dbus'
 pkgname=dbus
 version=1.16.4
-revision=1
+revision=2
 build_style=meson
 configure_args="-Dselinux=disabled -Dinotify=enabled -Ddbus_user=dbus
  -Dxml_docs=enabled -Ddoxygen_docs=disabled -Depoll=enabled
@@ -9,6 +9,7 @@ configure_args="-Dselinux=disabled -Dinotify=enabled -Ddbus_user=dbus
  -Dsystem_socket=/run/dbus/system_bus_socket -Dsystem_pid_file=/run/dbus/pid"
 hostmakedepends="gettext pkg-config xmlto"
 makedepends="expat-devel libX11-devel libcap-devel"
+conflicts="slinit-services<20261108_13"
 short_desc="Message bus system"
 maintainer="Orphaned <orphan@voidlinux.org>"
 license="GPL-2.0-or-later"
@@ -24,6 +25,7 @@ system_accounts="dbus:22"
 
 post_install() {
 	vsv dbus
+	vslinit dbus enable
 }
 
 dbus-devel_package() {
