@@ -1,0 +1,9 @@
+# quasselcore -- Quassel IRC core (quassel-core). Not started by default;
+# enable with: slinitctl enable quasselcore
+# Options: OPTS in /etc/conf.d/quasselcore, read as the quassel user.
+type = process
+command = /usr/libexec/slinit/quasselcore
+run-as = quassel
+depends-on: network.target
+restart = true
+log-type = journal

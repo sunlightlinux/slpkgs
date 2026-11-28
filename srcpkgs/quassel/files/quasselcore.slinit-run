@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/quasselcore ] && . /etc/conf.d/quasselcore
+exec /usr/bin/quasselcore \
+	${OPTS:=--require-ssl --configdir=/var/lib/quassel --logfile=/var/log/quassel/quasselcore.log}
