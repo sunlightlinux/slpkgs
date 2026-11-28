@@ -1,0 +1,8 @@
+# ntfy-server -- push notification server (ntfy). Not started by default;
+# enable with: slinitctl enable ntfy-server
+type = process
+command = /usr/bin/ntfy serve
+run-as = _ntfy:_ntfy
+depends-on: network.target
+restart = true
+log-type = journal
