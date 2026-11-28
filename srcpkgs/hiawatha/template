@@ -1,7 +1,7 @@
 # Template file for 'hiawatha'
 pkgname=hiawatha
 version=11.6
-revision=1
+revision=2
 build_style=cmake
 configure_args="-DLOG_DIR=/var/log/hiawatha -DPID_DIR=/run
  -DWEBROOT_DIR=/srv/www/$pkgname -DWORK_DIR=/var/lib/hiawatha
@@ -25,4 +25,5 @@ XBPS_DISTFILES_MIRROR+=" https://hiawatha.leisink.net/files/hiawatha-${version%%
 
 post_install() {
 	vsv hiawatha
+	vslinit hiawatha
 }

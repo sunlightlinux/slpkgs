@@ -1,0 +1,7 @@
+# hiawatha -- web server (hiawatha). Not started by default;
+# enable with: slinitctl enable hiawatha
+type = process
+command = /usr/bin/hiawatha -d
+depends-on: network.target
+restart = true
+log-type = journal
