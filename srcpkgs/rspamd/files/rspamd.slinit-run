@@ -1,0 +1,15 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+RSPAMDUSER=
+RSPAMDGROUP=
+OPTS=
+[ -r /etc/conf.d/rspamd ] && . /etc/conf.d/rspamd
+: ${RSPAMDUSER:=rspamd}
+: ${RSPAMDGROUP:=rspamd}
+for dir in /var/log/rspamd /run/rspamd; do
+	if [ ! -d $dir ]; then
+		/usr/bin/install -d -m 0755 -o $RSPAMDUSER -g $RSPAMDGROUP $dir
+	fi
+done
+exec /usr/bin/rspamd -u $RSPAMDUSER -g $RSPAMDGROUP -f ${OPTS}

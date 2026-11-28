@@ -1,0 +1,9 @@
+# rspamd -- spam filtering system (rspamd). Not started by default;
+# enable with: slinitctl enable rspamd
+# Options: RSPAMDUSER, RSPAMDGROUP and OPTS in /etc/conf.d/rspamd. rspamd
+# drops to RSPAMDUSER:RSPAMDGROUP (default rspamd:rspamd) itself.
+type = process
+command = /usr/libexec/slinit/rspamd
+depends-on: network.target
+restart = true
+log-type = journal

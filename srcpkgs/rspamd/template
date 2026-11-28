@@ -1,7 +1,7 @@
 # Template file for 'rspamd'
 pkgname=rspamd
 version=3.14.2
-revision=1
+revision=2
 build_style=cmake
 configure_args="-DRSPAMD_USER=rspamd -DCONFDIR=/etc/rspamd
  -DDBDIR=/var/lib/rspamd"
@@ -40,4 +40,5 @@ pre_check() {
 
 post_install() {
 	vsv rspamd
+	vslinit rspamd
 }
