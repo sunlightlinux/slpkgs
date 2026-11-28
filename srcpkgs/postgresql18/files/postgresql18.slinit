@@ -1,0 +1,14 @@
+# postgresql18 -- PostgreSQL 18 database server (postgresql18). Not started
+# by default; enable with: slinitctl enable postgresql18
+# Options: PGROOT, INITOPTS and PGOPTS in /etc/psql18/default/postgresql,
+# the package's own file, read as before. The helper runs as root,
+# links /var/lib/postgresql18 to PGROOT and runs initdb on the first
+# start, then drops to postgres through setpriv. Stopped with SIGINT (a
+# fast shutdown), as runit's control/t did, with time to finish it.
+type = process
+command = /usr/libexec/slinit/postgresql18
+depends-on: network.target
+restart = true
+log-type = journal
+term-signal = INT
+stop-timeout = 90

@@ -1,0 +1,35 @@
+#!/bin/sh
+# Void's runit run script, with @VERSION@ and @PREFIX@ written out,
+# absolute paths, and chpst -u replaced by setpriv.
+set -u
+PGROOT=
+PGDATA=
+INITOPTS=
+PGOPTS=
+. /etc/psql18/default/postgresql
+: ${PGDATA:="$PGROOT/data"}
+
+if [ "$PGROOT" != "/var/lib/postgresql18" ]; then
+	echo "Creating symlink /var/lib/postgresql18 -> $PGROOT"
+	/usr/bin/ln -sf "$PGROOT" /var/lib/postgresql18
+fi
+
+
+if [ ! -d "$PGDATA" ]; then
+	echo "Initializing database in $PGDATA"
+
+	/usr/bin/mkdir -p "$PGDATA" || exit 1
+	/usr/bin/chown -R postgres:postgres "$PGDATA"
+	/usr/bin/chmod 0700 "$PGDATA"
+	/usr/bin/su - postgres -c "/usr/lib/psql18/bin/initdb $INITOPTS -D '$PGDATA'" 2>&1 || {
+		/usr/bin/rm -fr "$PGDATA"
+		exit 1
+	}
+
+	if [ -f /etc/psql18/postgresql/postgresql.conf ]; then
+		/usr/bin/ln -sf /etc/psql18/postgresql/postgresql.conf "$PGDATA/postgresql.conf"
+	fi
+fi
+
+exec /usr/bin/setpriv --reuid postgres --regid postgres --clear-groups \
+	-- /usr/lib/psql18/bin/postgres -D "$PGDATA" $PGOPTS
