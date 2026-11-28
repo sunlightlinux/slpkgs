@@ -1,0 +1,5 @@
+#!/bin/sh
+set -u
+OPTS=
+[ -r /etc/conf.d/bird_exporter ] && . /etc/conf.d/bird_exporter
+exec /usr/bin/bird_exporter ${OPTS:=-bird.v2 -format.new}

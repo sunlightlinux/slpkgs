@@ -1,0 +1,10 @@
+# bird_exporter -- Prometheus exporter for the BIRD routing daemon
+# (bird_exporter). Not started by default; enable with:
+#     slinitctl enable bird_exporter
+# Options: OPTS in /etc/conf.d/bird_exporter (default: -bird.v2
+# -format.new).
+type = process
+command = /usr/libexec/slinit/bird_exporter
+depends-on: network.target
+restart = true
+log-type = journal
