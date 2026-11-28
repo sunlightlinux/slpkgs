@@ -1,7 +1,7 @@
 # Template file for 'tang'
 pkgname=tang
 version=16
-revision=1
+revision=2
 build_style=meson
 configure_args="-Duser=_tang -Dgroup=_tang"
 hostmakedepends="pkg-config asciidoc socat curl jose iproute2"
@@ -20,4 +20,5 @@ make_dirs="/var/db/tang 0750 _tang _tang"
 post_install() {
 	rm -rf ${DESTDIR}/usr/lib/systemd/
 	vsv tangd
+	vslinit tangd
 }

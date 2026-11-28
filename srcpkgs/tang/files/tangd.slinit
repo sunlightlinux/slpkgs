@@ -1,0 +1,9 @@
+# tangd -- Tang server for network-bound disk encryption (tang). Not
+# started by default; enable with: slinitctl enable tangd
+# Options: OPTS and DB (default /var/db/tang/) in /etc/conf.d/tangd.
+type = process
+command = /usr/libexec/slinit/tangd
+run-as = _tang
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,0 +1,7 @@
+#!/bin/sh
+set -u
+OPTS=
+DB=
+[ -r /etc/conf.d/tangd ] && . /etc/conf.d/tangd
+: ${DB:=/var/db/tang/}
+exec /usr/libexec/tangd -l ${OPTS} ${DB}
