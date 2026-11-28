@@ -1,0 +1,7 @@
+#!/bin/sh
+# Void's runit run script.
+set -u
+OPTS=
+[ -r /etc/kubernetes/config ] && . /etc/kubernetes/config
+[ -r /etc/kubernetes/kubelet ] && . /etc/kubernetes/kubelet
+exec /usr/bin/kubelet $OPTS 2>/dev/null

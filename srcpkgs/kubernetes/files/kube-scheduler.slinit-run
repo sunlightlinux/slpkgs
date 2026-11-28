@@ -1,0 +1,14 @@
+#!/bin/sh
+# Void's runit run script.
+set -u
+KUBE_LOGTOSTDERR=
+KUBE_LOG_LEVEL=
+KUBE_MASTER=
+KUBE_SCHEDULER_ARGS=
+[ -r /etc/kubernetes/config ] && . /etc/kubernetes/config
+[ -r /etc/kubernetes/scheduler ] && . /etc/kubernetes/scheduler
+exec /usr/bin/kube-scheduler \
+	$KUBE_LOGTOSTDERR \
+	$KUBE_LOG_LEVEL \
+	$KUBE_MASTER \
+	$KUBE_SCHEDULER_ARGS 2>/dev/null

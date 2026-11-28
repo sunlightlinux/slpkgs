@@ -1,0 +1,11 @@
+# kube-controller-manager -- Kubernetes controller manager (kubernetes).
+# Not started by default; enable with: slinitctl enable kube-controller-manager
+# Options: /etc/kubernetes/config and /etc/kubernetes/controller-manager.
+type = process
+command = /usr/libexec/slinit/kube-controller-manager
+run-as = kube:kube
+depends-on: network.target
+restart = true
+# Output: stdout goes to the journal; stderr is discarded, as the
+# runit run script discarded it.
+log-type = journal

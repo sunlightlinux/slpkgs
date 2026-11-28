@@ -1,0 +1,10 @@
+# kubelet -- Kubernetes node agent (kubernetes).
+# Not started by default; enable with: slinitctl enable kubelet
+# Options: OPTS in /etc/kubernetes/config or /etc/kubernetes/kubelet.
+type = process
+command = /usr/libexec/slinit/kubelet
+depends-on: network.target
+restart = true
+# Output: stdout goes to the journal; stderr is discarded, as the
+# runit run script discarded it.
+log-type = journal

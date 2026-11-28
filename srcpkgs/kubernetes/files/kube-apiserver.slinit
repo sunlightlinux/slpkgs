@@ -1,0 +1,11 @@
+# kube-apiserver -- Kubernetes API server (kubernetes).
+# Not started by default; enable with: slinitctl enable kube-apiserver
+# Options: /etc/kubernetes/config and /etc/kubernetes/apiserver.
+type = process
+command = /usr/libexec/slinit/kube-apiserver
+run-as = kube:kube
+depends-on: network.target
+restart = true
+# Output: stdout goes to the journal; stderr is discarded, as the
+# runit run script discarded it.
+log-type = journal

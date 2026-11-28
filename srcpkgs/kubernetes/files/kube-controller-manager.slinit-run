@@ -1,0 +1,14 @@
+#!/bin/sh
+# Void's runit run script.
+set -u
+KUBE_LOGTOSTDERR=
+KUBE_LOG_LEVEL=
+KUBE_MASTER=
+KUBE_CONTROLLER_MANAGER_ARGS=
+[ -r /etc/kubernetes/config ] && . /etc/kubernetes/config
+[ -r /etc/kubernetes/controller-manager ] && . /etc/kubernetes/controller-manager
+exec /usr/bin/kube-controller-manager \
+	$KUBE_LOGTOSTDERR \
+	$KUBE_LOG_LEVEL \
+	$KUBE_MASTER \
+	$KUBE_CONTROLLER_MANAGER_ARGS 2>/dev/null
