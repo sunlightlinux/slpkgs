@@ -1,0 +1,10 @@
+# tuntox -- tunnels TCP connections over Tox (tuntox). Not started by
+# default; enable with: slinitctl enable tuntox
+# Options: OPTS (and TUNTOX_SHARED_SECRET) in /etc/conf.d/tuntox; see
+# README.voidlinux.
+type = process
+command = /usr/libexec/slinit/tuntox
+run-as = tuntox
+depends-on: network.target
+restart = true
+log-type = journal

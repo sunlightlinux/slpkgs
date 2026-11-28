@@ -1,7 +1,10 @@
-The service `/etc/sv/tuntox` is not secure at all.
+The tuntox service is not secure at all.
 To use it securely, you need to add a TUNTOX_SHARED_SECRET environment variable
 and share it across all your clients.
 
-Add the file /etc/sv/tuntox/conf and export it there:
+Add the file /etc/conf.d/tuntox and export it there:
 
 export TUNTOX_SHARED_SECRET=yourpassword
+
+Under slinit the file is read as the tuntox user, so it must be readable
+by tuntox (for example owned by tuntox with mode 0600).
