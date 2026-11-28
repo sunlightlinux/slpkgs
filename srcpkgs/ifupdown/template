@@ -1,7 +1,7 @@
 # Template file for 'ifupdown'
 pkgname=ifupdown
 version=0.8.37
-revision=1
+revision=2
 build_style=gnu-makefile
 make_use_env=yes
 hostmakedepends="dpkg perl"
@@ -36,4 +36,5 @@ post_install() {
 	# that the network is up before the rest of the services start
 	vmkdir etc/runit/core-services
 	vinstall ${FILESDIR}/15-ifupdown.sh 0644 etc/runit/core-services
+	vslinit ifupdown enable
 }

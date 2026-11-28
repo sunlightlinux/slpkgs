@@ -1,0 +1,12 @@
+# ifupdown -- brings up the interfaces marked auto in
+# /etc/network/interfaces with ifup -a (ifupdown). Started at every boot
+# while the package is installed, as runit's core-service 15-ifupdown.sh
+# was.
+type = scripted
+command = /usr/libexec/slinit/ifupdown
+depends-on: local.target
+# It sets up the network: after the firewall, before network.target.
+depends-on: pre-network.target
+before: network.target
+# DHCP on several interfaces can be slow; runit never timed it out.
+start-timeout = 300

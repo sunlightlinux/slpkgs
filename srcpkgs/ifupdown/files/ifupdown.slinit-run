@@ -1,0 +1,5 @@
+#!/bin/sh
+# Void's runit core-service 15-ifupdown.sh.
+set -u
+/usr/bin/mkdir -p /run/network
+exec /usr/bin/ifup -a
