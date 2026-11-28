@@ -1,7 +1,7 @@
 # Template file for 'blocky'
 pkgname=blocky
 version=0.33.0
-revision=2
+revision=3
 build_style=go
 go_import_path=github.com/0xERR0R/blocky
 hostmakedepends="go"
@@ -25,6 +25,7 @@ make_dirs="
 
 post_install() {
 	vsv blocky
+	vslinit blocky
 
 	printf "\n" >> config.yml
 	vinstall config.yml 644 etc/blocky

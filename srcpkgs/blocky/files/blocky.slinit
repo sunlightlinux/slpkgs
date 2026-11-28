@@ -1,0 +1,9 @@
+# blocky -- DNS proxy and ad-blocker (blocky). Not started by default;
+# enable with: slinitctl enable blocky
+# Options: CONFFILE in /etc/conf.d/blocky (default
+# /etc/blocky/config.yml).
+type = process
+command = /usr/libexec/slinit/blocky
+depends-on: network.target
+restart = true
+log-type = journal

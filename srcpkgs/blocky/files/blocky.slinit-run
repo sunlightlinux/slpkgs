@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d: setpriv
+# drops to _blocky, keeping only net_bind_service.
+set -u
+CONFFILE=
+[ -r /etc/conf.d/blocky ] && . /etc/conf.d/blocky
+exec /usr/bin/setpriv --reuid _blocky --regid _blocky --clear-groups \
+	--ambient-caps -all,+net_bind_service \
+	--inh-caps -all,+net_bind_service \
+	--bounding-set -all,+net_bind_service \
+	--no-new-privs -- /usr/bin/blocky --config "${CONFFILE:-/etc/blocky/config.yml}"
