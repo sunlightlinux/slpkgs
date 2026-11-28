@@ -1,0 +1,9 @@
+# nix-daemon -- Nix package manager build daemon (nix). Not started by
+# default; enable with: slinitctl enable nix-daemon
+type = process
+command = /usr/bin/nix-daemon
+rlimit-nofile = 1048576
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal
