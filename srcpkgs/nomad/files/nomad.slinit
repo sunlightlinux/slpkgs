@@ -1,0 +1,8 @@
+# nomad -- HashiCorp cluster scheduler agent (nomad). Not started by
+# default; enable with: slinitctl enable nomad
+# The helper loads the bridge module first, needed for CNI networking.
+type = process
+command = /usr/libexec/slinit/nomad
+depends-on: network.target
+restart = true
+log-type = journal

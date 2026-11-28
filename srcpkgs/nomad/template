@@ -1,7 +1,7 @@
 # Template file for 'nomad'
 pkgname=nomad
 version=2.1.1
-revision=2
+revision=3
 build_style=go
 go_import_path="github.com/hashicorp/nomad"
 go_build_tags="ui release"
@@ -26,4 +26,5 @@ post_extract() {
 post_install() {
 	vlicense LICENSE
 	vsv nomad
+	vslinit nomad
 }

@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/nomad ] && . /etc/conf.d/nomad
+/usr/bin/modprobe bridge # Needed for CNI networking
+exec /usr/bin/nomad agent -config /etc/nomad.d/
