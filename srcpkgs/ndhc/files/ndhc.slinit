@@ -1,0 +1,9 @@
+# ndhc -- privilege-separated DHCPv4 client (ndhc). Not started by
+# default; enable with: slinitctl enable ndhc
+# Options: OPTS in /etc/conf.d/ndhc (default -i eth0). It sets up the
+# network itself, so it does not wait for network.target.
+type = process
+command = /usr/libexec/slinit/ndhc
+depends-on: local.target
+restart = true
+log-type = journal

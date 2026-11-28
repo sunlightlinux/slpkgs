@@ -1,0 +1,6 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/ndhc ] && . /etc/conf.d/ndhc
+exec /usr/bin/ndhc -R /etc/resolv.conf -u ndhc -U ndhc -D ndhc -C /var/lib/ndhc/jail -s /var/lib/ndhc/state ${OPTS:=-i eth0}
