@@ -1,0 +1,8 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+OPTS=
+[ -r /etc/conf.d/mdnsd ] && . /etc/conf.d/mdnsd
+exec /usr/bin/setpriv --reuid _mdnsd --regid _mdnsd --clear-groups \
+	--ambient-caps +net_raw --inh-caps +net_raw --bounding-set -all,+net_raw \
+	--no-new-privs -- /usr/bin/mdnsd -n ${OPTS}

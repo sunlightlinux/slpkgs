@@ -1,7 +1,7 @@
 # Template file for 'mdnsd'
 pkgname=mdnsd
 version=1.2
-revision=1
+revision=2
 build_style=gnu-configure
 configure_args="--with-systemd=/usr/lib/systemd/system"
 hostmakedepends="autoconf automake pkg-config libtool"
@@ -26,6 +26,7 @@ pre_configure() {
 post_install() {
 	rm "${DESTDIR}/usr/share/doc/mdnsd/LICENSE"
 	vsv mdnsd
+	vslinit mdnsd
 	vlicense LICENSE
 }
 

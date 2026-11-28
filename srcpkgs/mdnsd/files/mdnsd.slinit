@@ -1,0 +1,9 @@
+# mdnsd -- multicast DNS daemon (mdnsd). Not started by default; enable
+# with: slinitctl enable mdnsd
+# Options: OPTS in /etc/conf.d/mdnsd. The helper starts it through setpriv
+# as _mdnsd with only CAP_NET_RAW, as the runit run script did.
+type = process
+command = /usr/libexec/slinit/mdnsd
+depends-on: network.target
+restart = true
+log-type = journal
