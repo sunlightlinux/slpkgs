@@ -1,0 +1,8 @@
+# parprouted -- proxy ARP bridging daemon (parprouted). Not started by
+# default; enable with: slinitctl enable parprouted
+# Options: OPTS in /etc/conf.d/parprouted (the interfaces to bridge).
+type = process
+command = /usr/libexec/slinit/parprouted
+depends-on: network.target
+restart = true
+log-type = journal

@@ -1,7 +1,7 @@
 # Template file for 'parprouted'
 pkgname=parprouted
 version=0.7
-revision=1
+revision=2
 build_style=gnu-makefile
 depends="iproute2"
 short_desc="Daemon for transparent IP (Layer 3) proxy ARP bridging"
@@ -15,4 +15,5 @@ do_install() {
 	vbin parprouted
 	vman parprouted.8
 	vsv parprouted
+	vslinit parprouted
 }
