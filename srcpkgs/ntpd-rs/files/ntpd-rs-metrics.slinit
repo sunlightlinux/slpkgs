@@ -1,0 +1,8 @@
+# ntpd-rs-metrics -- Prometheus exporter for ntpd-rs (ntpd-rs). Not started
+# by default; enable with: slinitctl enable ntpd-rs-metrics
+type = process
+command = /usr/bin/ntp-metrics-exporter
+run-as = _ntpd_rs:_ntpd_rs
+depends-on: local.target
+restart = true
+log-type = journal

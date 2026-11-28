@@ -1,0 +1,10 @@
+# ntpd-rs -- keeps the clock right (ntpd-rs). Not started by default;
+# enable with: slinitctl enable ntpd-rs
+# The helper drops to _ntpd_rs with setpriv, keeping only the sys_time and
+# net_bind_service capabilities, as the runit run script does.
+type = process
+command = /usr/libexec/slinit/ntpd-rs
+depends-on: local.target
+waits-for: network.target
+restart = true
+log-type = journal

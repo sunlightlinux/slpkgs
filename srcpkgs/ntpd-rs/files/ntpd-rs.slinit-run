@@ -1,0 +1,11 @@
+#!/bin/sh
+# Void's runit run script, with its conf moved to /etc/conf.d.
+set -u
+[ -r /etc/conf.d/ntpd-rs ] && . /etc/conf.d/ntpd-rs
+[ ! -d /run/ntpd-rs ] && /usr/bin/mkdir /run/ntpd-rs && /usr/bin/chown _ntpd_rs:_ntpd_rs /run/ntpd-rs
+
+exec /usr/bin/setpriv --reuid _ntpd_rs --regid _ntpd_rs --clear-groups \
+	--ambient-caps -all,+sys_time,+net_bind_service \
+	--inh-caps -all,+sys_time,+net_bind_service \
+	--bounding-set -all,+sys_time,+net_bind_service \
+	--no-new-privs -- /usr/bin/ntp-daemon
