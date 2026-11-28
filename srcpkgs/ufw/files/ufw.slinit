@@ -1,0 +1,14 @@
+# ufw -- loads the Uncomplicated Firewall at start and unloads it when the
+# service stops (ufw). Not started by default; enable with:
+# slinitctl enable ufw
+# It must be in place before the network is used, so it does not depend
+# on or wait for network.target.
+type = scripted
+command = /usr/lib/ufw/ufw-init start quiet
+stop-command = /usr/lib/ufw/ufw-init stop
+depends-on: local.target
+# Ordered before the network setup when both start.
+before: network
+# runit never timed loading or unloading the rules out.
+start-timeout = 60
+stop-timeout = 60
