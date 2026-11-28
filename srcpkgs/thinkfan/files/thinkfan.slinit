@@ -1,0 +1,7 @@
+# thinkfan -- fan control for ThinkPads and others (thinkfan). Not started
+# by default; enable with: slinitctl enable thinkfan
+type = process
+command = /usr/bin/thinkfan -nq
+depends-on: local.target
+restart = true
+log-type = journal
